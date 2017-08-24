@@ -76,10 +76,13 @@ extern const kernel_cap_t __cap_init_eff_set;
 
 #if _KERNEL_CAPABILITY_U32S != 2
 # error Fix up hand-coded capability macro initializers
-#else /*                                    */
+#else /* HAND-CODED capability initializers */
+
+#define CAP_LAST_U32			((_KERNEL_CAPABILITY_U32S) - 1)
+#define CAP_LAST_U32_VALID_MASK		(CAP_TO_MASK(CAP_LAST_CAP + 1) -1)
 
 # define CAP_EMPTY_SET    ((kernel_cap_t){{ 0, 0 }})
-# define CAP_FULL_SET     ((kernel_cap_t){{ ~0, ~0 }})
+# define CAP_FULL_SET     ((kernel_cap_t){{ ~0, CAP_LAST_U32_VALID_MASK }})
 # define CAP_FS_SET       ((kernel_cap_t){{ CAP_FS_MASK_B0 \
 				    | CAP_TO_MASK(CAP_LINUX_IMMUTABLE), \
 				    CAP_FS_MASK_B1 } })

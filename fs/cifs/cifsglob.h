@@ -74,12 +74,7 @@
 #define SERVER_NAME_LENGTH 40
 #define SERVER_NAME_LEN_WITH_NULL     (SERVER_NAME_LENGTH + 1)
 
-/*                                                             */
-/*                                                             */
-/*                                                             */
-#define MAX_NAME 514
-
-/*                                       */
+ /* SMB echo "timeout" -- FIXME: tunable? */
 #define SMB_ECHO_INTERVAL (60 * HZ)
 
 #include "cifspdu.h"
