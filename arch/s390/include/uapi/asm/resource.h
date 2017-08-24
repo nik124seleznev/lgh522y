@@ -1,0 +1,13 @@
+/*
+                
+  
+                                               
+ */
+
+#ifndef _S390_RESOURCE_H
+#define _S390_RESOURCE_H
+
+#include <asm-generic/resource.h>
+
+#endif
+

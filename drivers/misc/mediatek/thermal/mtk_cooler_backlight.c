@@ -1,0 +1,196 @@
+#ifdef pr_fmt
+#undef pr_fmt
+#endif
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/printk.h>
+#include <linux/types.h>
+#include <linux/kobject.h>
+
+#include "mach/mtk_thermal_monitor.h"
+
+/*                                                                         */
+extern int setMaxbrightness(int max_level, int enable);
+
+#define mtk_cooler_backlight_dprintk(fmt, args...) \
+  do { pr_debug("thermal/cooler/backlight " fmt, ##args); } while (0)
+
+#ifdef CONFIG_LGE_PM
+#define BACKLIGHT_COOLER_NR 5
+#else	/*              */
+#define BACKLIGHT_COOLER_NR 3
+#endif
+
+static struct thermal_cooling_device *cl_backlight_dev[BACKLIGHT_COOLER_NR] = { 0 };
+static unsigned int g_cl_backlight_state[BACKLIGHT_COOLER_NR] = { 0 };
+
+/*                                                                           */
+static unsigned int g_cl_id[BACKLIGHT_COOLER_NR];
+static unsigned int g_backlight_level;
+static unsigned int g_backlight_last_level;
+
+
+static void mtk_cl_backlight_set_max_brightness_limit(void)
+{
+	if (g_backlight_last_level != g_backlight_level) {
+		mtk_cooler_backlight_dprintk("set brightness level = %d\n", g_backlight_level);
+		switch (g_backlight_level) {
+		case 0:
+			setMaxbrightness(255, 0);	/*      */
+			break;
+#ifdef CONFIG_LGE_PM
+		case 1:
+			setMaxbrightness(231, 1);	/*     */
+			break;
+		case 2:
+			setMaxbrightness(219, 1);	/*     */
+			break;
+		case 3:
+			setMaxbrightness(207, 1);	/*     */
+			break;
+		case 4:
+			setMaxbrightness(194, 1);	/*     */
+			break;
+		case 5:
+			setMaxbrightness(182, 1);	/*     */
+			break;
+#else	/*              */
+		case 1:
+			setMaxbrightness(178, 1);	/*     */
+			break;
+		case 2:
+			setMaxbrightness(102, 1);	/*     */
+			break;
+		case 3:
+			setMaxbrightness(25, 1);	/*     */
+			break;
+#endif
+		default:
+			setMaxbrightness(255, 0);
+			break;
+		}
+	}
+}
+
+static int mtk_cl_backlight_get_max_state(struct thermal_cooling_device *cdev, unsigned long *state)
+{
+	*state = 1;
+	/*                                                                                */
+	return 0;
+}
+
+static int mtk_cl_backlight_get_cur_state(struct thermal_cooling_device *cdev, unsigned long *state)
+{
+	int nCoolerId;
+
+	/*               */
+	nCoolerId = *((int *)cdev->devdata);
+
+	*state = g_cl_backlight_state[nCoolerId];
+	/*                                                                                                       */
+	return 0;
+}
+
+static int mtk_cl_backlight_set_cur_state(struct thermal_cooling_device *cdev, unsigned long state)
+{
+	int i;
+	int nCoolerId;		/*                        */
+
+	/*               */
+	nCoolerId = *((int *)cdev->devdata);
+
+	/*                                                                                                      */
+
+	g_cl_backlight_state[nCoolerId] = state;
+
+	g_backlight_level = 0;
+	for (i = 0; i < BACKLIGHT_COOLER_NR; i++) {
+		g_backlight_level += g_cl_backlight_state[i];
+	}
+
+/*               */
+/*                                                 */
+	{
+		/*                                                    */
+		/*                       */
+		/*                                 */
+		/*                                                                            */
+		/*                                                                                     */
+
+		mtk_cl_backlight_set_max_brightness_limit();
+
+		g_backlight_last_level = g_backlight_level;
+
+		/*                                                                                                                             */
+
+	}
+
+	return 0;
+}
+
+/*                                  */
+static struct thermal_cooling_device_ops mtk_cl_backlight_ops = {
+	.get_max_state = mtk_cl_backlight_get_max_state,
+	.get_cur_state = mtk_cl_backlight_get_cur_state,
+	.set_cur_state = mtk_cl_backlight_set_cur_state,
+};
+
+static int mtk_cooler_backlight_register_ltf(void)
+{
+	int i;
+	mtk_cooler_backlight_dprintk("register ltf\n");
+
+	for (i = 0; i < BACKLIGHT_COOLER_NR; i++) {
+		char temp[20] = { 0 };
+
+		sprintf(temp, "mtk-cl-backlight%02d", i + 1);	/*                                    */
+		g_cl_id[i] = i;
+		cl_backlight_dev[i] = mtk_thermal_cooling_device_register(temp, (void *)&g_cl_id[i],	/*                */
+									  &mtk_cl_backlight_ops);
+	}
+
+	return 0;
+}
+
+static void mtk_cooler_backlight_unregister_ltf(void)
+{
+	int i;
+	mtk_cooler_backlight_dprintk("unregister ltf\n");
+
+	for (i = 0; i < BACKLIGHT_COOLER_NR; i++) {
+		if (cl_backlight_dev[i]) {
+			mtk_thermal_cooling_device_unregister(cl_backlight_dev[i]);
+			cl_backlight_dev[i] = NULL;
+		}
+	}
+}
+
+
+static int __init mtk_cooler_backlight_init(void)
+{
+	int err = 0;
+
+	mtk_cooler_backlight_dprintk("init\n");
+
+	err = mtk_cooler_backlight_register_ltf();
+	if (err)
+		goto err_unreg;
+
+	return 0;
+
+ err_unreg:
+	mtk_cooler_backlight_unregister_ltf();
+	return err;
+}
+
+static void __exit mtk_cooler_backlight_exit(void)
+{
+	mtk_cooler_backlight_dprintk("exit\n");
+
+	mtk_cooler_backlight_unregister_ltf();
+}
+module_init(mtk_cooler_backlight_init);
+module_exit(mtk_cooler_backlight_exit);

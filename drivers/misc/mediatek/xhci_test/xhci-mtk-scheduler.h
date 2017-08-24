@@ -1,0 +1,81 @@
+#ifndef _XHCI_MTK_SCHEDULER_H
+#define _XHCI_MTK_SCHEDULER_H
+
+#define MTK_SCH_NEW	1
+
+#define SCH_SUCCESS 1
+#define SCH_FAIL	0
+
+#define MAX_EP_NUM			64
+#define SS_BW_BOUND			51000
+#define HS_BW_BOUND			10240
+
+#define USB_EP_CONTROL	0
+#define USB_EP_ISOC		1
+#define USB_EP_BULK		2
+#define USB_EP_INT		3
+
+#define USB_SPEED_LOW	1
+#define USB_SPEED_FULL	2
+#define USB_SPEED_HIGH	3
+#define USB_SPEED_SUPER	5
+
+/*                        */
+#define BPKTS(p)	((p) & 0x3f)
+#define BCSCOUNT(p)	(((p) & 0x7) << 8)
+#define BBM(p)		((p) << 11)
+#define BOFFSET(p)	((p) & 0x3fff)
+#define BREPEAT(p)	(((p) & 0x7fff) << 16)
+
+
+#if 1
+typedef unsigned int mtk_u32;
+typedef unsigned long long mtk_u64;
+#endif
+
+#define NULL ((void *)0)
+
+struct mtk_xhci_ep_ctx {
+	mtk_u32	ep_info;
+	mtk_u32	ep_info2;
+	mtk_u64	deq;
+	mtk_u32	tx_info;
+	/*                                                 */
+	mtk_u32	reserved[3];
+};
+
+
+struct sch_ep
+{
+	//           
+	int dev_speed;
+	int isTT;
+	//       
+	int is_in;
+	int ep_type;
+	int maxp;
+	int interval;
+	int burst;
+	int mult;
+	//               
+	int offset;
+	int repeat;
+	int pkts;
+	int cs_count;
+	int burst_mode;
+	//     
+	int bw_cost;	//                                                 
+	mtk_u32 *ep;		//                               
+};
+
+static struct sch_ep **ss_out_eps[MAX_EP_NUM];
+static struct sch_ep **ss_in_eps[MAX_EP_NUM];
+static struct sch_ep **hs_eps[MAX_EP_NUM];	//                 
+static struct sch_ep **tt_intr_eps[MAX_EP_NUM];
+
+int mtktest_mtk_xhci_scheduler_init(void);
+int mtktest_mtk_xhci_scheduler_add_ep(int dev_speed, int is_in, int isTT, int ep_type, int maxp, int interval, int burst
+	, int mult, mtk_u32 *ep, mtk_u32 *ep_ctx, struct sch_ep *sch_ep);
+struct sch_ep * mtktest_mtk_xhci_scheduler_remove_ep(int dev_speed, int is_in, int isTT, int ep_type, mtk_u32 *ep);
+
+#endif

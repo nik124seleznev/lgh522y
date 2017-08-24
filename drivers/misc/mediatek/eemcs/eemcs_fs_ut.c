@@ -1,0 +1,2633 @@
+/*                                                                              
+            
+            
+                  
+  
+           
+           
+         
+  
+               
+               
+                                               
+  
+          
+          
+  
+                                                                             
+        
+  
+                       
+                                                              
+                    
+  
+                       
+                                                           
+                                      
+                               
+  
+                       
+                                                                        
+                                                       
+                                                                  
+  
+                                                                            */
+
+#include <linux/module.h>
+#include <linux/limits.h>
+#include <linux/nls.h>
+#include <linux/wait.h>
+
+#include "eemcs_kal.h"
+#include "eemcs_ccci.h"
+#include "eemcs_debug.h"
+#include "eemcs_char.h"
+#include "eemcs_file_ops.h"
+#include "eemcs_fs_ut.h"
+
+
+#ifdef _EEMCS_FS_UT
+//                                                                             
+//                   
+//                                                                             
+#define FS_CCCI_EXCEPT_MAX_RETRY        7
+#define FS_CCCI_MAX_RETRY               0xFFFF
+#define FS_CCCI_REQ_BUFFER_NUM          5       //                             
+#define FS_CCCI_MAX_ARG_NUM             6       //                     
+#define FS_CCCI_MAX_DATA_REQUEST        0x4000  //      
+//                                                                  
+#define FS_CCCI_MAX_BUF_SIZE            (FS_CCCI_MAX_DATA_REQUEST + 12 * sizeof(unsigned int))
+#define FS_CCCI_API_RESP_ID	            0xFFFF0000
+
+#define MD_ROOT_DIR                     "Z:"
+#define DSP_ROOT_DIR                    "Y:"
+#define FS_ROOT_DIR                     "/data/nvram/md1"
+#define FS_DSP_ROOT_DIR                 "/system/etc/firmware"
+
+#define MAX_FS_PKT_BYTE                 (0x1000 - 128)
+#define CCCI_FS_REQ_SEND_AGAIN          0x80000000
+#define CCCI_FS_PEER_REQ_SEND_AGAIN(_p) (((((CCCI_BUFF_T*)(_p))->data[0] & CCCI_FS_REQ_SEND_AGAIN) != 0)? 1: 0)
+
+//                                                                             
+//                                         
+//                                                                             
+
+/*                       */
+#define FS_NO_ALT_DRIVE                     0x00000001
+#define FS_ONLY_ALT_SERIAL                  0x00000002
+#define FS_DRIVE_I_SYSTEM                   0x00000004
+#define FS_DRIVE_V_NORMAL                   0x00000008
+#define FS_DRIVE_V_REMOVABLE                0x00000010
+#define FS_DRIVE_V_EXTERNAL                 0x00000020
+#define FS_DRIVE_V_SIMPLUS                  0x00000040
+#define FS_DRIVE_I_SYSTEM_DSP               0x00000080
+
+/*                                                                                                     */
+#define FS_MOVE_COPY                        0x00000001
+#define FS_MOVE_KILL                        0x00000002
+
+#define FS_FILE_TYPE                        0x00000004     //                                  
+#define FS_DIR_TYPE                         0x00000008     //                                  
+#define FS_RECURSIVE_TYPE                   0x00000010     //                                  
+
+/*                   */
+#define FS_READ_WRITE                       0x00000000L
+#define FS_READ_ONLY                        0x00000100L
+#define FS_OPEN_SHARED                      0x00000200L
+#define FS_OPEN_NO_DIR                      0x00000400L
+#define FS_OPEN_DIR                         0x00000800L
+#define FS_CREATE                           0x00010000L
+#define FS_CREATE_ALWAYS                    0x00020000L
+#define FS_COMMITTED                        0x01000000L
+#define FS_CACHE_DATA                       0x02000000L
+#define FS_LAZY_DATA                        0x04000000L
+#define FS_NONBLOCK_MODE                    0x10000000L
+#define FS_PROTECTION_MODE                  0x20000000L
+
+/*                  */
+#define FS_QMAX_NO_LIMIT         0xf1f2f3f4 //      
+#define FS_COUNT_IN_BYTE         0x00000001
+#define FS_COUNT_IN_CLUSTER      0x00000002
+
+/*                                                            */
+#define FS_NO_ERROR                             0
+#define FS_ERROR_RESERVED                       -1
+#define FS_PARAM_ERROR                          -2
+#define FS_INVALID_FILENAME                     -3
+#define FS_DRIVE_NOT_FOUND                      -4
+#define FS_TOO_MANY_FILES                       -5
+#define FS_NO_MORE_FILES                        -6
+#define FS_WRONG_MEDIA                          -7
+#define FS_INVALID_FILE_SYSTEM                  -8
+#define FS_FILE_NOT_FOUND                       -9
+#define FS_INVALID_FILE_HANDLE                  -10
+#define FS_UNSUPPORTED_DEVICE                   -11
+#define FS_UNSUPPORTED_DRIVER_FUNCTION          -12
+#define FS_CORRUPTED_PARTITION_TABLE            -13
+#define FS_TOO_MANY_DRIVES                      -14
+#define FS_INVALID_FILE_POS                     -15
+#define FS_ACCESS_DENIED                        -16
+#define FS_STRING_BUFFER_TOO_SAMLL              -17
+#define FS_GENERAL_FAILURE                      -18
+#define FS_PATH_NOT_FOUND                       -19
+#define FS_FAT_ALLOC_ERROR                      -20
+#define FS_ROOT_DIR_FULL                        -21
+#define FS_DISK_FULL                            -22
+#define FS_TIMEOUT                              -23
+#define FS_BAD_SECTOR                           -24
+#define FS_DATA_ERROR                           -25
+#define FS_MEDIA_CHANGED                        -26
+#define FS_SECTOR_NOT_FOUND                     -27
+#define FS_ADDRESS_MARK_NOT_FOUND               -28
+#define FS_DRIVE_NOT_READY                      -29
+#define FS_WRITE_PROTECTION                     -30
+#define FS_DMA_OVERRUN                          -31                         
+#define FS_CRC_ERROR                            -32
+#define FS_DEVICE_RESOURCE_ERROR                -33
+#define FS_INVALID_SECTOR_SIZE                  -34
+#define FS_OUT_OF_BUFFERS                       -35
+#define FS_FILE_EXISTS                          -36
+#define FS_LONG_FILE_POS                        -37
+#define FS_FILE_TOO_LARGE                       -38
+#define FS_BAD_DIR_ENTRY                        -39
+#define FS_ATTR_CONFLICT                        -40
+#define FS_CHECKDISK_RETRY                      -41
+#define FS_LACK_OF_PROTECTION_SPACE             -42
+#define FS_SYSTEM_CRASH                         -43
+#define FS_FAIL_GET_MEM                         -44
+#define FS_READ_ONLY_ERROR                      -45
+#define FS_DEVICE_BUSY                          -46
+#define FS_ABORTED_ERROR                        -47
+#define FS_QUOTA_OVER_DISK_SPACE                -48
+#define FS_PATH_OVER_LEN_ERROR                  -49
+#define FS_APP_QUOTA_FULL                       -50
+#define FS_VF_MAP_ERROR                         -51
+#define FS_DEVICE_EXPORTED_ERROR                -52 
+#define FS_DISK_FRAGMENT                        -53 
+#define FS_DIRCACHE_EXPIRED                     -54
+#define FS_QUOTA_USAGE_WARNING                  -55
+
+#define FS_MSDC_MOUNT_ERROR                     -100
+#define FS_MSDC_READ_SECTOR_ERROR               -101
+#define FS_MSDC_WRITE_SECTOR_ERROR              -102
+#define FS_MSDC_DISCARD_SECTOR_ERROR            -103
+#define FS_MSDC_PRESENT_NOT_READY               -104
+#define FS_MSDC_NOT_PRESENT                     -105
+
+#define FS_EXTERNAL_DEVICE_NOT_PRESENT          -106
+#define FS_HIGH_LEVEL_FORMAT_ERROR              -107
+
+#define FS_FLASH_MOUNT_ERROR                    -120
+#define FS_FLASH_ERASE_BUSY                     -121
+#define FS_NAND_DEVICE_NOT_SUPPORTED            -122
+#define FS_FLASH_OTP_UNKNOWERR                  -123
+#define FS_FLASH_OTP_OVERSCOPE                  -124
+#define FS_FLASH_OTP_WRITEFAIL                  -125
+#define FS_FDM_VERSION_MISMATCH                 -126
+#define FS_FLASH_OTP_LOCK_ALREADY               -127
+#define FS_FDM_FORMAT_ERROR                     -128
+
+#define FS_LOCK_MUTEX_FAIL                      -141
+#define FS_NO_NONBLOCKMODE                      -142
+#define FS_NO_PROTECTIONMODE                    -143
+
+#define FS_INTERRUPT_BY_SIGNAL                  -512
+
+
+typedef struct {
+        __packed char               FileName[8];
+        __packed char               Extension[3];
+        __packed char               Attributes;
+        __packed char               NTReserved;
+        __packed char               CreateTimeTenthSecond;
+        __packed int                CreateDateTime;
+        __packed unsigned short     LastAccessDate;
+        __packed unsigned short     FirstClusterHi;
+        __packed int                DateTime;
+        __packed unsigned short     FirstCluster;
+        __packed unsigned int       FileSize;
+        //                                                                              
+        unsigned int                Cluster;
+        unsigned int                Index;
+        unsigned int                Stamp;
+        unsigned int                Drive;
+        unsigned int                SerialNumber;       
+} FS_DOSDirEntry;
+
+//                                                                             
+//                 
+//                                                                             
+
+#define FS_UT_TEST_FILE_DIR             "/data/app"
+#define FS_UT_1K_FILE                   "fs_ut_1k.dat"
+#define FS_UT_2K_FILE                   "fs_ut_2k.dat"
+#define FS_UT_4K_FILE                   "fs_ut_4k.dat"
+#define FS_UT_6K_FILE                   "fs_ut_6k.dat"
+#define FS_UT_8K_FILE                   "fs_ut_8k.dat"
+#define FS_UT_10K_FILE                  "fs_ut_10k.dat"
+#define FS_UT_12K_FILE                  "fs_ut_12k.dat"
+#define FS_UT_14K_FILE                  "fs_ut_14k.dat"
+#define FS_UT_16K_FILE                  "fs_ut_16k.dat"
+#define FS_UT_PORT_INDEX                (1)
+
+//                                                                                      
+
+#ifdef _EEMCS_FS_UT_DBG_PKT
+#define dump_data_to_file(file,data,size) save_data_to_file
+#else
+#define dump_data_to_file(file,data,size)
+#endif
+
+
+//                                                                             
+//                
+//                                                                             
+
+/*                               */
+typedef enum EEMCS_FS_TEST_DRV_e {
+    DRV_MD = 0,
+    DRV_MD_DSP,
+    DRV_CNT,
+} EEMCS_FS_TEST_DRV;
+
+/*                 */
+typedef enum
+{   
+    FS_CCCI_OP_PEEK = 0,  //                               
+    FS_CCCI_OP_OPEN = 0x1001,
+    FS_CCCI_OP_SEEK,
+    FS_CCCI_OP_READ,
+    FS_CCCI_OP_WRITE,
+    FS_CCCI_OP_CLOSE,
+    FS_CCCI_OP_CLOSEALL,
+    FS_CCCI_OP_CREATEDIR,
+    FS_CCCI_OP_REMOVEDIR,
+    FS_CCCI_OP_GETFILESIZE,
+    FS_CCCI_OP_GETFOLDERSIZE,
+    FS_CCCI_OP_RENAME,
+    FS_CCCI_OP_MOVE,
+    FS_CCCI_OP_COUNT,
+    FS_CCCI_OP_GETDISKINFO,
+    FS_CCCI_OP_DELETE,
+    FS_CCCI_OP_GETATTRIBUTES,
+    FS_CCCI_OP_OPENHINT,
+    FS_CCCI_OP_FINDFIRST,
+    FS_CCCI_OP_FINDNEXT,
+    FS_CCCI_OP_FINDCLOSE,
+    FS_CCCI_OP_LOCKFAT,
+    FS_CCCI_OP_UNLOCKALL,
+    FS_CCCI_OP_SHUTDOWN,
+    FS_CCCI_OP_XDELETE,
+    FS_CCCI_OP_CLEARDISKFLAG,
+    FS_CCCI_OP_GETDRIVE,
+    FS_CCCI_OP_GETCLUSTERSIZE,
+    FS_CCCI_OP_SETDISKFLAG,
+    FS_CCCI_OP_OTPWRITE,
+    FS_CCCI_OP_OTPREAD,
+    FS_CCCI_OP_OTPQUERYLENGTH,
+    FS_CCCI_OP_OTPLOCK,
+    FS_CCCI_OP_RESTORE = 0x1021,
+    /*                              */
+    FS_CCCI_OP_REPEAT_START,
+    FS_CCCI_OP_REPEAT_END,
+} FS_CCCI_OP_ID_T;
+
+/*                                        */
+typedef enum EEMCS_FS_BUFF_STATUS_e {
+    CCCI_FS_BUFF_IDLE = 0,          //                                          
+    CCCI_FS_BUFF_WAIT               //                                                 
+} EEMCS_FS_BUFF_STATUS;
+
+typedef struct FS_CCCI_LV_STRUC {
+   KAL_UINT32 len;
+   void *val;
+} FS_CCCI_LV_T;
+
+typedef struct CCCI_FS_PARA {
+    KAL_INT32     index;            //           
+    KAL_UINT32    op_id;            //                
+    FS_CCCI_LV_T  *pLV_in;          //                             
+    KAL_UINT32    LV_in_para_cnt;   //                            
+    FS_CCCI_LV_T  *pLV_out;         //                             
+    KAL_UINT32    LV_out_para_cnt;  //                            
+} CCCI_FS_PARA_T;
+
+typedef struct FS_STREAMBUFFER_st {
+    CCCI_BUFF_T ccci_header;    
+    KAL_UINT32  fs_operationID;
+    KAL_UINT8   buffer[FS_CCCI_MAX_BUF_SIZE];
+} FS_STREAMBUFFER;
+
+typedef struct EEMCS_FS_UT_SET_st {
+    /*                 */
+    volatile KAL_INT32 ut_port_index;   //                                          
+    KAL_UINT32 test_case_idx;           //                                          
+    KAL_UINT32 ftest_idx;               //                                           
+    KAL_UINT32 drive_idx;               //                                            
+    KAL_INT32 fhandle;                 //                             
+    KAL_INT32 find_handle;             //                             
+    KAL_UINT32 fs_write_total;          //                                    
+    KAL_UINT32 loop_start;              //                                        
+    KAL_UINT32 loop_end;                //                                      
+
+    /*                                                                            */
+    FS_STREAMBUFFER FS_REQ_BUF[FS_CCCI_REQ_BUFFER_NUM];
+    /*                                                                 */
+    KAL_UINT32  ccci_fs_buff_state[FS_CCCI_REQ_BUFFER_NUM];
+    /*                                                   */
+    KAL_UINT32 ccci_fs_buff_offset[FS_CCCI_REQ_BUFFER_NUM];
+} EEMCS_FS_UT_SET;
+
+/*                               */
+typedef struct EEMCS_FS_TEST_DRIVE_st {
+    KAL_UINT32 id;                      //                                               
+    char drive[NAME_MAX];               //                         
+    char fs_root[NAME_MAX];             //                                   
+    KAL_UINT32 type;                    //                                 
+} EEMCS_FS_TEST_DRIVE;
+
+/*                              */
+typedef struct EEMCS_FS_TEST_FILE_st {
+    char name[NAME_MAX];                //          
+    KAL_UINT32 size;                    //          
+} EEMCS_FS_TEST_FILE;
+
+/*                                   */
+typedef struct EEMCS_FS_TEST_CASE_st {
+    KAL_UINT32 index;                   //                
+    KAL_UINT32 op_id;                   //             
+    char reserved[NAME_MAX];            //                                    
+} EEMCS_FS_TEST_CASE;
+
+
+//                                                                             
+//                 
+//                                                                             
+
+EEMCS_FS_UT_SET g_eemcs_fs_ut;
+
+/*                      */
+const static EEMCS_FS_TEST_DRIVE g_test_drive[] = {
+    { DRV_MD, MD_ROOT_DIR, FS_ROOT_DIR, FS_DRIVE_I_SYSTEM },
+    { DRV_MD_DSP, DSP_ROOT_DIR, FS_DSP_ROOT_DIR, FS_DRIVE_I_SYSTEM_DSP }
+};
+#define EEMCS_FS_TEST_DRV_CNT sizeof(g_test_drive)/sizeof(g_test_drive[0])
+
+/*                     */
+const static EEMCS_FS_TEST_FILE g_test_file[] = {
+    { FS_UT_1K_FILE, 1 * 1024 },
+    { FS_UT_2K_FILE, 2 * 1024 },
+    { FS_UT_4K_FILE, 4 * 1024 },
+    { FS_UT_6K_FILE, 6 * 1024 },
+    { FS_UT_8K_FILE, 8 * 1024 },
+    { FS_UT_10K_FILE, 10 * 1024, },
+    { FS_UT_12K_FILE, 12 * 1024, },
+    { FS_UT_14K_FILE, 14 * 1024, },
+    { FS_UT_16K_FILE, 16 * 1024, }
+};
+#define EEMCS_FS_TEST_FILE_CNT sizeof(g_test_file)/sizeof(g_test_file[0])
+
+/*                        */
+EEMCS_FS_TEST_CASE g_test_case[] = {
+    { 0, FS_CCCI_OP_GETDRIVE, "" },
+    { 0, FS_CCCI_OP_GETCLUSTERSIZE, "" },
+    { 0, FS_CCCI_OP_CREATEDIR, "fsut_dir" },                //                        
+    { 0, FS_CCCI_OP_CREATEDIR, "fsut_dir/lv2_dir" },        //                        
+    { 0, FS_CCCI_OP_REMOVEDIR, "fsut_dir/lv2_dir" },        //                        
+    { 0, FS_CCCI_OP_CREATEDIR, "fsut_dir/lv2_dir" },        //                        
+
+    { 0, FS_CCCI_OP_REPEAT_START, "" },
+    { 0, FS_CCCI_OP_OPEN, "" },
+    { 0, FS_CCCI_OP_WRITE, "" },
+    { 0, FS_CCCI_OP_GETFILESIZE, "" },
+    { 0, FS_CCCI_OP_CLOSE, "" },
+    { 0, FS_CCCI_OP_OPEN, "" },
+    { 0, FS_CCCI_OP_READ, "" },
+    { 0, FS_CCCI_OP_CLOSE, "" },
+    { 0, FS_CCCI_OP_MOVE, "fsut_dir/lv2_dir" },             //                                               
+    { 0, FS_CCCI_OP_RENAME, "renamed_" },                   //                                
+    { 0, FS_CCCI_OP_DELETE, "renamed_" },                   //                                  
+    { 0, FS_CCCI_OP_REPEAT_END, "" },
+
+    { 0, FS_CCCI_OP_GETFOLDERSIZE, "fsut_dir/lv2_dir" },    //                      
+    { 0, FS_CCCI_OP_COUNT, "fsut_dir/lv2_dir" },            //                             
+    { 0, FS_CCCI_OP_FINDFIRST, "fsut_dir/lv2_dir/fs_ut_*" },//                
+    { 0, FS_CCCI_OP_FINDNEXT, "" },
+    { 0, FS_CCCI_OP_FINDCLOSE, "" },
+    { 0, FS_CCCI_OP_XDELETE, "fsut_dir" },                  //                        
+};
+#define EEMCS_FS_TEST_CASE_CNT sizeof(g_test_case)/sizeof(g_test_case[0])
+
+/*                                                           */
+FS_CCCI_LV_T g_LV_in[FS_CCCI_MAX_ARG_NUM];
+FS_CCCI_LV_T g_LV_out[FS_CCCI_MAX_ARG_NUM];
+KAL_UINT32 g_LV_in_num = 0;
+KAL_UINT32 g_LV_out_num = 0;
+CCCI_FS_PARA_T g_ccci_fs_paras;
+
+/*                         */
+static volatile KAL_UINT32 op_read_cnt = 0;     //                             
+static volatile KAL_UINT32 md2ap_cmd_cnt = 0;   //                               
+static volatile KAL_UINT32 ap2md_cmd_cnt = 0;   //                               
+
+
+//                                                                             
+//                    
+//                                                                             
+
+KAL_INT32 eemcs_fs_ut_send_cmd(void);
+
+
+//                                                                             
+//               
+//                                                                             
+
+/*
+                                        
+         
+                                             
+                                       
+          
+                                                 
+                          
+ */
+KAL_INT32 gen_ap_random_file(char *file, KAL_UINT32 size)
+{
+    struct file *fp = NULL;
+    KAL_UINT32 i = 0;
+    char data = 0;
+    int ret = 0;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    fp = file_open(file, O_RDWR | O_CREAT, 0777);
+    if (fp == NULL) {
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to generate test file %s", file);
+        DEBUG_LOG_FUNCTION_LEAVE;
+        return KAL_FAIL;
+    }
+
+    do {
+        for (i = 0; i < size; i++) {
+            ret = file_write(fp, &data, sizeof(char));
+            if (ret <= 0) {
+                DBGLOG(FSUT, ERR, "[FSUT] Failed to write to file (%d) !!", i);
+            }
+            data++;
+        }
+    } while(0);
+    file_close(fp);
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                              
+         
+                                             
+                                                            
+          
+                                                             
+                      
+ */
+void *get_file_data(char *file, KAL_UINT32 size)
+{
+    void *data = NULL;
+    struct file *fp = NULL;
+    KAL_INT32 result = KAL_FAIL;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    KAL_ASSERT(file != NULL);
+    /*                */
+    fp = file_open(file, O_RDONLY, 0777);
+    if (fp == NULL) {
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to open test file %s", file);
+        goto _open_fail;
+    }
+    /*                               */
+    data = kmalloc(size, GFP_KERNEL);
+    if (data == NULL) {
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to allocate memory");
+        goto _alloc_fail;
+    }
+    result = file_read(fp, data, size);
+    if (result != size) {
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to read test file (%d)", result);
+        goto _read_fail;
+    }
+    goto _ok;
+
+_read_fail:
+    kfree(data);
+_alloc_fail:
+_ok:
+    file_close(fp);
+_open_fail:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return data;
+}
+
+/*
+                                     
+         
+                                                               
+          
+                                                             
+                      
+ */
+void *get_test_file_data(KAL_UINT32 index)
+{
+    char src[NAME_MAX] = {0};
+
+    sprintf(src, "%s/%s", FS_UT_TEST_FILE_DIR, g_test_file[index].name);
+    return get_file_data(src, g_test_file[index].size);
+}
+
+/*
+                           
+         
+                                                             
+          
+           
+ */
+void destroy_file_data(void *data)
+{
+    DEBUG_LOG_FUNCTION_ENTRY;
+    if (data != NULL) {
+        kfree(data);
+    }
+    DEBUG_LOG_FUNCTION_LEAVE;
+}
+
+static int FS_ConvWcsToCs(const wchar_t* strScr, char* strDst, unsigned int src_length)
+{
+        char *ptr;
+        int   length;
+
+        length = 0;
+        ptr    = (char *) strScr;
+
+        while (length < src_length) {
+                if (ptr[length * 2] == '\\') {
+                        strDst[length] = '/';
+                } else {
+                        strDst[length] = ptr[length * 2];
+                }
+
+                length++;
+
+                if (ptr[length * 2] == 0) {
+                        strDst[length] = '\0';
+                        break;
+                }
+        }
+
+        return length;
+}
+
+/*
+                                                 
+         
+                                                     
+                                                  
+                                               
+          
+                                                           
+ */
+static int FS_ConvCsToWcs(const char* strSrc, wchar_t* strDst, unsigned int src_length)
+{
+    char *ptr;
+    unsigned int length;
+
+    length = 0;
+    ptr = (char *)strDst;
+
+    while (length < src_length) {
+        if (strSrc[length] == '/') {
+            ptr[length * 2] = '\\';
+            ptr[length * 2 + 1] = 0;
+        } else {
+            ptr[length * 2] = strSrc[length];
+            ptr[length * 2 + 1] = 0;
+        }
+        length++;
+
+        if (strSrc[length] == '\0') {
+            ptr[length * 2] = 0;
+            ptr[length * 2 + 1] = 0;
+            break;
+        }
+    }
+
+    if(length == src_length) {
+        ptr[(length-1) * 2] = 0;
+        ptr[(length-1) * 2 + 1] = 0;
+        length -= 1;
+    }
+
+    return length;   
+}
+
+/*
+                                                  
+         
+                                       
+          
+                                            
+ */
+static int FS_WcsLen(const wchar_t *str)
+{
+    KAL_UINT16 *ptr = NULL;
+    int len = 0;
+
+    ptr = (KAL_UINT16*)str;
+    while (*ptr++ != 0)
+        len++;
+    return len;
+}
+
+/*
+                                                                
+         
+                                          
+                                                    
+                                      
+          
+                                                              
+                                  
+ */
+struct sk_buff *eemcs_ut_alloc_skb(KAL_UINT32 size, FS_STREAMBUFFER *stream, KAL_UINT8 again)
+{
+    struct sk_buff *new_skb = NULL;
+    FS_STREAMBUFFER *header = NULL;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    KAL_ASSERT(size > 0);
+    KAL_ASSERT(stream != NULL);
+
+    new_skb = dev_alloc_skb(size);
+    if (new_skb == NULL) {
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to alloc skb !!");
+        goto _fail;
+    }
+    header = (FS_STREAMBUFFER *)skb_put(new_skb, size);
+    memset(new_skb->data, 0, size);
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_ut_alloc_skb() new_skb(0x%p, 0x%p) size = %d",
+        new_skb, new_skb->data, new_skb->len);
+    //                            
+    if (again) {
+        header->ccci_header.data[0] = stream->ccci_header.data[0] | CCCI_FS_REQ_SEND_AGAIN;
+    } else {
+        header->ccci_header.data[0] = stream->ccci_header.data[0] & ~CCCI_FS_REQ_SEND_AGAIN;
+    }
+    KAL_ASSERT(size <= stream->ccci_header.data[1]);
+    //                                                          
+    header->ccci_header.data[1] = size;
+    header->ccci_header.reserved = stream->ccci_header.reserved;
+    header->ccci_header.channel = stream->ccci_header.channel;
+    //             
+    header->fs_operationID = stream->fs_operationID;
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return new_skb;
+_fail:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return NULL;
+}
+
+/*
+                                                       
+         
+                                                                  
+          
+           
+ */
+void dump_fs_stream_header(void *data)
+{
+    FS_STREAMBUFFER *stream = NULL;
+
+    KAL_ASSERT(data != NULL);
+    stream = (FS_STREAMBUFFER *)data;
+    DBGLOG(FSUT, DBG, "[DUMP] data[0] = 0x%X, data[1] = 0x%X, channel = 0x%X, reserved = 0x%X, op = 0x%X",
+        stream->ccci_header.data[0], stream->ccci_header.data[1],
+        stream->ccci_header.channel, stream->ccci_header.reserved,
+        stream->fs_operationID);
+}
+
+/*
+         
+                                                
+                                                                         
+                                                                     
+         
+           
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_send_skb(void)
+{
+    FS_STREAMBUFFER *stream = NULL;
+    KAL_UINT32 pkt_cnt = 0;
+    KAL_UINT8 *pBuff = NULL;        //                                     
+    KAL_UINT32 data_to_send = 0;    //                                                                   
+    KAL_UINT32 data_sent = 0;       //                                  
+    KAL_UINT32 op_id = 0;           //             
+    KAL_UINT32 total_len = 0;       //                       
+    KAL_UINT32 data_len = 0;        //                                                       
+    KAL_UINT8 *skb_ptr = NULL;
+    struct sk_buff *new_skb = NULL;
+    char cmd_file[NAME_MAX] = {0};
+    char pkt_file[NAME_MAX] = {0};
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+
+    stream = &g_eemcs_fs_ut.FS_REQ_BUF[g_ccci_fs_paras.index];
+    KAL_ASSERT(stream != NULL);
+    pBuff = stream->buffer;
+    op_id = stream->fs_operationID;
+    total_len = stream->ccci_header.data[1];
+    //                                            
+    data_len = total_len - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32);
+
+    sprintf(cmd_file, "%s/fs_ut_md2ap_%03d.dat", FS_UT_TEST_FILE_DIR, md2ap_cmd_cnt++);
+    dump_data_to_file(cmd_file, (char *)stream, total_len);
+
+    /*                       */
+    if (total_len <= MAX_FS_PKT_BYTE) {
+        sprintf(pkt_file, "%s/fs_ut_md2ap_%03d_pkt_%d.dat", FS_UT_TEST_FILE_DIR, md2ap_cmd_cnt, pkt_cnt);
+        DBGLOG(FSUT, DBG, "[FSUT] Small packet, no fragment.");
+
+        //                                      
+        new_skb = eemcs_ut_alloc_skb(total_len, (FS_STREAMBUFFER *)stream, 0);
+        KAL_ASSERT(new_skb != NULL);
+        skb_ptr = (KAL_UINT8 *)new_skb->data;
+        dump_fs_stream_header((void *)skb_ptr);
+        //                           
+        skb_ptr += sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32);
+        //                              
+        memcpy(skb_ptr, pBuff, data_len);
+        dump_data_to_file(pkt_file, (char *)(skb_ptr - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32)), total_len);
+        eemcs_fs_ut_callback(new_skb, 0);
+    } else {
+    /*                         */
+        DBGLOG(FSUT, DBG, "[FSUT] Big packet, need fragment.");
+
+        while ((data_sent + sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32)) < total_len) {
+            memset(pkt_file, 0, NAME_MAX);
+            sprintf(pkt_file, "%s/fs_ut_md2ap_%03d_pkt_%d.dat", FS_UT_TEST_FILE_DIR, md2ap_cmd_cnt, pkt_cnt);
+            /*                                                   */
+            /*                              */
+            if (data_len - data_sent > (MAX_FS_PKT_BYTE - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32))) {
+                data_to_send = MAX_FS_PKT_BYTE - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32);
+                //                   
+                new_skb = eemcs_ut_alloc_skb(MAX_FS_PKT_BYTE, (FS_STREAMBUFFER *)stream, 1);
+                KAL_ASSERT(new_skb != NULL);
+                skb_ptr = (KAL_UINT8 *)new_skb->data;
+                dump_fs_stream_header((void *)skb_ptr);
+                //                           
+                skb_ptr += sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32);
+                KAL_ASSERT(((CCCI_BUFF_T*)new_skb->data)->data[1] == MAX_FS_PKT_BYTE);
+            } else {
+            /*                 */
+                data_to_send = data_len - data_sent;
+                //                                                                
+                new_skb = eemcs_ut_alloc_skb(sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32) + data_to_send, (FS_STREAMBUFFER *)stream, 0);
+                KAL_ASSERT(new_skb != NULL);
+                skb_ptr = (KAL_UINT8 *)new_skb->data;
+                dump_fs_stream_header((void *)skb_ptr);
+                //                           
+                skb_ptr += sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32);
+                KAL_ASSERT(((CCCI_BUFF_T*)new_skb->data)->data[1] == (sizeof(CCCI_BUFF_T) + sizeof(KAL_UINT32) + data_to_send));
+            }
+            //                                         
+            memcpy(skb_ptr, pBuff, data_to_send);
+            dump_data_to_file(pkt_file, (char *)(skb_ptr - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32)), data_to_send + sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32));
+            DBGLOG(FSUT, DBG, "[FSUT] MD send packet %d with %d bytes", pkt_cnt, ((CCCI_BUFF_T*)new_skb->data)->data[1]);
+            data_sent += data_to_send;
+            pBuff += data_to_send;
+            pkt_cnt++;
+            eemcs_fs_ut_callback(new_skb, 0);
+        };
+    }
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+         
+                                                                                               
+         
+                                             
+                                                 
+                                                            
+                                   
+          
+                                                    
+ */
+KAL_INT32 ccci_fs_put_buff(KAL_INT32 index, KAL_UINT32 op, FS_CCCI_LV_T *pLV, KAL_UINT32 num)
+{
+    FS_STREAMBUFFER *fs_buf = NULL;
+    KAL_UINT8 *ptr;
+    KAL_UINT32 *argc;
+    KAL_UINT32 i;
+    FS_CCCI_LV_T *p_curr_lv_t = NULL;   //                                         
+    KAL_UINT32 curr_v_len;              //                        
+    KAL_UINT32 total_len = 0;           //                      
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    //                                 
+    fs_buf = &g_eemcs_fs_ut.FS_REQ_BUF[index];
+    memset(fs_buf, 0, sizeof(FS_STREAMBUFFER));
+
+    //                    
+    fs_buf->fs_operationID = op;
+    total_len += sizeof(fs_buf->fs_operationID);
+
+    //                      
+    ptr = fs_buf->buffer;
+
+    //                             
+    argc = (KAL_UINT32 *)ptr;
+    *argc = num;
+    ptr += sizeof(KAL_UINT32);
+    total_len += sizeof(KAL_UINT32);
+
+    //                             
+    for (i = 0; i < num; i++) {
+        p_curr_lv_t = (FS_CCCI_LV_T *)ptr;
+
+        //                    
+        p_curr_lv_t->len = pLV[i].len;
+        //                              
+        curr_v_len = ((pLV[i].len + 3) >> 2) << 2;
+        DBGLOG(FSUT, DBG, "[FSUT] Copy LV[%d]. real length = %d, aligned length = %d", i, pLV[i].len, curr_v_len);
+
+        //                                    
+        memcpy(&(p_curr_lv_t->val), pLV[i].val, pLV[i].len);
+
+        //                     
+        total_len += curr_v_len;
+        total_len += sizeof(p_curr_lv_t->len); //                                              
+
+        //                    
+        ptr += sizeof(p_curr_lv_t->len) + curr_v_len;
+    }
+
+    total_len += sizeof(CCCI_BUFF_T);
+    fs_buf->ccci_header.data[0] = g_eemcs_fs_ut.FS_REQ_BUF[index].ccci_header.data[0];
+    fs_buf->ccci_header.data[1] = total_len; 
+    fs_buf->ccci_header.channel = CH_FS_RX;
+    fs_buf->ccci_header.reserved = index;
+    DBGLOG(FSUT, DBG, "[FSUT] ccci_fs_put_buff() %d args, total_len = %d, op = 0x%X, port_id = %d",
+        *argc, fs_buf->ccci_header.data[1], fs_buf->fs_operationID, fs_buf->ccci_header.reserved);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+         
+                                                                                   
+                               
+         
+                                             
+                                                 
+                                                          
+                                   
+          
+                                                    
+ */
+KAL_INT32 ccci_fs_get_buff(KAL_INT32 index, KAL_UINT32 op, FS_CCCI_LV_T *pLV, KAL_UINT32 *num)
+{
+    KAL_UINT32 i, no_copy = 0;
+    FS_STREAMBUFFER *fs_buf;
+    KAL_UINT8 *ptr;
+    FS_CCCI_LV_T *pTmp;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    fs_buf = &g_eemcs_fs_ut.FS_REQ_BUF[index];
+
+    if (op && (fs_buf->fs_operationID != (FS_CCCI_API_RESP_ID | op))) {
+        DBGLOG(FSUT, ERR, "[FSUT] fs_buf->fs_operationID = 0x%X, op = 0x%X", fs_buf->fs_operationID, op);
+        KAL_ASSERT(0);
+    }
+
+    ptr = fs_buf->buffer;
+
+    //            
+    pTmp = (FS_CCCI_LV_T *)ptr;
+    if (op) {
+        if (*num != pTmp->len){
+            KAL_ASSERT(0);
+        }
+    } else {
+        *num = pTmp->len;
+        no_copy = 1;
+    }
+
+    //                            
+    ptr += sizeof(KAL_UINT32);
+    for (i = 0; i < *num; i++) {
+        pTmp = (FS_CCCI_LV_T *)ptr;
+        if (op && (pLV[i].len < pTmp->len)) {
+            KAL_ASSERT(0);
+        }
+
+        pLV[i].len = pTmp->len;
+        if (no_copy) {
+            pLV[i].val = (void *)(ptr + sizeof(KAL_UINT32));
+        } else {
+            memcpy(pLV[i].val, ptr + sizeof(KAL_UINT32), pLV[i].len);
+        }
+
+        //                              
+        ptr += sizeof(KAL_UINT32) + (((pTmp->len + 3) >> 2) << 2);
+    }
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                             
+         
+                                                                
+          
+                                                    
+ */
+static KAL_UINT32 CCCI_FS_OP_Wrapper(CCCI_FS_PARA_T* fs_para)
+{
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    ret = ccci_fs_put_buff(fs_para->index, fs_para->op_id, fs_para->pLV_in, fs_para->LV_in_para_cnt);
+    if (KAL_SUCCESS != ret){
+        DBGLOG(FSUT, ERR, "[FSUT] Failed to prepare MD FS command");
+        DEBUG_LOG_FUNCTION_LEAVE;
+        return KAL_FAIL;
+    }
+    eemcs_fs_ut_send_skb();
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                          
+         
+           
+          
+           
+ */
+void eemcs_fs_ut_reset_args(void)
+{
+    memset(g_LV_in, 0, sizeof(FS_CCCI_LV_T) * FS_CCCI_MAX_ARG_NUM);
+    memset(g_LV_out, 0, sizeof(FS_CCCI_LV_T) * FS_CCCI_MAX_ARG_NUM);
+    g_LV_in_num = 0;
+    g_LV_out_num = 0;
+    memset(&g_ccci_fs_paras, 0, sizeof(CCCI_FS_PARA_T));
+}
+
+/*
+                        
+         
+                           
+                                    
+                               
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_getdrive(KAL_UINT32 type, KAL_UINT32 serial, KAL_UINT32 alt_mask)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //     
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&type;
+    //       
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&serial;
+    //         
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&alt_mask;
+
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_GETDRIVE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return ret;
+}
+
+/*
+                                               
+         
+                                  
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_getclustersize(KAL_UINT32 drive_index)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&drive_index;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_GETCLUSTERSIZE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return ret;
+}
+
+/*
+                            
+         
+                                             
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_createdir(const wchar_t *dir_path)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                            
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dir_path) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dir_path;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_CREATEDIR;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return ret;
+}
+
+/*
+                            
+         
+                                             
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_removedir(const wchar_t *dir_name)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                              
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dir_name) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dir_name;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_REMOVEDIR;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return ret;
+}
+
+/*
+                     
+         
+                                                   
+                                        
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_open(wchar_t *file_path, KAL_UINT32 flags)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                       
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(file_path) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)file_path;
+    //      
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&flags;
+    /*                         */
+    /*
+                                           
+                                       
+                                                                  
+     */
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_OPEN;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_fs_ut_open() Port %d try to open a file", index);
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return ret;
+}
+
+/*
+                      
+         
+                                                                    
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_close(KAL_UINT32 fhandle)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(fhandle);
+    g_LV_in[g_LV_in_num++].val = (void *)&fhandle;
+    /*                              */
+    /*
+                                           
+                                       
+                                                                  
+     */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_CLOSE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_fs_ut_close() Port %d close file %d", index, fhandle);
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                              
+         
+                                                                     
+                                  
+                                 
+                                                                 
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_write(KAL_UINT32 fhandle, void *data, KAL_UINT32 size, KAL_UINT32 *written)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(fhandle);
+    g_LV_in[g_LV_in_num++].val = (void *)&fhandle;
+    //             
+    g_LV_in[g_LV_in_num].len = size;
+    g_LV_in[g_LV_in_num++].val = data;
+    //          
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&size;
+    /*                              */
+    /*
+                                           
+                                       
+                                                                  
+                                       
+                                                                                                   
+     */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+    //              
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_UINT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (4 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_WRITE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_fs_ut_write() Port %d write %d bytes of data to file %d", index, size, fhandle);
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                
+         
+                                                                     
+                                      
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_get_file_size(KAL_UINT32 fhandle, KAL_UINT32 *size)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&fhandle;
+    /*
+                              
+                                           
+                                       
+                                                                  
+                                       
+                                                                                            
+     */
+    /*                              */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+    //                   
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (4 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_GETFILESIZE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_fs_ut_file_size() Port %d get file size of file %d", index, fhandle);
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                               
+         
+                                                                     
+                                                      
+                                               
+                                                        
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_read(KAL_UINT32 fhandle, void *data, KAL_UINT32 size, KAL_UINT32 *read)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&fhandle;
+    //          
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&size;
+    /*
+                              
+                                           
+                                       
+                                                                  
+                                       
+                                                                                            
+                                       
+                                                                                            
+     */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+    //           
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_UINT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (4 * sizeof(KAL_UINT32)));
+    //             
+    g_LV_out[g_LV_out_num].len = size;
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (6 * sizeof(KAL_UINT32)));;    
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_READ;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+    DBGLOG(FSUT, DBG, "[FSUT] eemcs_fs_ut_read() Port %d read %d bytes of data from file %d",
+        index, size, fhandle);
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                     
+         
+                                   
+                                       
+                                         
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_move(const wchar_t *src, const wchar_t *dst, KAL_UINT32 flags)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(src) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)src;
+    //                 
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dst) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dst;
+    //      
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&flags;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_MOVE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                       
+         
+                                          
+                                    
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_rename(const wchar_t *old_name, const wchar_t* new_name)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //              
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(old_name) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)old_name;
+    //              
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(new_name) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)new_name;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_RENAME;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                       
+         
+                                         
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_delete(const wchar_t *file_name)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //          
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(file_name) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)file_name;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_DELETE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                              
+         
+                                   
+                                                   
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_getfoldersize(const wchar_t *dir, KAL_UINT32 flags)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //               
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dir) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dir;
+    //      
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&flags;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_GETFOLDERSIZE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                                        
+         
+                                          
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_count(const wchar_t *dir_path, KAL_UINT32 flags)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                       
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dir_path) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dir_path;
+    //     
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&flags;
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_COUNT;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                         
+         
+                                          
+                                            
+          
+                                                    
+ */
+KAL_INT32 eemcs_fs_ut_xdelete(const wchar_t *dir_path, KAL_UINT32 flags)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                         
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(dir_path) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)dir_path;
+    //     
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&flags;
+
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_XDELETE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+KAL_INT32 eemcs_fs_ut_findfirst(const wchar_t* pattern, KAL_UINT8 attr, KAL_UINT8 attr_mask, FS_DOSDirEntry * file_info, wchar_t* file_name, KAL_UINT32 max_length)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    KAL_INT32 MaxLength_nonWCHAR = max_length/2 -1;
+    KAL_UINT32 aligned_entry_size = 0;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                
+    g_LV_in[g_LV_in_num].len = (FS_WcsLen(pattern) * sizeof(wchar_t)) + sizeof(wchar_t);
+    g_LV_in[g_LV_in_num++].val = (void *)pattern;
+    //          
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT8);
+    g_LV_in[g_LV_in_num++].val = (void *)&attr;
+    //               
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT8);
+    g_LV_in[g_LV_in_num++].val = (void *)&attr_mask;
+    //                                                                     
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    //                                            
+    g_LV_in[g_LV_in_num++].val = (void *)&MaxLength_nonWCHAR;
+
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+    //                 
+    g_LV_out[g_LV_out_num].len = sizeof(FS_DOSDirEntry);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (4 * sizeof(KAL_UINT32)));
+    //          
+    aligned_entry_size = ((sizeof(FS_DOSDirEntry) + 3) >> 2) << 2;
+    g_LV_out[g_LV_out_num].len = max_length;
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (5 * sizeof(KAL_UINT32)) + aligned_entry_size);
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_FINDFIRST;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+KAL_INT32 eemcs_fs_ut_findnext(KAL_UINT32 handle, FS_DOSDirEntry *file_info, wchar_t *file_name, KAL_UINT32 max_length)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+    KAL_INT32 MaxLength_nonWCHAR = max_length/2 -1;
+    KAL_UINT32 aligned_entry_size = 0;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //                                                
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&handle;
+    //                                                                   
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    //                                            
+    g_LV_in[g_LV_in_num++].val = (void *)&MaxLength_nonWCHAR;
+    
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+    //                 
+    g_LV_out[g_LV_out_num].len = sizeof(FS_DOSDirEntry);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (4 * sizeof(KAL_UINT32)));
+    //          
+    aligned_entry_size = ((sizeof(FS_DOSDirEntry) + 3) >> 2) << 2;
+    g_LV_out[g_LV_out_num].len = max_length;
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (5 * sizeof(KAL_UINT32)) + aligned_entry_size);
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_FINDNEXT;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+KAL_INT32 eemcs_fs_ut_findclose(KAL_UINT32 handle)
+{
+    KAL_INT32 index = g_eemcs_fs_ut.ut_port_index;
+    KAL_INT32 ret;
+
+    eemcs_fs_ut_reset_args();
+    /*                             */
+    //            
+    g_LV_in[g_LV_in_num].len = sizeof(KAL_UINT32);
+    g_LV_in[g_LV_in_num++].val = (void *)&handle;
+
+    /*                         */
+    //            
+    g_LV_out[g_LV_out_num].len = sizeof(KAL_INT32);
+    g_LV_out[g_LV_out_num++].val = (void *)(g_eemcs_fs_ut.FS_REQ_BUF[index].buffer + (2 * sizeof(KAL_UINT32)));
+
+    g_ccci_fs_paras.index = index;
+    g_ccci_fs_paras.op_id = FS_CCCI_OP_CLOSE;
+    g_ccci_fs_paras.pLV_in = g_LV_in;
+    g_ccci_fs_paras.LV_in_para_cnt = g_LV_in_num;
+    g_ccci_fs_paras.pLV_out = g_LV_out;
+    g_ccci_fs_paras.LV_out_para_cnt = g_LV_out_num;
+
+    ret = CCCI_FS_OP_Wrapper(&g_ccci_fs_paras);
+
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                                          
+         
+           
+          
+                                                                  
+                                                           
+ */
+KAL_INT32 eemcs_fs_ut_ul_handler(void)
+{
+    KAL_UINT32 op_id = g_ccci_fs_paras.op_id;
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    switch (op_id) {
+        case FS_CCCI_OP_GETDRIVE:
+        {
+            char drv_name = *((KAL_UINT32*)g_LV_out[0].val);
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_GETDRIVE. Drive = %c", drv_name);
+            if (g_test_drive[g_eemcs_fs_ut.drive_idx].drive[0] == drv_name)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_GETDRIVE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_GETDRIVE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_GETCLUSTERSIZE:
+        {
+            KAL_UINT32 size = *((KAL_UINT32*)g_LV_out[0].val);
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_GETCLUSTERSIZE. Cluster Size = %d", size);
+            if (size > 0)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_GETCLUSTERSIZE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_GETCLUSTERSIZE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_CREATEDIR:
+        {
+            struct file *fp = NULL;
+            KAL_INT32 ret = *((KAL_UINT32*)g_LV_out[0].val);
+            char dir[NAME_MAX] = {0};
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_CREATEDIR. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR) {
+                sprintf(dir, "%s/%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+                if ((fp = file_open(dir, O_RDONLY, 0777)) != NULL) {
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_CREATEDIR [PASS] ^_^");
+                    file_close(fp);
+                } else {
+                    DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_CREATEDIR [FAIL] @_@");
+                    DBGLOG(FSUT, TRA, "[FSUT] ==> Folder doesn't exist !!");
+                }
+            }
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_CREATEDIR [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_REMOVEDIR:
+        {
+            struct file *fp = NULL;
+            KAL_INT32 ret = *((KAL_UINT32*)g_LV_out[0].val);
+            char dir[NAME_MAX] = {0};
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_REMOVEDIR. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR) {
+                sprintf(dir, "%s/%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+                if ((fp = file_open(dir, O_RDONLY, 0777)) == NULL) {
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_REMOVEDIR [PASS] ^_^");
+                } else {
+                    DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_REMOVEDIR [FAIL] @_@");
+                    DBGLOG(FSUT, ERR, "[FSUT] ==> Folder still exist !!");
+                }
+            }
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_CREATEDIR [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_OPEN:
+        {
+            g_eemcs_fs_ut.fhandle = *((KAL_UINT32*)g_LV_out[0].val);
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_OPEN. Handle Index = %d", g_eemcs_fs_ut.fhandle);
+            /*
+                                      
+             */
+            if (g_eemcs_fs_ut.fhandle >= 1)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_OPEN [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_OPEN [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_WRITE:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+            KAL_UINT32 written = *((KAL_UINT32*)(g_LV_out[1].val));
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_WRITE. Return Code = %d, Written = %d",
+                ret, written);
+            if (ret == FS_NO_ERROR)
+                g_eemcs_fs_ut.fs_write_total += written;
+            /*
+                                                    
+             */
+            if (g_eemcs_fs_ut.fs_write_total == g_test_file[g_eemcs_fs_ut.ftest_idx].size) {
+                char dst[NAME_MAX] = {0};
+                void *src_data = NULL;
+                void *dst_data = NULL;
+
+                /*                      */
+                src_data = get_test_file_data(g_eemcs_fs_ut.ftest_idx);
+                KAL_ASSERT(src_data != NULL);
+                /*                        */
+                sprintf(dst, "%s/%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+                dst_data = get_file_data(dst, g_eemcs_fs_ut.fs_write_total);
+                KAL_ASSERT(dst_data != NULL);
+                /*         */
+                if (memcmp(src_data, dst_data, g_eemcs_fs_ut.fs_write_total) == 0)
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_WRITE [PASS] ^_^");
+                else
+                    DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_WRITE [FAIL] @_@");
+                destroy_file_data(src_data);
+                destroy_file_data(dst_data);
+                g_eemcs_fs_ut.fs_write_total = 0;
+                break;
+            } else
+                goto _wait;
+        }
+        case FS_CCCI_OP_GETFILESIZE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_GETFILESIZE. Return Code = %d, File Size = %d",
+                *((KAL_UINT32*)(g_LV_out[0].val)),
+                *((KAL_UINT32*)(g_LV_out[1].val)));
+            /*
+                                                 
+             */
+            if (g_test_file[g_eemcs_fs_ut.ftest_idx].size == *((KAL_UINT32*)(g_LV_out[1].val)))
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_GETFILESIZE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_GETFILESIZE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_READ:
+        {
+            void *src_data = NULL;
+            char op_read[NAME_MAX] = {0};
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_READ. Return Code = %d, Read = %d, Data = 0x%p",
+                *((KAL_UINT32*)(g_LV_out[0].val)),
+                *((KAL_UINT32*)(g_LV_out[1].val)),
+                g_LV_out[2].val);
+            /*
+                                                 
+             */
+            if (*((KAL_UINT32*)(g_LV_out[1].val)) == g_test_file[g_eemcs_fs_ut.ftest_idx].size) {
+                src_data = get_test_file_data(g_eemcs_fs_ut.ftest_idx);
+                KAL_ASSERT(src_data);
+                if (memcmp(src_data, g_LV_out[2].val, *((KAL_UINT32*)(g_LV_out[1].val))) == 0)
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_READ [PASS] ^_^");
+                else {
+                    DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_READ [FAIL] @_@");
+                    sprintf(op_read, "%s/fs_ut_op_read_%03d.dat", FS_UT_TEST_FILE_DIR, op_read_cnt++);
+                    dump_data_to_file(op_read, g_LV_out[2].val, *((KAL_UINT32*)(g_LV_out[1].val)));
+                }
+                destroy_file_data(src_data);
+            } else {
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_READ FAIL @_@");
+            }
+            break;
+        }
+        case FS_CCCI_OP_CLOSE:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_CLOSE. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_CLOSE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_CLOSE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_MOVE:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_MOVE. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR) {
+                char csSrc[NAME_MAX] = {0};
+                char csDst[NAME_MAX] = {0};
+                char *srcData = NULL;
+                char *dstData = NULL;
+
+                //                         
+                sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root, g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+                //                              
+                sprintf(csDst, "%s/%s/%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                    g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+                srcData = get_file_data(csSrc, g_test_file[g_eemcs_fs_ut.ftest_idx].size);
+                KAL_ASSERT(srcData);
+                dstData = get_file_data(csDst, g_test_file[g_eemcs_fs_ut.ftest_idx].size);
+                KAL_ASSERT(dstData);
+                if (memcmp(srcData, dstData, g_test_file[g_eemcs_fs_ut.ftest_idx].size) == 0)
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_MOVE [PASS] ^_^");
+                else
+                    DBGLOG(FSUT, TRA, "[FSUT] ==> Data of destination file is incorrect !!");
+            } else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_MOVE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_RENAME:
+        {
+            struct file *fp = NULL;
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_RENAME. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR) {
+                char csRenamed[NAME_MAX] = {0};
+
+                //                          
+                sprintf(csRenamed, "%s/%s%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                    g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+                if ((fp = file_open(csRenamed, O_RDONLY, 0777)) != NULL) {
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_RENAME [PASS] ^_^");
+                    file_close(fp);
+                } else
+                    DBGLOG(FSUT, TRA, "[FSUT] ==> File doesn't exist !!");
+            } else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_RENAME [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_DELETE:
+        {
+            struct file *fp = NULL;
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_DELETE. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR) {
+                char csDeleted[NAME_MAX] = {0};
+
+                //                          
+                sprintf(csDeleted, "%s/%s%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                    g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+                if ((fp = file_open(csDeleted, O_RDONLY, 0777)) == NULL) {
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_DELETE [PASS] ^_^");
+                } else
+                    DBGLOG(FSUT, TRA, "[FSUT] ==> File still exist !!");
+            } else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_DELETE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_GETFOLDERSIZE:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_GETFOLDERSIZE. Cluster Size = %d", ret);
+            if (ret >= 0)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_GETFOLDERSIZE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_GETFOLDERSIZE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_COUNT:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)(g_LV_out[0].val));
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_COUNT. Fild Count = %d", ret);
+            if (ret == EEMCS_FS_TEST_FILE_CNT)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_COUNT [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_COUNT [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_XDELETE:
+        {
+            struct file *fp = NULL;
+            KAL_INT32 ret = *((KAL_UINT32*)g_LV_out[0].val);
+            char dir[NAME_MAX] = {0};
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_XDELETE. Deleted = %d", ret);
+            if (ret >= 0) {
+                sprintf(dir, "%s/%s",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].fs_root,
+                    g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+                if ((fp = file_open(dir, O_RDONLY, 0777)) == NULL) {
+                    DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_XDELETE [PASS] ^_^");
+                } else {
+                    DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_XDELETE [FAIL] @_@");
+                    DBGLOG(FSUT, ERR, "[FSUT] ==> Folder still exist !!");
+                }
+            }
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_XDELETE [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_FINDFIRST:
+        {
+            char found[NAME_MAX] = {0};
+
+            g_eemcs_fs_ut.find_handle = *((KAL_UINT32*)g_LV_out[0].val);
+            FS_ConvWcsToCs(g_LV_out[2].val, found, g_LV_out[2].len);
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_FINDFIRST. Handle = %d, Found = %s",
+                g_eemcs_fs_ut.find_handle, found);
+            if (g_eemcs_fs_ut.find_handle >= 1)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_FINDFIRST [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_FINDFIRST [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_FINDNEXT:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)g_LV_out[0].val);
+            char found[NAME_MAX] = {0};
+
+            FS_ConvWcsToCs(g_LV_out[2].val, found, g_LV_out[2].len);
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_FINDNEXT. Return Code = %d, Found = %s",
+                ret, found);
+            if (ret == FS_NO_ERROR)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_FINDNEXT [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_FINDNEXT [FAIL] @_@");
+            break;
+        }
+        case FS_CCCI_OP_FINDCLOSE:
+        {
+            KAL_INT32 ret = *((KAL_UINT32*)g_LV_out[0].val);
+
+            DBGLOG(FSUT, TRA, "[FSUT] ---------- ACK FS_CCCI_OP_FINDCLOSE. Return Code = %d", ret);
+            if (ret == FS_NO_ERROR)
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS_CCCI_OP_FINDCLOSE [PASS] ^_^");
+            else
+                DBGLOG(FSUT, TRA, "[FSUT] !!!!!!!!!! FS_CCCI_OP_FINDCLOSE [FAIL] @_@");
+            break;
+        }
+
+        default:
+            DBGLOG(FSUT, ERR, "[FSUT] Error ACK OP ID %d", op_id);
+            goto _fail;
+    }
+    g_eemcs_fs_ut.test_case_idx++;
+    eemcs_fs_ut_send_cmd();
+_wait:
+    DEBUG_LOG_FUNCTION_LEAVE;    
+    return KAL_SUCCESS;
+_fail:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_FAIL;
+}
+
+void dump_fsd_skb_data(void *data)
+{
+    FS_STREAMBUFFER *stream = NULL;
+    CCCI_BUFF_T *ccci_h = NULL;
+
+    stream = (FS_STREAMBUFFER *)data;
+    ccci_h = (CCCI_BUFF_T*)&stream->ccci_header;
+
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] Stream Header = 0x%p", stream);
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] CCCI Header = 0x%p", ccci_h);
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] OP ID = 0x%p", &stream->fs_operationID);
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] Argc = 0x%p", &stream->buffer[0]);
+
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] CCCI_H(0x%X)(0x%X)(0x%X)(0x%X)",
+        ccci_h->data[0], ccci_h->data[1], ccci_h->channel, ccci_h->reserved);
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] OP ID = 0x%X", stream->fs_operationID);
+    DBGLOG(FSUT, DBG, "[FSUT][SKB] %d Arguments", *((KAL_UINT32*)stream->buffer));
+}
+
+/*
+         
+                            
+                                                                       
+         
+                                                 
+                                                   
+          
+                                               
+ */
+KAL_INT32 eemcs_fs_ut_UL_write_skb_to_swq(CCCI_CHANNEL_T chn, struct sk_buff *skb)
+{
+    FS_STREAMBUFFER *stream = NULL;
+    CCCI_BUFF_T *p_buff = NULL;
+    KAL_INT32 port_index = 0;
+    void *p_ccci_fs_buff;
+    void *copy_src = NULL;
+    void *copy_dst = NULL;
+    KAL_UINT32 copy_size = 0;
+    char src_file[NAME_MAX] = {0};
+    char dst_file[NAME_MAX] = {0};
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+
+    KAL_ASSERT(chn == CH_FS_TX);
+    KAL_ASSERT(skb != NULL);
+    dump_fs_stream_header((void *)skb->data);
+
+    stream = (FS_STREAMBUFFER *)skb->data;
+    p_buff = &stream->ccci_header;
+    port_index = p_buff->reserved;
+    dump_fsd_skb_data((void*)stream);
+
+    p_ccci_fs_buff = (void*)(&g_eemcs_fs_ut.FS_REQ_BUF[port_index]);
+    /*                                         
+      
+                                             
+                                                                                  
+                                                                            
+      
+                                              */
+    sprintf(src_file, "%s/fs_ut_ap2md_src_%03d.dat", FS_UT_TEST_FILE_DIR, ap2md_cmd_cnt);
+    sprintf(dst_file, "%s/fs_ut_ap2md_dst_%03d.dat", FS_UT_TEST_FILE_DIR, ap2md_cmd_cnt++);
+    if (!CCCI_FS_PEER_REQ_SEND_AGAIN(p_buff)) {
+        if (g_eemcs_fs_ut.ccci_fs_buff_state[port_index] == CCCI_FS_BUFF_IDLE) {
+            /*                                  */
+            copy_src = p_buff;
+            copy_dst = p_ccci_fs_buff;
+            copy_size = p_buff->data[1];
+            DBGLOG(FSUT, DBG, "[FSUT][1] Port %d copy %d bytes from 0x%p to 0x%p",
+                port_index, copy_size, copy_src, copy_dst);
+            memcpy(copy_dst, copy_src, copy_size);
+            dump_data_to_file(src_file, copy_src, copy_size);
+            dump_data_to_file(dst_file, copy_dst, copy_size);
+        } else if (g_eemcs_fs_ut.ccci_fs_buff_state[port_index] == CCCI_FS_BUFF_WAIT) {
+            /*                                                         */
+            copy_src = stream->buffer;
+            copy_dst = p_ccci_fs_buff + g_eemcs_fs_ut.ccci_fs_buff_offset[port_index];
+            copy_size = p_buff->data[1] - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32);
+            DBGLOG(FSUT, DBG, "[FSUT][2] Port %d copy %d bytes from 0x%p to 0x%p (offset %d from 0x%p)",
+                port_index, copy_size, copy_src, copy_dst,
+                g_eemcs_fs_ut.ccci_fs_buff_offset[port_index], p_ccci_fs_buff);
+            memcpy(copy_dst, copy_src, copy_size);
+            dump_data_to_file(src_file, copy_src, copy_size);
+            dump_data_to_file(dst_file, copy_dst, copy_size);
+            /*                         */
+            copy_src = p_buff;
+            copy_dst = p_ccci_fs_buff;
+            copy_size = sizeof(CCCI_BUFF_T);
+            DBGLOG(FSUT, DBG, "[FSUT][3] Port %d copy %d bytes from 0x%p to 0x%p",
+                port_index, copy_size, copy_src, copy_dst);
+            memcpy(copy_dst, copy_src, copy_size);
+            sprintf(src_file, "%s/fs_ut_ap2md_src_%03d.dat", FS_UT_TEST_FILE_DIR, ap2md_cmd_cnt);
+            sprintf(dst_file, "%s/fs_ut_ap2md_dst_%03d.dat", FS_UT_TEST_FILE_DIR, ap2md_cmd_cnt++);
+            dump_data_to_file(src_file, copy_src, copy_size);
+            dump_data_to_file(dst_file, copy_dst, copy_size);
+        } else {
+            /*                                  */
+            KAL_ASSERT(0);
+        }
+        g_eemcs_fs_ut.ccci_fs_buff_state[port_index] = CCCI_FS_BUFF_IDLE;
+        g_eemcs_fs_ut.ccci_fs_buff_offset[port_index] = 0;
+    } else {
+        if (g_eemcs_fs_ut.ccci_fs_buff_state[port_index] == CCCI_FS_BUFF_IDLE) {
+            /*                                                */    
+            copy_src = p_buff;
+            copy_dst = p_ccci_fs_buff;
+            copy_size = p_buff->data[1];
+            DBGLOG(FSUT, DBG, "[FSUT][4] Port %d copy %d bytes from 0x%p to 0x%p",
+                port_index, copy_size, copy_src, copy_dst);
+            memcpy(copy_dst, copy_src, copy_size);
+            g_eemcs_fs_ut.ccci_fs_buff_offset[port_index] += copy_size;
+            dump_data_to_file(src_file, copy_src, copy_size);
+            dump_data_to_file(dst_file, copy_dst, copy_size);
+        } else if (g_eemcs_fs_ut.ccci_fs_buff_state[port_index] == CCCI_FS_BUFF_WAIT) {
+            /*                                                   */
+            copy_src = (void*)&stream->buffer[0];
+            copy_dst = p_ccci_fs_buff + g_eemcs_fs_ut.ccci_fs_buff_offset[port_index];
+            copy_size = p_buff->data[1] - sizeof(CCCI_BUFF_T) - sizeof(KAL_UINT32);
+            DBGLOG(FSUT, DBG, "[FSUT][5] Port %d copy %d bytes from 0x%p to 0x%p (offset %d from 0x%p)",
+                port_index, copy_size, copy_src, copy_dst,
+                g_eemcs_fs_ut.ccci_fs_buff_offset[port_index], p_ccci_fs_buff);
+            memcpy(copy_dst, copy_src, copy_size);
+            g_eemcs_fs_ut.ccci_fs_buff_offset[port_index] += copy_size;
+            dump_data_to_file(src_file, copy_src, copy_size);
+            dump_data_to_file(dst_file, copy_dst, copy_size);
+        } else {
+            /*                                  */
+            KAL_ASSERT(0);
+        }
+        g_eemcs_fs_ut.ccci_fs_buff_state[port_index] = CCCI_FS_BUFF_WAIT;
+    }
+
+    if (g_eemcs_fs_ut.ccci_fs_buff_state[port_index] == CCCI_FS_BUFF_IDLE) {
+        DBGLOG(FSUT, DBG, "[FSUT] Port %d packet is receiving done ...", port_index);
+        dump_fs_stream_header(p_ccci_fs_buff);
+        //                                      
+        ccci_fs_get_buff(port_index, g_ccci_fs_paras.op_id, g_ccci_fs_paras.pLV_out, &g_ccci_fs_paras.LV_out_para_cnt);
+        //                                      
+        eemcs_fs_ut_ul_handler();
+    } else {
+        DBGLOG(FSUT, DBG, "[FSUT] Port %d is still waiting ...", port_index);
+    }
+    
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+}
+
+/*
+                                                                
+         
+           
+          
+                                                         
+                                                
+ */
+KAL_INT32 eemcs_fs_ut_send_cmd(void)
+{
+    EEMCS_FS_TEST_CASE *test_case = NULL;
+    char csSrc[NAME_MAX] = {0};
+    char csDst[NAME_MAX] = {0};
+    wchar_t wcsSrc[NAME_MAX] = {0};
+    wchar_t wcsDst[NAME_MAX] = {0};
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+_repeat:
+    /*                         */
+    if (g_eemcs_fs_ut.test_case_idx >= EEMCS_FS_TEST_CASE_CNT) {
+        /*                     */
+        if (g_eemcs_fs_ut.ftest_idx >= EEMCS_FS_TEST_FILE_CNT - 1) {
+            /*                      */            
+            if (g_eemcs_fs_ut.drive_idx >= EEMCS_FS_TEST_DRV_CNT - 1) {
+                DBGLOG(FSUT, TRA, "[FSUT] ++++++++++ FS UT DONE !!! ++++++++++");
+                goto _ok;
+            } else {
+            /*                 */
+                g_eemcs_fs_ut.test_case_idx = 0;
+                g_eemcs_fs_ut.ftest_idx = 0;
+                g_eemcs_fs_ut.drive_idx++;
+                DBGLOG(FSUT, TRA, "[FSUT] Test next drive (%s)",
+                    g_test_drive[g_eemcs_fs_ut.drive_idx].drive);
+            }
+        } else {
+        /*                */
+            g_eemcs_fs_ut.test_case_idx = 0;
+            g_eemcs_fs_ut.ftest_idx++;
+            DBGLOG(FSUT, TRA, "[FSUT] Test next file (%s\\%s)",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+        }
+    }
+
+    test_case = &g_test_case[g_eemcs_fs_ut.test_case_idx];
+    switch (test_case->op_id) {
+        case FS_CCCI_OP_REPEAT_START:
+        {
+            g_eemcs_fs_ut.test_case_idx++;
+            goto _repeat;
+            break;
+        }
+        case FS_CCCI_OP_REPEAT_END:
+        {
+            if (g_eemcs_fs_ut.ftest_idx < EEMCS_FS_TEST_FILE_CNT - 1) {
+                g_eemcs_fs_ut.test_case_idx = g_eemcs_fs_ut.loop_start;
+                g_eemcs_fs_ut.ftest_idx++;
+                DBGLOG(FSUT, DBG, "[FSUT] Repeat to test next file ...");
+                goto _repeat;
+            } else {
+                g_eemcs_fs_ut.test_case_idx++;
+                goto _repeat;
+            }
+        }
+        case FS_CCCI_OP_GETDRIVE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_GETDRIVE");
+            eemcs_fs_ut_getdrive(g_test_drive[g_eemcs_fs_ut.drive_idx].type,
+                2, FS_DRIVE_V_REMOVABLE | g_test_drive[g_eemcs_fs_ut.drive_idx].type);
+            break;
+        }
+        case FS_CCCI_OP_GETCLUSTERSIZE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_GETCLUSTERSIZE");
+            eemcs_fs_ut_getclustersize(g_test_drive[g_eemcs_fs_ut.drive_idx].drive[0]);
+            break;
+        }
+        case FS_CCCI_OP_CREATEDIR:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_CREATEDIR");
+            sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].drive, g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Create Directory %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_createdir(wcsSrc);
+            break;
+        }
+        case FS_CCCI_OP_REMOVEDIR:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_REMOVEDIR");
+            sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].drive, g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Remove Directory %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_removedir(wcsSrc);
+            break;
+        }
+        case FS_CCCI_OP_OPEN:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_OPEN");
+            sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].drive, g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            DBGLOG(FSUT, TRA, "[FSUT] Test File %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_open(wcsSrc, FS_CREATE);
+            break;
+        }
+        case FS_CCCI_OP_WRITE:
+        {
+            void *data = NULL;
+
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_WRITE");
+            sprintf(csSrc, "%s/%s", FS_UT_TEST_FILE_DIR, g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            data = get_file_data(csSrc, g_test_file[g_eemcs_fs_ut.ftest_idx].size);
+            KAL_ASSERT(data != NULL);
+            eemcs_fs_ut_write(g_eemcs_fs_ut.fhandle, data, g_test_file[g_eemcs_fs_ut.ftest_idx].size, NULL);
+            destroy_file_data(data);
+            break;
+        }
+        case FS_CCCI_OP_GETFILESIZE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_GETFILESIZE");
+            eemcs_fs_ut_get_file_size(g_eemcs_fs_ut.fhandle, NULL);
+            break;
+        }
+        case FS_CCCI_OP_READ:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_READ");
+            eemcs_fs_ut_read(g_eemcs_fs_ut.fhandle, NULL, g_test_file[g_eemcs_fs_ut.ftest_idx].size, NULL);
+            break;
+        }
+        case FS_CCCI_OP_CLOSE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_CLOSE");
+            eemcs_fs_ut_close(g_eemcs_fs_ut.fhandle);
+            break;
+        }
+        case FS_CCCI_OP_MOVE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_MOVE");
+            sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].drive, g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            sprintf(csDst, "%s/%s/%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            DBGLOG(FSUT, TRA, "[FSUT] Move file from %s to %s", csSrc, csDst);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            FS_ConvCsToWcs(csDst, wcsDst, NAME_MAX);
+            eemcs_fs_ut_move(wcsSrc, wcsDst, FS_MOVE_COPY);
+            break;
+        }
+        case FS_CCCI_OP_RENAME:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_RENAME");
+            //                  
+            sprintf(csSrc, "%s/%s", g_test_drive[g_eemcs_fs_ut.drive_idx].drive, g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            sprintf(csDst, "%s/%s%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            DBGLOG(FSUT, TRA, "[FSUT] Rename from %s to %s", csSrc, csDst);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            FS_ConvCsToWcs(csDst, wcsDst, NAME_MAX);
+            eemcs_fs_ut_rename(wcsSrc, wcsDst);
+            break;
+        }
+        case FS_CCCI_OP_DELETE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_DELETE");
+            //                  
+            sprintf(csSrc, "%s/%s%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved,
+                g_test_file[g_eemcs_fs_ut.ftest_idx].name);
+            DBGLOG(FSUT, TRA, "[FSUT] Delete file %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_delete(wcsSrc);
+            break;
+        }
+        case FS_CCCI_OP_GETFOLDERSIZE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_GETFOLDERSIZE");
+            //                    
+            sprintf(csSrc, "%s/%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Get size of folder %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_getfoldersize(wcsSrc, FS_COUNT_IN_CLUSTER);
+            break;
+        }
+        case FS_CCCI_OP_COUNT:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_COUNT");
+            sprintf(csSrc, "%s/%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Get count of folder %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_count(wcsSrc, FS_FILE_TYPE);
+            break;
+        }
+        case FS_CCCI_OP_XDELETE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_XDELETE");
+            sprintf(csSrc, "%s/%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Delete folder %s recursively", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_xdelete(wcsSrc, FS_FILE_TYPE|FS_DIR_TYPE|FS_RECURSIVE_TYPE);
+            break;
+        }
+        case FS_CCCI_OP_FINDFIRST:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_FINDFIRST");
+            sprintf(csSrc, "%s/%s",
+                g_test_drive[g_eemcs_fs_ut.drive_idx].drive,
+                g_test_case[g_eemcs_fs_ut.test_case_idx].reserved);
+            DBGLOG(FSUT, TRA, "[FSUT] Find pattern %s", csSrc);
+            FS_ConvCsToWcs(csSrc, wcsSrc, NAME_MAX);
+            eemcs_fs_ut_findfirst(wcsSrc, 0, 0, NULL, NULL, NAME_MAX);
+            break;
+        }
+        case FS_CCCI_OP_FINDNEXT:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_FINDNEXT");
+            eemcs_fs_ut_findnext(g_eemcs_fs_ut.find_handle, NULL, NULL, NAME_MAX);
+            break;
+        }
+        case FS_CCCI_OP_FINDCLOSE:
+        {
+            DBGLOG(FSUT, TRA, "[FSUT] ====> IN FS_CCCI_OP_FINDCLOSE");
+            eemcs_fs_ut_findclose(g_eemcs_fs_ut.find_handle);
+            break;
+        }
+        default:
+            DBGLOG(FSUT, ERR, "[FSUT] !!!!> Error FS UT Test Case Index %d", g_eemcs_fs_ut.test_case_idx);
+            goto _fail;
+    }
+_ok:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+_fail:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_FAIL;
+}
+
+KAL_INT32 eemcs_fs_ut_init(void)
+{
+#ifdef _EEMCS_FS_UT
+    KAL_UINT32 i = 0;
+    char file_name[NAME_MAX] = {0};
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    memset(&g_eemcs_fs_ut, 0, sizeof(EEMCS_FS_UT_SET));
+    g_eemcs_fs_ut.ut_port_index = FS_UT_PORT_INDEX;
+    /*                          */
+    for (i = 0; i < FS_CCCI_REQ_BUFFER_NUM; i++) {
+        g_eemcs_fs_ut.ccci_fs_buff_offset[i] = 0;
+        g_eemcs_fs_ut.ccci_fs_buff_state[i] = CCCI_FS_BUFF_IDLE;
+    }
+    /*                                                 */
+    for (i = 0; i < EEMCS_FS_TEST_CASE_CNT; i++) {
+        g_test_case[i].index =i;
+        if (g_test_case[i].op_id == FS_CCCI_OP_REPEAT_START)
+            g_eemcs_fs_ut.loop_start = i;
+        if (g_test_case[i].op_id == FS_CCCI_OP_REPEAT_END)
+            g_eemcs_fs_ut.loop_end = i;
+    }
+    /*                           */
+    for (i = 0; i < EEMCS_FS_TEST_FILE_CNT; i++) {
+        sprintf(file_name, "%s/%s", FS_UT_TEST_FILE_DIR, g_test_file[i].name);
+        if (gen_ap_random_file(file_name, g_test_file[i].size) == KAL_FAIL) {
+            eemcs_fs_ut_exit();
+            goto _fail;
+        }
+    }
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+_fail:
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_FAIL;
+#else
+    DEBUG_LOG_FUNCTION_ENTRY;
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+#endif
+}
+
+KAL_INT32 eemcs_fs_ut_exit(void)
+{
+#ifdef _EEMCS_FS_UT
+    int ret = 0;
+    KAL_UINT32 i = 0;
+    char file_name[NAME_MAX] = {0};
+    DEBUG_LOG_FUNCTION_ENTRY;
+
+    for (i = 0; i < EEMCS_FS_TEST_FILE_CNT; i++) {
+        sprintf(file_name, "%s/%s", FS_UT_TEST_FILE_DIR, g_test_file[i].name);
+        ret = remove_file(file_name);
+        if (ret != 0) {
+            DBGLOG(FSUT, ERR, "[FSUT] Failed to remove file %s", file_name);
+        }
+    }
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+#else
+    DEBUG_LOG_FUNCTION_ENTRY;
+    DEBUG_LOG_FUNCTION_LEAVE;
+    return KAL_SUCCESS;
+#endif
+}
+
+
+/*
+                                 
+         
+           
+          
+           
+ */
+void eemcs_fs_ut_trigger(void)
+{
+    KAL_INT32 ut_port_index = 0;
+    KAL_UINT32 loop_start = 0;
+    KAL_UINT32 loop_end = 0;
+
+    /*                      */
+    //                
+    ut_port_index = g_eemcs_fs_ut.ut_port_index;
+    loop_start = g_eemcs_fs_ut.loop_start;
+    loop_end = g_eemcs_fs_ut.loop_end;
+    memset(&g_eemcs_fs_ut, 0, sizeof(EEMCS_FS_UT_SET));
+    g_eemcs_fs_ut.ut_port_index = ut_port_index;
+    g_eemcs_fs_ut.loop_start = loop_start;
+    g_eemcs_fs_ut.loop_end = loop_end;
+    eemcs_fs_ut_reset_args();
+    /*                      */
+    eemcs_fs_ut_send_cmd();
+}
+
+/*
+                                         
+         
+                            
+          
+                                                  
+                          
+ */
+KAL_INT32 eemcs_fs_ut_set_index(KAL_UINT32 index)
+{
+    if (index >=0 && index < 5) {
+        g_eemcs_fs_ut.ut_port_index = index;
+        return KAL_SUCCESS;
+    } else {
+        DBGLOG(FSUT, ERR, "[FSUT] %d is an invalid index !!", index);
+        return KAL_FAIL;
+    }
+}
+
+/*
+                                                 
+         
+           
+          
+                                       
+ */
+KAL_UINT32 eemcs_fs_ut_get_index(void)
+{
+    return g_eemcs_fs_ut.ut_port_index;
+}
+
+/*
+                                         
+         
+           
+          
+           
+ */
+void eemcs_fs_ut_dump(void)
+{
+    printk("[FSUT] g_eemcs_fs_ut.test_case_idx = %d\r\n", g_eemcs_fs_ut.test_case_idx);
+    printk("[FSUT] g_eemcs_fs_ut.ftest_idx = %d\r\n", g_eemcs_fs_ut.ftest_idx);
+    printk("[FSUT] g_eemcs_fs_ut.fs_write_total = %d\r\n", g_eemcs_fs_ut.fs_write_total);
+    printk("[FSUT] g_eemcs_fs_ut.ut_port_index = %d\r\n", g_eemcs_fs_ut.ut_port_index);
+    printk("[FSUT] g_eemcs_fs_ut.loop_start = %d\r\n", g_eemcs_fs_ut.loop_start);
+    printk("[FSUT] g_eemcs_fs_ut.loop_end = %d\r\n", g_eemcs_fs_ut.loop_end);
+}
+#endif //            
