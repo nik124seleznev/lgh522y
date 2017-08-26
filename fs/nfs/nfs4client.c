@@ -311,8 +311,18 @@ int nfs40_walk_client_list(struct nfs_client *new,
 
 	spin_lock(&nn->nfs_client_lock);
 	list_for_each_entry(pos, &nn->nfs_client_list, cl_share_link) {
-		/*                                                
-                               */
+
+		if (pos->rpc_ops != new->rpc_ops)
+			continue;
+
+		if (pos->cl_proto != new->cl_proto)
+			continue;
+
+		if (pos->cl_minorversion != new->cl_minorversion)
+			continue;
+
+ 		/* If "pos" isn't marked ready, we can't trust the
+ 		 * remaining fields in "pos" */
 		if (pos->cl_cons_state > NFS_CS_READY) {
 			atomic_inc(&pos->cl_count);
 			spin_unlock(&nn->nfs_client_lock);
@@ -328,15 +338,6 @@ int nfs40_walk_client_list(struct nfs_client *new,
 			spin_lock(&nn->nfs_client_lock);
 		}
 		if (pos->cl_cons_state != NFS_CS_READY)
-			continue;
-
-		if (pos->rpc_ops != new->rpc_ops)
-			continue;
-
-		if (pos->cl_proto != new->cl_proto)
-			continue;
-
-		if (pos->cl_minorversion != new->cl_minorversion)
 			continue;
 
 		if (pos->cl_clientid != new->cl_clientid)
@@ -444,6 +445,16 @@ int nfs41_walk_client_list(struct nfs_client *new,
 
 	spin_lock(&nn->nfs_client_lock);
 	list_for_each_entry(pos, &nn->nfs_client_list, cl_share_link) {
+
+		if (pos->rpc_ops != new->rpc_ops)
+			continue;
+
+		if (pos->cl_proto != new->cl_proto)
+			continue;
+
+		if (pos->cl_minorversion != new->cl_minorversion)
+			continue;
+
 		/*                                                
                                                      
                                                         
@@ -467,15 +478,6 @@ int nfs41_walk_client_list(struct nfs_client *new,
 			status = -NFS4ERR_STALE_CLIENTID;
 		}
 		if (pos->cl_cons_state != NFS_CS_READY)
-			continue;
-
-		if (pos->rpc_ops != new->rpc_ops)
-			continue;
-
-		if (pos->cl_proto != new->cl_proto)
-			continue;
-
-		if (pos->cl_minorversion != new->cl_minorversion)
 			continue;
 
 		if (!nfs4_match_clientids(pos, new))

@@ -86,6 +86,7 @@
 #define SYN_CAP_ADV_GESTURE(ex0c)	((ex0c) & 0x080000)
 #define SYN_CAP_REDUCED_FILTERING(ex0c)	((ex0c) & 0x000400)
 #define SYN_CAP_IMAGE_SENSOR(ex0c)	((ex0c) & 0x000800)
+#define SYN_CAP_FORCEPAD(ex0c)		((ex0c) & 0x008000)
 
 /*                            */
 #define SYN_MODE_ABSOLUTE(m)		((m) & (1 << 7))
@@ -175,9 +176,14 @@ struct synaptics_data {
                                                                    
                                                                     
   */
-	struct synaptics_hw_state agm;
-	bool agm_pending;			/*                         */
-};
+ 	struct synaptics_hw_state agm;
+ 	bool agm_pending;			/* new AGM packet received */
+
+	/* ForcePad handling */
+	unsigned long				press_start;
+	bool					press;
+	bool					report_press;
+ };
 
 void synaptics_module_init(void);
 int synaptics_detect(struct psmouse *psmouse, bool set_properties);

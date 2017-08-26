@@ -396,6 +396,9 @@ static int init_ring_common(struct intel_ring_buffer *ring)
 		}
 	}
 
+	/* Enforce ordering by reading HEAD register back */
+	I915_READ_HEAD(ring);
+
 	/*                                                                     
                                                                          
                                                                      

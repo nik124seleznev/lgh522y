@@ -28,20 +28,20 @@
 #define TCSETSW		0x5403
 #define TCSETSF		0x5404
 
-#define TCGETA		_IOR('t', 23, struct termio)
-#define TCSETA		_IOW('t', 24, struct termio)
-#define TCSETAW		_IOW('t', 25, struct termio)
-#define TCSETAF		_IOW('t', 28, struct termio)
+#define TCGETA		0x80127417	/* _IOR('t', 23, struct termio) */
+#define TCSETA		0x40127418	/* _IOW('t', 24, struct termio) */
+#define TCSETAW		0x40127419	/* _IOW('t', 25, struct termio) */
+#define TCSETAF		0x4012741C	/* _IOW('t', 28, struct termio) */
 
 #define TCSBRK		_IO('t', 29)
 #define TCXONC		_IO('t', 30)
 #define TCFLSH		_IO('t', 31)
 
-#define TIOCSWINSZ	_IOW('t', 103, struct winsize)
-#define TIOCGWINSZ	_IOR('t', 104, struct winsize)
-#define	TIOCSTART	_IO('t', 110)		/*                       */
-#define	TIOCSTOP	_IO('t', 111)		/*                      */
-#define TIOCOUTQ        _IOR('t', 115, int)     /*                   */
+#define TIOCSWINSZ	0x40087467	/* _IOW('t', 103, struct winsize) */
+#define TIOCGWINSZ	0x80087468	/* _IOR('t', 104, struct winsize) */
+#define	TIOCSTART	_IO('t', 110)		/* start output, like ^Q */
+#define	TIOCSTOP	_IO('t', 111)		/* stop output, like ^S */
+#define TIOCOUTQ        _IOR('t', 115, int)     /* output queue size */
 
 #define TIOCSPGRP	_IOW('t', 118, int)
 #define TIOCGPGRP	_IOR('t', 119, int)
@@ -88,7 +88,6 @@
 #define TIOCSETD	_IOW('T', 35, int)
 #define TIOCGETD	_IOR('T', 36, int)
 #define TCSBRKP		_IOW('T', 37, int)   /*                               */
-#define TIOCTTYGSTRUCT	_IOR('T', 38, struct tty_struct) /*                   */
 #define TIOCSBRK	_IO('T', 39) 	     /* BSD compatibility */
 #define TIOCCBRK	_IO('T', 40)	     /* BSD compatibility */
 #define TIOCGSID	_IOR('T', 41, pid_t) /*                            */
@@ -114,8 +113,10 @@
 #define TIOCSERGETLSR   _IOR('T', 89, unsigned int) /*                      */
   /*                                                                 */
 # define TIOCSER_TEMT    0x01		     /*                              */
-#define TIOCSERGETMULTI _IOR('T', 90, struct serial_multiport_struct) /*                       */
-#define TIOCSERSETMULTI _IOW('T', 91, struct serial_multiport_struct) /*                      */
+#define TIOCSERGETMULTI 0x80a8545a /* Get multiport config  */
+			/* _IOR('T', 90, struct serial_multiport_struct) */
+#define TIOCSERSETMULTI 0x40a8545b /* Set multiport config */
+			/* _IOW('T', 91, struct serial_multiport_struct) */
 
 #define TIOCMIWAIT	_IO('T', 92) /*                                           */
 #define TIOCGICOUNT	0x545D	/*                                          */

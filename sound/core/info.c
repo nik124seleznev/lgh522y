@@ -699,7 +699,7 @@ int snd_info_get_line(struct snd_info_buffer *buffer, char *line, int len)
 			buffer->stop = 1;
 		if (c == '\n')
 			break;
-		if (len) {
+		if (len > 1) {
 			len--;
 			*line++ = c;
 		}

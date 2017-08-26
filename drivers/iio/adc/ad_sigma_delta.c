@@ -476,8 +476,8 @@ static int ad_sd_probe_trigger(struct iio_dev *indio_dev)
 	if (ret)
 		goto error_free_irq;
 
-	/*                        */
-	indio_dev->trig = sigma_delta->trig;
+ 	/* select default trigger */
+	indio_dev->trig = iio_trigger_get(sigma_delta->trig);
 
 	return 0;
 
