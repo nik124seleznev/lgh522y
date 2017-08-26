@@ -30,4 +30,7 @@
               */
 #define USB_QUIRK_DELAY_INIT		0x00000040
 
-#endif /*                      */
+/* device generates spurious wakeup, ignore remote wakeup capability */
+#define USB_QUIRK_IGNORE_REMOTE_WAKEUP	0x00000200
+
+#endif /* __LINUX_USB_QUIRKS_H */

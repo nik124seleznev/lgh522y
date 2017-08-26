@@ -936,7 +936,6 @@ struct proto {
 						struct sk_buff *skb);
 
 	void		(*release_cb)(struct sock *sk);
-	void		(*mtu_reduced)(struct sock *sk);
 
 	/*                                                                     */
 	void			(*hash)(struct sock *sk);

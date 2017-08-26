@@ -122,6 +122,7 @@ static const struct usb_device_id id_table[] = {
 	{ USB_DEVICE(0x10C4, 0x8665) }, /*                    */
 	{ USB_DEVICE(0x10C4, 0x88A4) }, /*                                */
 	{ USB_DEVICE(0x10C4, 0x88A5) }, /*                                            */
+	{ USB_DEVICE(0x10C4, 0x8946) }, /* Ketra N1 Wireless Interface */
 	{ USB_DEVICE(0x10C4, 0xEA60) }, /*                              */
 	{ USB_DEVICE(0x10C4, 0xEA61) }, /*                              */
 	{ USB_DEVICE(0x10C4, 0xEA70) }, /*                              */
@@ -155,6 +156,7 @@ static const struct usb_device_id id_table[] = {
 	{ USB_DEVICE(0x1ADB, 0x0001) }, /*                                   */
 	{ USB_DEVICE(0x1B1C, 0x1C00) }, /*                    */
 	{ USB_DEVICE(0x1BE3, 0x07A6) }, /*                                */
+	{ USB_DEVICE(0x1D6F, 0x0010) }, /* Seluxit ApS RF Dongle */
 	{ USB_DEVICE(0x1E29, 0x0102) }, /*               */
 	{ USB_DEVICE(0x1E29, 0x0501) }, /*            */
 	{ USB_DEVICE(0x1FB9, 0x0100) }, /*                                     */

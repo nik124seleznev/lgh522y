@@ -118,7 +118,7 @@ typedef enum {
                                                                   
                                                                
  */
-#define SCTP_MAX_NUM_COMMANDS 14
+#define SCTP_MAX_NUM_COMMANDS 20
 
 typedef union {
 	__s32 i32;
