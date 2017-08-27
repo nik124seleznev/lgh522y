@@ -1293,7 +1293,8 @@ int core_dev_add_initiator_node_lun_acl(
                                                                        
                                                                 
   */
-	core_scsi3_check_aptpl_registration(lun->lun_se_dev, tpg, lun, lacl);
+	core_scsi3_check_aptpl_registration(lun->lun_se_dev, tpg, lun, nacl,
+					    lacl->mapped_lun);
 	return 0;
 }
 

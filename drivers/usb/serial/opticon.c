@@ -217,9 +217,9 @@ static int opticon_write(struct tty_struct *tty, struct usb_serial_port *port,
 
 	usb_serial_debug_data(&port->dev, __func__, count, buffer);
 
-	/*                                                          
-                                                                       */
-	dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_NOIO);
+ 	/* The conncected devices do not have a bulk write endpoint,
+ 	 * to transmit data to de barcode device the control endpoint is used */
+	dr = kmalloc(sizeof(struct usb_ctrlrequest), GFP_ATOMIC);
 	if (!dr) {
 		dev_err(&port->dev, "out of memory\n");
 		count = -ENOMEM;

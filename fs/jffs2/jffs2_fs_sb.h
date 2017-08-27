@@ -131,14 +131,12 @@ struct jffs2_sb_info {
 	uint32_t wbuf_ofs;
 	uint32_t wbuf_len;
 	struct jffs2_inodirty *wbuf_inodes;
-	struct rw_semaphore wbuf_sem;	/*                           */
-
-	struct delayed_work wbuf_dwork; /*                             */
-	int wbuf_queued;                /*                                 */
-	spinlock_t wbuf_dwork_lock;     /*                                         */
+ 	struct rw_semaphore wbuf_sem;	/* Protects the write buffer */
+ 
+ 	struct delayed_work wbuf_dwork; /* write-buffer write-out work */
 
 	unsigned char *oobbuf;
-	int oobavail; /*                                               */
+ 	int oobavail; /* How many bytes are available for JFFS2 in OOB */
 #endif
 
 	struct jffs2_summary *summary;		/*                     */

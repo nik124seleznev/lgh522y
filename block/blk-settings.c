@@ -552,8 +552,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
 			+ t->alignment_offset;
 		bottom = max(b->physical_block_size, b->io_min) + alignment;
 
-		/*                                              */
-		if (max(top, bottom) & (min(top, bottom) - 1)) {
+ 		/* Verify that top and bottom intervals line up */
+		if (max(top, bottom) % min(top, bottom)) {
 			t->misaligned = 1;
 			ret = -1;
 		}
@@ -592,11 +592,11 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
 		ret = -1;
 	}
 
-	/*                                     */
+ 	/* Find lowest common alignment_offset */
 	t->alignment_offset = lcm(t->alignment_offset, alignment)
-		& (max(t->physical_block_size, t->io_min) - 1);
+		% max(t->physical_block_size, t->io_min);
 
-	/*                                                                 */
+ 	/* Verify that new alignment_offset is on a logical block boundary */
 	if (t->alignment_offset & (t->logical_block_size - 1)) {
 		t->misaligned = 1;
 		ret = -1;

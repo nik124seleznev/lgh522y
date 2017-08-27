@@ -1088,12 +1088,13 @@ static struct usb_device_id rt2800usb_device_table[] = {
 	{ USB_DEVICE(0x0db0, 0x871b) },
 	{ USB_DEVICE(0x0db0, 0x871c) },
 	{ USB_DEVICE(0x0db0, 0x899a) },
-	/*          */
-	{ USB_DEVICE(0x1b75, 0x3071) },
-	{ USB_DEVICE(0x1b75, 0x3072) },
-	/*      */
-	{ USB_DEVICE(0x20b8, 0x8888) },
-	/*          */
+ 	/* Ovislink */
+ 	{ USB_DEVICE(0x1b75, 0x3071) },
+ 	{ USB_DEVICE(0x1b75, 0x3072) },
+	{ USB_DEVICE(0x1b75, 0xa200) },
+ 	/* Para */
+ 	{ USB_DEVICE(0x20b8, 0x8888) },
+ 	/* Pegatron */
 	{ USB_DEVICE(0x1d4d, 0x0002) },
 	{ USB_DEVICE(0x1d4d, 0x000c) },
 	{ USB_DEVICE(0x1d4d, 0x000e) },

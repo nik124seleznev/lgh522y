@@ -571,7 +571,7 @@ static int netlink_mmap_sendmsg(struct sock *sk, struct msghdr *msg,
                                                                    
                                                       
   */
-	if (atomic_long_read(&sk->sk_socket->file->f_count) > 2 ||
+	if (atomic_long_read(&sk->sk_socket->file->f_count) > 1 ||
 	    atomic_read(&nlk->mapped) > 1)
 		excl = false;
 

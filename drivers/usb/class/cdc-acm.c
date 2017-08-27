@@ -1193,11 +1193,12 @@ static void acm_tty_set_termios(struct tty_struct *tty,
 	/*                                                       */
 	acm->clocal = ((termios->c_cflag & CLOCAL) != 0);
 
-	if (!newline.dwDTERate) {
+	if (C_BAUD(tty) == B0) {
 		newline.dwDTERate = acm->line.dwDTERate;
 		newctrl &= ~ACM_CTRL_DTR;
-	} else
+	} else if (termios_old && (termios_old->c_cflag & CBAUD) == B0) {
 		newctrl |=  ACM_CTRL_DTR;
+	}
 
 	if (newctrl != acm->ctrlout)
 		acm_set_control(acm, acm->ctrlout = newctrl);
@@ -1914,12 +1915,13 @@ static const struct usb_device_id acm_ids[] = {
 	{ USB_DEVICE(0x0572, 0x1324), /*                              */
 	.driver_info = NO_UNION_NORMAL, /*                         */
 	},
-	{ USB_DEVICE(0x0572, 0x1328), /*                                  */
-	.driver_info = NO_UNION_NORMAL, /*                         */
-	},
-	{ USB_DEVICE(0x22b8, 0x6425), /*                          */
-	},
-	/*                           */
+ 	{ USB_DEVICE(0x0572, 0x1328), /* Shiro / Aztech USB MODEM UM-3100 */
+ 	.driver_info = NO_UNION_NORMAL, /* has no union descriptor */
+ 	},
+	{ USB_DEVICE(0x2184, 0x001c) },	/* GW Instek AFG-2225 */
+ 	{ USB_DEVICE(0x22b8, 0x6425), /* Motorola MOTOMAGX phones */
+ 	},
+ 	/* Motorola H24 HSPA module: */
 	{ USB_DEVICE(0x22b8, 0x2d91) }, /*                                      */
 	{ USB_DEVICE(0x22b8, 0x2d92),   /*                                      */
 	.driver_info = NO_UNION_NORMAL, /*                                      */

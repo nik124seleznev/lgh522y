@@ -6,7 +6,7 @@
               
  */
 #define X86_EFLAGS_CF	0x00000001 /*            */
-#define X86_EFLAGS_BIT1	0x00000002 /*                   */
+#define X86_EFLAGS_FIXED 0x00000002 /* Bit 1 - always on */
 #define X86_EFLAGS_PF	0x00000004 /*             */
 #define X86_EFLAGS_AF	0x00000010 /*                      */
 #define X86_EFLAGS_ZF	0x00000040 /*           */
