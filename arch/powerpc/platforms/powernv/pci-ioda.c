@@ -789,7 +789,6 @@ static int pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
 				  unsigned int is_64, struct msi_msg *msg)
 {
 	struct pnv_ioda_pe *pe = pnv_ioda_get_pe(dev);
-	struct pci_dn *pdn = pci_get_pdn(dev);
 	struct irq_data *idata;
 	struct irq_chip *ichip;
 	unsigned int xive_num = hwirq - phb->msi_base;
@@ -805,11 +804,11 @@ static int pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
 	if (pe->mve_number < 0)
 		return -ENXIO;
 
-	/*                                         */
-	if (pdn && pdn->force_32bit_msi)
+	/* Force 32-bit MSI on some broken devices */
+	if (dev->no_64bit_msi)
 		is_64 = 0;
 
-	/*                   */
+	/* Assign XIVE to PE */
 	rc = opal_pci_set_xive_pe(phb->opal_id, pe->pe_number, xive_num);
 	if (rc) {
 		pr_warn("%s: OPAL error %d setting XIVE %d PE\n",
