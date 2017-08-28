@@ -418,8 +418,10 @@ static void	usa26_instat_callback(struct urb *urb)
 	}
 	port = serial->port[msg->port];
 	p_priv = usb_get_serial_port_data(port);
+	if (!p_priv)
+		goto resubmit;
 
-	/*                                          */
+	/* Update handshaking pin state information */
 	old_dcd_state = p_priv->dcd_state;
 	p_priv->cts_state = ((msg->hskia_cts) ? 1 : 0);
 	p_priv->dsr_state = ((msg->dsr) ? 1 : 0);
@@ -428,8 +430,8 @@ static void	usa26_instat_callback(struct urb *urb)
 
 	if (old_dcd_state != p_priv->dcd_state)
 		tty_port_tty_hangup(&port->port, true);
-
-	/*                                       */
+resubmit:
+	/* Resubmit urb so we continue receiving */
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err != 0)
 		dev_dbg(&port->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
@@ -543,8 +545,10 @@ static void	usa28_instat_callback(struct urb *urb)
 	}
 	port = serial->port[msg->port];
 	p_priv = usb_get_serial_port_data(port);
+	if (!p_priv)
+		goto resubmit;
 
-	/*                                          */
+	/* Update handshaking pin state information */
 	old_dcd_state = p_priv->dcd_state;
 	p_priv->cts_state = ((msg->cts) ? 1 : 0);
 	p_priv->dsr_state = ((msg->dsr) ? 1 : 0);
@@ -553,8 +557,8 @@ static void	usa28_instat_callback(struct urb *urb)
 
 	if (old_dcd_state != p_priv->dcd_state && old_dcd_state)
 		tty_port_tty_hangup(&port->port, true);
-
-		/*                                       */
+resubmit:
+		/* Resubmit urb so we continue receiving */
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err != 0)
 		dev_dbg(&port->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
@@ -630,8 +634,10 @@ static void	usa49_instat_callback(struct urb *urb)
 	}
 	port = serial->port[msg->portNumber];
 	p_priv = usb_get_serial_port_data(port);
+	if (!p_priv)
+		goto resubmit;
 
-	/*                                          */
+	/* Update handshaking pin state information */
 	old_dcd_state = p_priv->dcd_state;
 	p_priv->cts_state = ((msg->cts) ? 1 : 0);
 	p_priv->dsr_state = ((msg->dsr) ? 1 : 0);
@@ -640,8 +646,8 @@ static void	usa49_instat_callback(struct urb *urb)
 
 	if (old_dcd_state != p_priv->dcd_state && old_dcd_state)
 		tty_port_tty_hangup(&port->port, true);
-
-	/*                                       */
+resubmit:
+	/* Resubmit urb so we continue receiving */
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err != 0)
 		dev_dbg(&port->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
@@ -878,8 +884,10 @@ static void	usa90_instat_callback(struct urb *urb)
 
 	port = serial->port[0];
 	p_priv = usb_get_serial_port_data(port);
+	if (!p_priv)
+		goto resubmit;
 
-	/*                                          */
+	/* Update handshaking pin state information */
 	old_dcd_state = p_priv->dcd_state;
 	p_priv->cts_state = ((msg->cts) ? 1 : 0);
 	p_priv->dsr_state = ((msg->dsr) ? 1 : 0);
@@ -888,8 +896,8 @@ static void	usa90_instat_callback(struct urb *urb)
 
 	if (old_dcd_state != p_priv->dcd_state && old_dcd_state)
 		tty_port_tty_hangup(&port->port, true);
-
-	/*                                       */
+resubmit:
+	/* Resubmit urb so we continue receiving */
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err != 0)
 		dev_dbg(&port->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);
@@ -949,16 +957,18 @@ static void	usa67_instat_callback(struct urb *urb)
 
 	port = serial->port[msg->port];
 	p_priv = usb_get_serial_port_data(port);
+	if (!p_priv)
+		goto resubmit;
 
-	/*                                          */
+	/* Update handshaking pin state information */
 	old_dcd_state = p_priv->dcd_state;
 	p_priv->cts_state = ((msg->hskia_cts) ? 1 : 0);
 	p_priv->dcd_state = ((msg->gpia_dcd) ? 1 : 0);
 
 	if (old_dcd_state != p_priv->dcd_state && old_dcd_state)
 		tty_port_tty_hangup(&port->port, true);
-
-	/*                                       */
+resubmit:
+	/* Resubmit urb so we continue receiving */
 	err = usb_submit_urb(urb, GFP_ATOMIC);
 	if (err != 0)
 		dev_dbg(&port->dev, "%s - resubmit read urb failed. (%d)\n", __func__, err);

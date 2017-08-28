@@ -470,7 +470,8 @@ static void quirk_usb_handoff_ohci(struct pci_dev *pdev)
 {
 	void __iomem *base;
 	u32 control;
-	u32 fminterval;
+	u32 fminterval = 0;
+	bool no_fminterval = false;
 	int cnt;
 
 	if (!mmio_resource_enabled(pdev, 0))
@@ -480,9 +481,16 @@ static void quirk_usb_handoff_ohci(struct pci_dev *pdev)
 	if (base == NULL)
 		return;
 
+	/*
+	 * ULi M5237 OHCI controller locks the whole system when accessing
+	 * the OHCI_FMINTERVAL offset.
+	 */
+	if (pdev->vendor == PCI_VENDOR_ID_AL && pdev->device == 0x5237)
+		no_fminterval = true;
+
 	control = readl(base + OHCI_CONTROL);
 
-/*                                                                */
+/* On PA-RISC, PDC can leave IR set incorrectly; ignore it there. */
 #ifdef __hppa__
 #define	OHCI_CTRL_MASK		(OHCI_CTRL_RWC | OHCI_CTRL_IR)
 #else
@@ -517,19 +525,23 @@ static void quirk_usb_handoff_ohci(struct pci_dev *pdev)
 		msleep(50);
 	}
 
-	/*                                                           */
-	fminterval = readl(base + OHCI_FMINTERVAL);
+	/* software reset of the controller, preserving HcFmInterval */
+	if (!no_fminterval)
+		fminterval = readl(base + OHCI_FMINTERVAL);
+
 	writel(OHCI_HCR, base + OHCI_CMDSTATUS);
 
-	/*                                */
+	/* reset requires max 10 us delay */
 	for (cnt = 30; cnt > 0; --cnt) {	/*                      */
 		if ((readl(base + OHCI_CMDSTATUS) & OHCI_HCR) == 0)
 			break;
 		udelay(1);
 	}
-	writel(fminterval, base + OHCI_FMINTERVAL);
 
-	/*                                                                    */
+	if (!no_fminterval)
+		writel(fminterval, base + OHCI_FMINTERVAL);
+
+	/* Now the controller is safely in SUSPEND and nothing can wake it up */
 	iounmap(base);
 }
 
