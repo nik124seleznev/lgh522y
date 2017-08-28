@@ -412,13 +412,13 @@ int sctp_packet_transmit(struct sctp_packet *packet)
 	chunk = list_entry(packet->chunk_list.next, struct sctp_chunk, list);
 	sk = chunk->skb->sk;
 
-	/*                        */
-	nskb = alloc_skb(packet->size + LL_MAX_HEADER, GFP_ATOMIC);
+	/* Allocate the new skb.  */
+	nskb = alloc_skb(packet->size + MAX_HEADER, GFP_ATOMIC);
 	if (!nskb)
 		goto nomem;
 
-	/*                                                             */
-	skb_reserve(nskb, packet->overhead + LL_MAX_HEADER);
+	/* Make sure the outbound skb has enough header room reserved. */
+	skb_reserve(nskb, packet->overhead + MAX_HEADER);
 
 	/*                                                       
                            
