@@ -36,23 +36,16 @@ struct shmid64_ds {
 	unsigned int		__unused2;
 };
 
-#ifdef CONFIG_64BIT
-/*                                                                    
-                                                                     
-                                                                           
-                                                         
- */
-#endif
 struct shminfo64 {
-	unsigned int	shmmax;
-	unsigned int	shmmin;
-	unsigned int	shmmni;
-	unsigned int	shmseg;
-	unsigned int	shmall;
-	unsigned int	__unused1;
-	unsigned int	__unused2;
-	unsigned int	__unused3;
-	unsigned int	__unused4;
+	unsigned long	shmmax;
+	unsigned long	shmmin;
+	unsigned long	shmmni;
+	unsigned long	shmseg;
+	unsigned long	shmall;
+	unsigned long	__unused1;
+	unsigned long	__unused2;
+	unsigned long	__unused3;
+	unsigned long	__unused4;
 };
 
-#endif /*                  */
+#endif /* _PARISC_SHMBUF_H */

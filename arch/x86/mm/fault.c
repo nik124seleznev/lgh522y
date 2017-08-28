@@ -842,31 +842,23 @@ do_sigbus(struct pt_regs *regs, unsigned long error_code, unsigned long address,
 	force_sig_info_fault(SIGBUS, code, address, tsk, fault);
 }
 
-static noinline int
+static noinline void
 mm_fault_error(struct pt_regs *regs, unsigned long error_code,
 	       unsigned long address, unsigned int fault)
 {
-	/*
-                                                              
-                       
-  */
-	if (fatal_signal_pending(current)) {
-		if (!(fault & VM_FAULT_RETRY))
-			up_read(&current->mm->mmap_sem);
-		if (!(error_code & PF_USER))
-			no_context(regs, error_code, address, 0, 0);
-		return 1;
+	if (fatal_signal_pending(current) && !(error_code & PF_USER)) {
+		up_read(&current->mm->mmap_sem);
+		no_context(regs, error_code, address, 0, 0);
+		return;
 	}
-	if (!(fault & VM_FAULT_ERROR))
-		return 0;
 
 	if (fault & VM_FAULT_OOM) {
-		/*                                        */
+		/* Kernel mode? Handle exceptions or die: */
 		if (!(error_code & PF_USER)) {
 			up_read(&current->mm->mmap_sem);
 			no_context(regs, error_code, address,
 				   SIGSEGV, SEGV_MAPERR);
-			return 1;
+			return;
 		}
 
 		up_read(&current->mm->mmap_sem);
@@ -884,7 +876,6 @@ mm_fault_error(struct pt_regs *regs, unsigned long error_code,
 		else
 			BUG();
 	}
-	return 1;
 }
 
 static int spurious_fault_check(unsigned long error_code, pte_t *pte)
@@ -1017,9 +1008,7 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code)
 	unsigned long address;
 	struct mm_struct *mm;
 	int fault;
-	int write = error_code & PF_WRITE;
-	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE |
-					(write ? FAULT_FLAG_WRITE : 0);
+	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
 
 	tsk = current;
 	mm = tsk->mm;
@@ -1089,6 +1078,7 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code)
 	if (user_mode_vm(regs)) {
 		local_irq_enable();
 		error_code |= PF_USER;
+		flags |= FAULT_FLAG_USER;
 	} else {
 		if (regs->flags & X86_EFLAGS_IF)
 			local_irq_enable();
@@ -1105,30 +1095,33 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code)
 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 
 	/*
-                                                                 
-                                                        
-  */
+	 * If we're in an interrupt, have no user context or are running
+	 * in an atomic region then we must not take the fault:
+	 */
 	if (unlikely(in_atomic() || !mm)) {
 		bad_area_nosemaphore(regs, error_code, address);
 		return;
 	}
 
+	if (error_code & PF_WRITE)
+		flags |= FAULT_FLAG_WRITE;
+
 	/*
-                                                                
-                                                                  
-                                                                  
-                                                                     
-                                                                    
-                                                               
-                                                                    
-                                   
-   
-                                                                     
-                                                               
-                                                                     
-                                                                   
-                                            
-  */
+	 * When running in the kernel we expect faults to occur only to
+	 * addresses in user space.  All other faults represent errors in
+	 * the kernel and should generate an OOPS.  Unfortunately, in the
+	 * case of an erroneous fault occurring in a code path which already
+	 * holds mmap_sem we will deadlock attempting to validate the fault
+	 * against the address space.  Luckily the kernel only validly
+	 * references user space from well defined areas of code, which are
+	 * listed in the exceptions table.
+	 *
+	 * As the vast majority of faults will be valid we will only perform
+	 * the source reference check when there is a possibility of a
+	 * deadlock. Attempt to lock the address space, if we cannot we then
+	 * validate the source. If this is invalid we can skip the address
+	 * space check, thus avoiding the deadlock:
+	 */
 	if (unlikely(!down_read_trylock(&mm->mmap_sem))) {
 		if ((error_code & PF_USER) == 0 &&
 		    !search_exception_tables(regs->ip)) {
@@ -1191,9 +1184,17 @@ good_area:
   */
 	fault = handle_mm_fault(mm, vma, address, flags);
 
-	if (unlikely(fault & (VM_FAULT_RETRY|VM_FAULT_ERROR))) {
-		if (mm_fault_error(regs, error_code, address, fault))
-			return;
+	/*
+	 * If we need to retry but a fatal signal is pending, handle the
+	 * signal first. We do not need to release the mmap_sem because it
+	 * would already be released in __lock_page_or_retry in mm/filemap.c.
+	 */
+	if (unlikely((fault & VM_FAULT_RETRY) && fatal_signal_pending(current)))
+		return;
+
+	if (unlikely(fault & VM_FAULT_ERROR)) {
+		mm_fault_error(regs, error_code, address, fault);
+		return;
 	}
 
 	/*

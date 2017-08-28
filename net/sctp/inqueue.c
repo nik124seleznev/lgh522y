@@ -145,20 +145,12 @@ struct sctp_chunk *sctp_inq_pop(struct sctp_inq *queue)
 			sctp_chunk_free(chunk);
 			chunk = queue->in_progress = NULL;
 		} else {
-			/*                                                  */
+			/* Nothing to do. Next chunk in the packet, please. */
 			ch = (sctp_chunkhdr_t *) chunk->chunk_end;
 
-			/*                                              */
-			skb_pull(chunk->skb,
-				 chunk->chunk_end - chunk->skb->data);
-
-			/*                                           
-                           
-    */
-			if (skb_headlen(chunk->skb) < sizeof(sctp_chunkhdr_t)) {
-				sctp_chunk_free(chunk);
-				chunk = queue->in_progress = NULL;
-			}
+			/* Force chunk->skb->data to chunk->chunk_end.  */
+			skb_pull(chunk->skb, chunk->chunk_end - chunk->skb->data);
+			/* We are guaranteed to pull a SCTP header. */
 		}
 	}
 
@@ -192,26 +184,16 @@ struct sctp_chunk *sctp_inq_pop(struct sctp_inq *queue)
 			chunk->chunk_end = skb_tail_pointer(chunk->skb);
 	}
 	skb_pull(chunk->skb, sizeof(sctp_chunkhdr_t));
-	chunk->subh.v = NULL; /*                                */
+	chunk->subh.v = NULL; /* Subheader is no longer valid.  */
 
-	if (chunk->chunk_end < skb_tail_pointer(chunk->skb)) {
-		/*                         */
+	if (chunk->chunk_end + sizeof(sctp_chunkhdr_t) <
+	    skb_tail_pointer(chunk->skb)) {
+		/* This is not a singleton */
 		chunk->singleton = 0;
 	} else if (chunk->chunk_end > skb_tail_pointer(chunk->skb)) {
-		/*                                 
-    
-                                                         
-                                                          
-               
-    
-                                                             
-                                                            
-                      
-   */
-		sctp_chunk_free(chunk);
-		chunk = queue->in_progress = NULL;
-
-		return NULL;
+		/* Discard inside state machine. */
+		chunk->pdiscard = 1;
+		chunk->chunk_end = skb_tail_pointer(chunk->skb);
 	} else {
 		/*                                                   
                                     

@@ -223,9 +223,6 @@ int __kprobes do_page_fault(struct pt_regs *regs, unsigned long address,
 	is_write = error_code & ESR_DST;
 #endif /*                            */
 
-	if (is_write)
-		flags |= FAULT_FLAG_WRITE;
-
 #ifdef CONFIG_PPC_ICSWX
 	/*
                                                        
@@ -279,6 +276,9 @@ int __kprobes do_page_fault(struct pt_regs *regs, unsigned long address,
 	}
 
 	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+
+	if (user_mode(regs))
+		flags |= FAULT_FLAG_USER;
 
 	/*                                                             
                                                                       
@@ -408,9 +408,10 @@ good_area:
 	} else if (is_write) {
 		if (!(vma->vm_flags & VM_WRITE))
 			goto bad_area;
-	/*        */
+		flags |= FAULT_FLAG_WRITE;
+	/* a read */
 	} else {
-		/*                  */
+		/* protection fault */
 		if (error_code & 0x08000000)
 			goto bad_area;
 		if (!(vma->vm_flags & (VM_READ | VM_EXEC | VM_WRITE)))

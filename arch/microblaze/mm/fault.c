@@ -92,8 +92,7 @@ void do_page_fault(struct pt_regs *regs, unsigned long address,
 	int code = SEGV_MAPERR;
 	int is_write = error_code & ESR_S;
 	int fault;
-	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE |
-					 (is_write ? FAULT_FLAG_WRITE : 0);
+	unsigned int flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
 
 	regs->ear = address;
 	regs->esr = error_code;
@@ -120,6 +119,9 @@ void do_page_fault(struct pt_regs *regs, unsigned long address,
 		       regs->r15, regs->msr);
 		die("Weird page fault", regs, SIGSEGV);
 	}
+
+	if (user_mode(regs))
+		flags |= FAULT_FLAG_USER;
 
 	/*                                                             
                                                                       
@@ -199,9 +201,10 @@ good_area:
 	if (unlikely(is_write)) {
 		if (unlikely(!(vma->vm_flags & VM_WRITE)))
 			goto bad_area;
-	/*        */
+		flags |= FAULT_FLAG_WRITE;
+	/* a read */
 	} else {
-		/*                  */
+		/* protection fault */
 		if (unlikely(error_code & 0x08000000))
 			goto bad_area;
 		if (unlikely(!(vma->vm_flags & (VM_READ | VM_EXEC))))
