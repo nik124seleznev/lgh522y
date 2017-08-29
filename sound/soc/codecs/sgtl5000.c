@@ -1239,10 +1239,13 @@ static int sgtl5000_enable_regulators(struct snd_soc_codec *codec)
 	if (ret)
 		goto err_regulator_free;
 
-	/*                                   */
+	/* wait for all power rails bring up */
 	udelay(10);
 
-	/*                       */
+	/* Need 8 clocks before I2C accesses */
+	udelay(1);
+
+	/* read chip information */
 	reg = snd_soc_read(codec, SGTL5000_CHIP_ID);
 	if (((reg & SGTL5000_PARTID_MASK) >> SGTL5000_PARTID_SHIFT) !=
 	    SGTL5000_PARTID_PART_ID) {

@@ -150,10 +150,9 @@ struct nilfs_transaction_info {
                                            */
 	unsigned short		ti_flags;
 	unsigned short		ti_count;
-	struct list_head	ti_garbage;
 };
 
-/*          */
+/* ti_magic */
 #define NILFS_TI_MAGIC		0xd9e392fb
 
 /*          */

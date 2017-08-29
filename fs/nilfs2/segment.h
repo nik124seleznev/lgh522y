@@ -26,6 +26,7 @@
 #include <linux/types.h>
 #include <linux/fs.h>
 #include <linux/buffer_head.h>
+#include <linux/workqueue.h>
 #include <linux/nilfs2_fs.h>
 #include "nilfs.h"
 
@@ -135,6 +136,8 @@ struct nilfs_sc_info {
 
 	struct list_head	sc_dirty_files;
 	struct list_head	sc_gc_inodes;
+	struct list_head	sc_iput_queue;
+	struct work_struct	sc_iput_work;
 
 	__u64		       *sc_freesegs;
 	size_t			sc_nfreesegs;
