@@ -1950,17 +1950,13 @@ static void pool_mayday_timeout(unsigned long __pool)
                                                                 
                                                                   
            
-  
-           
-                                                                    
-             
  */
-static bool maybe_create_worker(struct worker_pool *pool)
+static void maybe_create_worker(struct worker_pool *pool)
 __releases(&pool->lock)
 __acquires(&pool->lock)
 {
 	if (!need_to_create_worker(pool))
-		return false;
+		return;
 restart:
 	spin_unlock_irq(&pool->lock);
 
@@ -1977,7 +1973,7 @@ restart:
 			start_worker(worker);
 			if (WARN_ON_ONCE(need_to_create_worker(pool)))
 				goto restart;
-			return true;
+			return;
 		}
 
 		if (!need_to_create_worker(pool))
@@ -1994,7 +1990,7 @@ restart:
 	spin_lock_irq(&pool->lock);
 	if (need_to_create_worker(pool))
 		goto restart;
-	return true;
+	return;
 }
 
 /* 
@@ -2012,10 +2008,8 @@ restart:
                                                                     
              
  */
-static bool maybe_destroy_workers(struct worker_pool *pool)
+static void maybe_destroy_workers(struct worker_pool *pool)
 {
-	bool ret = false;
-
 	while (too_many_workers(pool)) {
 		struct worker *worker;
 		unsigned long expires;
@@ -2029,10 +2023,7 @@ static bool maybe_destroy_workers(struct worker_pool *pool)
 		}
 
 		destroy_worker(worker);
-		ret = true;
 	}
-
-	return ret;
 }
 
 /* 
@@ -2058,7 +2049,6 @@ static bool maybe_destroy_workers(struct worker_pool *pool)
 static bool manage_workers(struct worker *worker)
 {
 	struct worker_pool *pool = worker->pool;
-	bool ret = false;
 
 	/*
                                                             
@@ -2082,7 +2072,7 @@ static bool manage_workers(struct worker *worker)
                   
   */
 	if (!mutex_trylock(&pool->manager_arb))
-		return ret;
+		return false;
 
 	/*
                                                                 
@@ -2092,7 +2082,6 @@ static bool manage_workers(struct worker *worker)
 		spin_unlock_irq(&pool->lock);
 		mutex_lock(&pool->manager_mutex);
 		spin_lock_irq(&pool->lock);
-		ret = true;
 	}
 
 	pool->flags &= ~POOL_MANAGE_WORKERS;
@@ -2101,12 +2090,12 @@ static bool manage_workers(struct worker *worker)
                                                                
               
   */
-	ret |= maybe_destroy_workers(pool);
-	ret |= maybe_create_worker(pool);
+	maybe_destroy_workers(pool);
+	maybe_create_worker(pool);
 
 	mutex_unlock(&pool->manager_mutex);
 	mutex_unlock(&pool->manager_arb);
-	return ret;
+	return true;
 }
 
 /* 

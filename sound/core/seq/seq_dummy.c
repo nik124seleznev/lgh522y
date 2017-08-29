@@ -82,37 +82,7 @@ struct snd_seq_dummy_port {
 static int my_client = -1;
 
 /*
-                                                                    
-                  
-                                                                        
- */
-static int
-dummy_unuse(void *private_data, struct snd_seq_port_subscribe *info)
-{
-	struct snd_seq_dummy_port *p;
-	int i;
-	struct snd_seq_event ev;
-
-	p = private_data;
-	memset(&ev, 0, sizeof(ev));
-	if (p->duplex)
-		ev.source.port = p->connect;
-	else
-		ev.source.port = p->port;
-	ev.dest.client = SNDRV_SEQ_ADDRESS_SUBSCRIBERS;
-	ev.type = SNDRV_SEQ_EVENT_CONTROLLER;
-	for (i = 0; i < 16; i++) {
-		ev.data.control.channel = i;
-		ev.data.control.param = MIDI_CTL_ALL_SOUNDS_OFF;
-		snd_seq_kernel_client_dispatch(p->client, &ev, 0, 0);
-		ev.data.control.param = MIDI_CTL_RESET_CONTROLLERS;
-		snd_seq_kernel_client_dispatch(p->client, &ev, 0, 0);
-	}
-	return 0;
-}
-
-/*
-                                                             
+ * event input callback - just redirect events to subscribers
  */
 static int
 dummy_input(struct snd_seq_event *ev, int direct, void *private_data,
@@ -175,7 +145,6 @@ create_port(int idx, int type)
 		| SNDRV_SEQ_PORT_TYPE_PORT;
 	memset(&pcb, 0, sizeof(pcb));
 	pcb.owner = THIS_MODULE;
-	pcb.unuse = dummy_unuse;
 	pcb.event_input = dummy_input;
 	pcb.private_free = dummy_free;
 	pcb.private_data = rec;
