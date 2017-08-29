@@ -244,9 +244,9 @@ static int z_compress(void *arg, unsigned char *rptr, unsigned char *obuf,
 	olen += oavail - state->strm.avail_out;
 
 	/*
-                                                       
-  */
-	if (olen < isize) {
+	 * See if we managed to reduce the size of the packet.
+	 */
+	if (olen < isize && olen <= osize) {
 		state->stats.comp_bytes += olen;
 		state->stats.comp_packets++;
 	} else {
