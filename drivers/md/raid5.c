@@ -2853,10 +2853,11 @@ static void handle_stripe_dirtying(struct r5conf *conf,
                                           
   */
 	if (conf->max_degraded == 2 ||
-	    (recovery_cp < MaxSector && sh->sector >= recovery_cp)) {
-		/*                                               
-                             
-   */
+	    (recovery_cp < MaxSector && sh->sector >= recovery_cp &&
+	     s->failed == 0)) {
+		/* Calculate the real rcw later - for now make it
+		 * look like rcw is cheaper
+		 */
 		rcw = 1; rmw = 2;
 		pr_debug("force RCW max_degraded=%u, recovery_cp=%llu sh->sector=%llu\n",
 			 conf->max_degraded, (unsigned long long)recovery_cp,

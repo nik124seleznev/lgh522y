@@ -53,12 +53,13 @@ static const struct usb_device_id id_table[] = {
 	{ USB_DEVICE(0x0489, 0xE000) }, /*                                                */
 	{ USB_DEVICE(0x0489, 0xE003) }, /*                                                */
 	{ USB_DEVICE(0x0745, 0x1000) }, /*                                        */
-	{ USB_DEVICE(0x0846, 0x1100) }, /*                                                                 */
-	{ USB_DEVICE(0x08e6, 0x5501) }, /*                                                 */
-	{ USB_DEVICE(0x08FD, 0x000A) }, /*                                             */
-	{ USB_DEVICE(0x0BED, 0x1100) }, /*                                            */
-	{ USB_DEVICE(0x0BED, 0x1101) }, /*                                */
-	{ USB_DEVICE(0x0FCF, 0x1003) }, /*                                  */
+	{ USB_DEVICE(0x0846, 0x1100) }, /* NetGear Managed Switch M4100 series, M5300 series, M7100 series */
+	{ USB_DEVICE(0x08e6, 0x5501) }, /* Gemalto Prox-PU/CU contactless smartcard reader */
+	{ USB_DEVICE(0x08FD, 0x000A) }, /* Digianswer A/S , ZigBee/802.15.4 MAC Device */
+	{ USB_DEVICE(0x0908, 0x01FF) }, /* Siemens RUGGEDCOM USB Serial Console */
+	{ USB_DEVICE(0x0BED, 0x1100) }, /* MEI (TM) Cashflow-SC Bill/Voucher Acceptor */
+	{ USB_DEVICE(0x0BED, 0x1101) }, /* MEI series 2000 Combo Acceptor */
+	{ USB_DEVICE(0x0FCF, 0x1003) }, /* Dynastream ANT development board */
 	{ USB_DEVICE(0x0FCF, 0x1004) }, /*                    */
 	{ USB_DEVICE(0x0FCF, 0x1006) }, /*                                  */
 	{ USB_DEVICE(0x0FDE, 0xCA05) }, /*                                         */

@@ -555,9 +555,9 @@ static int read_balance(struct r1conf *conf, struct r1bio *r1_bio, int *max_sect
 		    rdev->recovery_offset < this_sector + sectors)
 			continue;
 		if (test_bit(WriteMostly, &rdev->flags)) {
-			/*                                       
-                                     */
-			if (best_disk < 0) {
+			/* Don't balance among write-mostly, just
+			 * use the first as a last resort */
+			if (best_dist_disk < 0) {
 				if (is_badblock(rdev, this_sector, sectors,
 						&first_bad, &bad_sectors)) {
 					if (first_bad < this_sector)
@@ -566,7 +566,8 @@ static int read_balance(struct r1conf *conf, struct r1bio *r1_bio, int *max_sect
 					best_good_sectors = first_bad - this_sector;
 				} else
 					best_good_sectors = sectors;
-				best_disk = disk;
+				best_dist_disk = disk;
+				best_pending_disk = disk;
 			}
 			continue;
 		}

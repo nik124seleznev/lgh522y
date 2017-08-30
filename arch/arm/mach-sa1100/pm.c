@@ -79,8 +79,9 @@ static int sa11x0_pm_enter(suspend_state_t state)
 	cpu_suspend(0, sa1100_finish_suspend);
 
 	/*
-                                                      
-  */
+	 * Ensure not to come back here if it wasn't intended
+	 */
+	RCSR = RCSR_SMR;
 	PSPR = 0;
 
 	/*
