@@ -929,8 +929,8 @@ static unsigned int cache_poll(struct file *filp, poll_table *wait,
 
 	poll_wait(filp, &queue_wait, wait);
 
-	/*                   */
-	mask = POLL_OUT | POLLWRNORM;
+	/* alway allow write */
+	mask = POLLOUT | POLLWRNORM;
 
 	if (!rp)
 		return mask;

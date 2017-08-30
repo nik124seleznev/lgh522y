@@ -1,3 +1,4 @@
+
 /*
  * xHCI host controller driver
  *
@@ -87,14 +88,15 @@ struct xhci_cap_regs {
 /*                                                                
                                               */
 #define HCS_IST(p)		(((p) >> 0) & 0xf)
-/*                                             */
+/* bits 4:7, max number of Event Ring segments */
 #define HCS_ERST_MAX(p)		(((p) >> 4) & 0xf)
-/*                                                                      */
-/*                                                                     */
-#define HCS_MAX_SCRATCHPAD(p)   (((p) >> 27) & 0x1f)
+/* bits 21:25 Hi 5 bits of Scratchpad buffers SW must allocate for the HW */
+/* bit 26 Scratchpad restore - for save/restore HW state - not used yet */
+/* bits 27:31 Lo 5 bits of Scratchpad buffers SW must allocate for the HW */
+#define HCS_MAX_SCRATCHPAD(p)   ((((p) >> 16) & 0x3e0) | (((p) >> 27) & 0x1f))
 
-/*                                     */
-/*                                                      */
+/* HCSPARAMS3 - hcs_params3 - bitmasks */
+/* bits 0:7, Max U1 to U0 latency for the roothub ports */
 #define HCS_U1_LATENCY(p)	(((p) >> 0) & 0xff)
 /*                                                        */
 #define HCS_U2_LATENCY(p)	(((p) >> 16) & 0xffff)
@@ -1267,9 +1269,11 @@ struct xhci_td {
 	struct xhci_segment	*start_seg;
 	union xhci_trb		*first_trb;
 	union xhci_trb		*last_trb;
+	/* actual_length of the URB has already been set */
+	bool			urb_length_set;
 };
 
-/*                                    */
+/* xHCI command default timeout value */
 #define XHCI_CMD_DEFAULT_TIMEOUT	(5 * HZ)
 
 /*                    */

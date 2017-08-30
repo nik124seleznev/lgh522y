@@ -887,8 +887,8 @@ static int compact_finished(struct zone *zone,
 		if (!list_empty(&area->free_list[cc->migratetype]))
 			return COMPACT_PARTIAL;
 
-		/*                                             */
-		if (cc->order >= pageblock_order && area->nr_free)
+		/* Job done if allocation would set block type */
+		if (order >= pageblock_order && area->nr_free)
 			return COMPACT_PARTIAL;
 	}
 

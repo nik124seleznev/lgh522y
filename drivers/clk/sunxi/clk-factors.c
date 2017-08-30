@@ -69,8 +69,8 @@ static unsigned long clk_factors_recalc_rate(struct clk_hw *hw,
 	if (config->pwidth != SUNXI_FACTORS_NOT_APPLICABLE)
 		p = FACTOR_GET(config->pshift, config->pwidth, reg);
 
-	/*                    */
-	rate = (parent_rate * n * (k + 1) >> p) / (m + 1);
+	/* Calculate the rate */
+	rate = (parent_rate * (n + config->n_start) * (k + 1) >> p) / (m + 1);
 
 	return rate;
 }
