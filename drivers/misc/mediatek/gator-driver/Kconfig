@@ -39,4 +39,4 @@ config GATOR_MALI_PATH
 	  trace headers with: #include "linux/mali_linux_trace.h"
 
 config MALI_GATOR_SUPPORT
-   bool "DDK Driver Feature for MALI Profiling of DS-5
+   bool "DDK Driver Feature for MALI Profiling of DS-5"

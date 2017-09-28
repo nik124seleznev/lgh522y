@@ -8,6 +8,20 @@ menuconfig BACKLIGHT_LCD_SUPPORT
 	  Enable this to be able to choose the drivers for controlling the
 	  backlight and the LCD panel on some platforms, for example on PDAs.
 
+
+#LGE_CHANGE_S : sangcheol.seo@lge.com 20140925
+# Add LCD Backlight driver : LM3639 , LM3632
+config BACKLIGHT_LM3639
+	bool "LM3639 Backlight Driver"
+	help
+	  This supports TI LM3639 Backlight + 1.5A Flash LED Driver
+
+config BACKLIGHT_LM3632
+	bool "LM3632 Backlight Driver & DSV integrated"
+	help
+	  This supports TI LM3639 Backlight + 1.5A Flash LED Driver + DSV
+#LGE_CHANGE_E
+
 if BACKLIGHT_LCD_SUPPORT
 
 #

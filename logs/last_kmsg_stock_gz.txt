@@ -1,0 +1,550 @@
+ram console header, hw_status: 2, fiq step 0.
+bin log 0.
+
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]Get MD inf from META
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]md_inf[0]=0
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]md_inf[1]=0
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]md_inf[2]=0
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]md_inf[3]=0
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][memblock]arm_dt_memblock_reserve: 0x4e000000 - 0x4e007212 (0x00007213)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][PHY layout]mtk_wcn_consys_memory_reserve   :   0x7f200000 - 0x7f2fffff (0x00100000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][WMT-CONSYS-HW][I]mtk_wcn_consys_memory_reserve:memblock done: 0x7f200000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][memblock]mt_reserve: 0x43f00000 - 0x43f0ffff (0x00010000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][memblock]mt_reserve: 0x43ff0000 - 0x43ffdfff (0x0000e000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_ENABLE_MD1 -> 00000001
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_ENABLE_MD2 -> 00000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_ENABLE_MD3 not found
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_ENABLE_MD5 -> 00000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_MD1_SUPPORT -> 00000005
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_MD2_SUPPORT -> 00000001
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_MD3_SUPPORT -> 00000003
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MTK_MD5_SUPPORT -> 00000003
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MD1_SIZE -> 04000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MD2_SIZE -> 01000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MD3_SIZE -> 00000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]FO:MD3_SMEM_SIZE -> 00000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][PHY layout]ccci_md_mem_reserve   :   0x7a000000 - 0x7e1fffff (0x04200000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][ccci0/util]META MD setting not found [0][0]
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][PHY layout]kernel   :   0x40000000 - 0x79ffffff (0x3a000000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]creating mapping start pa: 0x40000000 @ 0xc0000000 , end pa: 0x60000000 @ 0xe0000000
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][PHY layout]kernel   :   0x7e200000 - 0x7f1fffff (0x01000000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper][PHY layout]kernel   :   0x7f300000 - 0x7f4bffff (0x001c0000)
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]@@@### num_possible_cpus(): 4 ###@@@
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]@@@### num_present_cpus(): 1 ###@@@
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]unified LK bootcmd lge.rev setup: rev_10
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper]unified LK bootcmd lge.cable: 400MA
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper/0]arch_timer_init: arch_timer_rate(0xc65d40), PHYS_SECURE_PPI=29, PHYS_NONSECURE_PPI=30, VIRT_PPI=27, HYP_PPI=26, 
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper/0]arch_timer_register: arch_timer_rate(0xc65d40), arch_timer_use_virtual=0 
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper/0]arch_timer_register: request_percpu_irq PHYS_SECURE_PPI err=0 
+[    0.000000 / 01-01 00:00:00.000] -(0)[0:swapper/0]arch_timer_register: request_percpu_irq PHYS_NONSECURE_PPI err=0 
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0]ram_console: buffer start: 0xe0800000, size: 0x10000
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0]ram_console: log size 0xfd40, start 0x79d2
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0]ram_console: lk[c0], linux[140], console[2c0]
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0]ram_console: old_header[df808000], buffer[e0800000], header_size[2c0]
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0]ram_console:bin_log_count[0]
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0][UART] mtk console setup : co->index 0 options:921600n1
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0][UART] mtk console setup : uart_set_option port(0) baud(921600) parity(n) bits(1) flow(n) - ret(0)
+[    0.000000 / 01-01 00:00:00.000]  (0)[0:swapper/0][UART] mtk setting: (0, 0, 0, 0, 128)
+[    0.040507 / 01-01 00:00:00.040]  (0)[1:swapper/0]init_get_max_DRAM_size done. phone_dram_sz: 0x40000000, kernel_mem_sz: 0x3f4c0000
+[    0.040520 / 01-01 00:00:00.040]  (0)[1:swapper/0][BOOT_REASON] boot_reason = 2
+[    0.060453 / 01-01 00:00:00.060]  (0)[1:swapper/0]Boot slave CPU
+[    0.080462 / 01-01 00:00:00.080]  (0)[1:swapper/0]Boot slave CPU
+[    0.100482 / 01-01 00:00:00.100]  (0)[1:swapper/0]Boot slave CPU
+[    0.108961 / 01-01 00:00:00.100]  (1)[1:swapper/0][CHIP] CODE = 6752 8a00 ca01 0001, 0002 1a60 0000 0000, CA01 0001
+[    0.108974 / 01-01 00:00:00.100] [CHIP] CODE = 00009E1E c04ab570
+[    0.124962 / 01-01 00:00:00.120]  (1)[1:swapper/0][SPM] spm_base = f0006000, scp_i2c0_base = e087a400, scp_i2c1_base = e087c800, scp_i2c2_base = e087ec00
+[    0.124976 / 01-01 00:00:00.120]  (1)[1:swapper/0][SPM] spm_irq_0 = 195, spm_irq_1 = 196, spm_irq_2 = 197, spm_irq_3 = 198
+[    0.124990 / 01-01 00:00:00.120]  (1)[1:swapper/0][SPM] spm_irq_4 = 199, spm_irq_5 = 200, spm_irq_6 = 201, spm_irq_7 = 202
+[    0.125003 / 01-01 00:00:00.120]  (1)[1:swapper/0][SPM] cksys_base = f0000000, infracfg_ao_base = f0001000, spm_mcucfg = f0200000
+[    0.125036 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 195 to cpu 0
+[    0.125048 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c0 = 0x00010101
+[    0.125059 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 195 to cpu 0
+[    0.125071 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c0 = 0x01010101
+[    0.125088 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 196 to cpu 0
+[    0.125100 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01010100
+[    0.125111 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 196 to cpu 1
+[    0.125123 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01010102
+[    0.125140 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 197 to cpu 0
+[    0.125152 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01010002
+[    0.125163 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 197 to cpu 2
+[    0.125174 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01010402
+[    0.125192 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 198 to cpu 0
+[    0.125203 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01000402
+[    0.125214 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 198 to cpu 3
+[    0.125226 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01080402
+[    0.125243 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 199 to cpu 0
+[    0.125254 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x00080402
+[    0.125265 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 199 to cpu 0
+[    0.125277 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c4 = 0x01080402
+[    0.125294 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 200 to cpu 0
+[    0.125305 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01010100
+[    0.125316 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 200 to cpu 1
+[    0.125328 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01010102
+[    0.125345 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 201 to cpu 0
+[    0.125357 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01010002
+[    0.125368 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 201 to cpu 2
+[    0.125380 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01010402
+[    0.125396 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 202 to cpu 0
+[    0.125408 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01000402
+[    0.125419 / 01-01 00:00:00.120]  (1)[1:swapper/0]set irq 202 to cpu 3
+[    0.125431 / 01-01 00:00:00.120]  (1)[1:swapper/0]reg 0xf02218c8 = 0x01080402
+[    0.126770 / 01-01 00:00:00.120]  (1)[1:swapper/0]Fail to enable interrupt 13
+[    0.126787 / 01-01 00:00:00.120] -(0)[0:swapper/0]Fail to enable interrupt 13
+[    0.126790 / 01-01 00:00:00.120] -(3)[0:swapper/3]Fail to enable interrupt 13
+[    0.126793 / 01-01 00:00:00.120] -(2)[0:swapper/2]Fail to enable interrupt 13
+[    0.127045 / 01-01 00:00:00.120]  (1)[1:swapper/0][CHIP_COMMON] create /proc/chip(9e1e)
+[    0.135267 / 01-01 00:00:00.130]  (2)[1:swapper/0][M4U] 4G DRAM Mode is: 0
+[    0.136067 / 01-01 00:00:00.130]  (2)[1:swapper/0][M4U] 4G DRAM Mode is: 0
+[    0.136643 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ][CMDQ] platform_dev: dev: df95fe10, PA: 10212000, VA: f0212000, irqId: 175,  irqSecId:176
+[    0.136730 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MMSYS_CONFIG): 0xe08ba000
+[    0.136814 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_RDMA): 0xe08bc000
+[    0.136899 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_RSZ0): 0xe08be000
+[    0.136985 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_RSZ1): 0xe08d2000
+[    0.137071 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_WDMA): 0xe08d4000
+[    0.137158 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_WROT): 0xe08d6000
+[    0.137245 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MDP_TDSHP): 0xe08d8000
+[    0.137338 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,MM_MUTEX): 0xe08da000
+[    0.137442 / 01-01 00:00:00.130]  (2)[1:swapper/0][CMDQ]DEV: VA(mediatek,VENC): 0xe08dc000
+[    0.401064 / 01-01 00:00:00.390]  (0)[1:swapper/0][zram_init][1294] ZCompress[c025f80c] ZDecompress[c025fd18]
+[    0.402324 / 01-01 00:00:00.400]  (2)[1:swapper/0][TOUCH][F][COMMON] touch_init()
+[    0.402338 / 01-01 00:00:00.400]  (2)[1:swapper/0][TOUCH][F][S3320] S3320_Connect()
+[    0.402456 / 01-01 00:00:00.400]  (1)[1:swapper/0][TOUCH][F][S3320] rmidev_module_init()
+[    0.405120 / 01-01 00:00:00.400]  (1)[1:swapper/0]systracker init done
+[    0.410986 / 01-01 00:00:00.400]  (3)[69:hang_detect][Hang_Detect] hang_detect thread starts.
+[    0.411000 / 01-01 00:00:00.400] mirdump: reserved 43ff0000+1000->e0b3a000[    0.411013 / 01-01 00:00:00.400]  (3)[69:hang_detect][Hang_Detect] hang_detect disabled.
+
+[    0.411126 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUP = 0x0 
+[    0.411137 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUQ = 0x0 
+[    0.411147 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUR = 0x0 
+[    0.411158 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUY = 0x0 
+[    0.411168 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUP2 = 0x0 
+[    0.411179 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUQ2 = 0x0 
+[    0.411190 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUR2 = 0x0 
+[    0.411201 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUY2 = 0x0 
+[    0.411212 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUS = 0x0 
+[    0.411222 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_MPUT = 0x0 
+[    0.411233 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_WP_ADR = 0x0 
+[    0.411243 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_WP_CTRL = 0x0 
+[    0.411254 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_CHKER = 0x0 
+[    0.411265 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_CHKER_TYPE = 0x0 
+[    0.411275 / 01-01 00:00:00.400]  (2)[1:swapper/0][EMI MPU] EMI_CHKER_ADR = 0x0 
+[    0.411420 / 01-01 00:00:00.410]  (2)[1:swapper/0][EMI MPU] Not 4G mode 
+[    0.411738 / 01-01 00:00:00.410]  (1)[1:swapper/0][gps]null pointer!!
+[    0.412028 / 01-01 00:00:00.410]  (1)[1:swapper/0]MT_SCHED: Init complete, device major number = 247
+[    0.423772 / 01-01 00:00:00.420]  (0)[1:swapper/0][M4U] m4u_larb0_enable, refcnt: 0, DDP
+[    0.424056 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]======REC 0xdf29a000 command buffer:
+[    0.424073 / 01-01 00:00:00.420]  (0)[1:swapper/0]df29a000: 80008001 20000037 00000004 0141c74c
+[    0.424085 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]======REC 0xdf29a000 command buffer END
+[    0.424096 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]REC 0xdf29a000 command buffer TRANSLATED:
+[    0.424109 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]WFE: CMDQ_EVENT_MUTEX0_STREAM_EOF
+[    0.424124 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]READ: R4, addr=0x1400c74c [COLOR],use_mask=0
+[    0.424135 / 01-01 00:00:00.420]  (0)[1:swapper/0][CMDQ]======REC 0xdf29a000 command END
+[    0.428185 / 01-01 00:00:00.420]  (3)[1:swapper/0]cnt = 0, 4971
+[    0.437451 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN-MD-DFT]<conn_md_init> <444>
+[    0.437464 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN-MD-DFT][I]conn_md_init:init message queue list succeed
+[    0.437476 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN-MD-DFT][I]conn_md_init:init active queue list succeed
+[    0.437489 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN-MD-DFT][I]conn_md_init:init user information list succeed
+[    0.437516 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN_MD_DMP][I]conn_md_dmp_init:alloc memory for msg log system done, size:0x00000320
+[    0.437529 / 01-01 00:00:00.430]  (2)[1:swapper/0]3[CONN-MD-DFT][I]conn_md_init:conn_md_dmp_init succeed
+[    0.437611 / 01-01 00:00:00.430]  (1)[1:swapper/0]3[CONN-MD-DFT][I]conn_md_init:create conn_md_thread succeed, wakeup it
+[    0.437630 / 01-01 00:00:00.430]  (1)[1:swapper/0]3[CONN-MD-DFT]<conn_md_init> <491>
+[    0.455977 / 01-01 00:00:00.450]  (1)[1:swapper/0][[kd_sensorlist]] [camerahw_probe] start
+[    0.457434 / 01-01 00:00:00.450] [BOOT_COMMON] boot_mode = 2, state(2,0,0)
+[    0.457460 / 01-01 00:00:00.450] [BOOT_REASON] boot_reason = 2, state(2,0,0)[GPIO] version: mt-gpio
+[    0.462470 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] sim_switch_driver_init
+[    0.462579 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] sim_switch_init
+[    0.462602 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM1 sclk= en=0,dir=1,in=0,out=0
+[    0.462617 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM1 srst= en=0,dir=1,in=0,out=0
+[    0.462631 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM1 sio= en=1,dir=0,in=0,out=0
+[    0.462645 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM2 sclk= en=0,dir=1,in=0,out=0
+[    0.462660 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM2 srst= en=0,dir=1,in=0,out=0
+[    0.462674 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] SIM2 sio= en=1,dir=0,in=0,out=0
+[    0.462685 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] set_sim_gpio: 1
+[    0.462706 / 01-01 00:00:00.460]  (3)[1:swapper/0][ccci\ssw] mode(1),SIM1(sclk=1, srst=1 , sio=1) SIM2(sclk=1, srst=1 , sio=1)
+[    0.463065 / 01-01 00:00:00.460]  (3)[1:swapper/0][Gsensor] bma255_init
+[    0.463260 / 01-01 00:00:00.460]  (3)[1:swapper/0][Gsensor] bma255_probe
+[    0.463603 / 01-01 00:00:00.460]  (3)[1:swapper/0]Error: Driver 'bmm050' is already registered, aborting...
+[    0.463615 / 01-01 00:00:00.460]  (3)[1:swapper/0][Msensor] bmm050_probe 4130 : add driver error
+[    0.464082 / 01-01 00:00:00.460]  (3)[1:swapper/0][MALI]Using mali midgard r5p0-02dev0 DDK kernel device driver. GPU probe() begin
+[    0.464893 / 01-01 00:00:00.460]  (1)[1:swapper/0][MALI] _mtk_gpu_dvfs_init
+[    0.465243 / 01-01 00:00:00.460]  (1)[1:swapper/0][MALI]Using mali midgard r5p0-02dev0 DDK kernel device driver. GPU probe() end
+[    0.467429 / 01-01 00:00:00.460]  (1)[1:swapper/0][msdc_select_clksrc]: msdc0 change clk_src from 200000KHz to 6:200000KHz
+[    0.467465 / 01-01 00:00:00.460]  (1)[1:swapper/0]msdc0 -> msdc drving<clk 2,cmd 2,dat 2> <- msdc_init_hw() : L<10005> PID<swapper/0><0x1>
+[    0.467669 / 01-01 00:00:00.460]  (1)[1:swapper/0]msdc0 ->  VEMC_EN[0x0A18][bit1=enable]=0xc106, VEMC_VOL[0x0A4A][bit9=3.0V]=0xf530
+[    0.467669 / 01-01 00:00:00.460]  <- msdc_emmc_power() : L<1887> PID<swapper/0><0x1>
+[    0.491638 / 01-01 00:00:00.490] msdc0 -> !!! Set<300KHz> Source<200000KHz> -> sclk<299KHz> state<0> mode<0> div<167> hs400_src<0>
+[    0.511454 / 01-01 00:00:00.510]  (3)[1:swapper/0][msdc_drv_probe]: msdc0, msdcpll en[0xF000C250][bit0 should be 0x1]=0x111, msdcpll on[0xF000C25C][bit0~1 should be 0x1]=0x80000001, mux[0xF0000070][bit23, 16~19 for msdc0, bit31, 24~26 for msdc1]=0x2060200
+[    0.511834 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMC_EN[0x0A16][bit1=enable]=0xc502, VMC_VOL[0x0A48][bit1=3.3V]=0x9d3
+[    0.511834 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1923> PID<swapper/0><0x1>
+[    0.511862 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMCH_EN[0x0A14][bit1=enable]=0xc102, VMCH_VOL[0x0A48][bit9=3.0V]=0x9d3
+[    0.511862 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1926> PID<swapper/0><0x1>
+[    0.512012 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMC_EN[0x0A16][bit1=disable]=0x500, VMC_VOL[0x0A48][bit1=3.3V]=0x9d3
+[    0.512012 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1923> PID<swapper/0><0x1>
+[    0.512039 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMCH_EN[0x0A14][bit1=disable]=0x100, VMCH_VOL[0x0A48][bit9=3.0V]=0x9d3
+[    0.512039 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1926> PID<swapper/0><0x1>
+[    0.512103 / 01-01 00:00:00.510]  (3)[1:swapper/0][msdc_select_clksrc]: msdc1 change clk_src from 200000KHz to 2:200000KHz
+[    0.512135 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 -> msdc drving<clk 3,cmd 3,dat 3> <- msdc_init_hw() : L<10005> PID<swapper/0><0x1>
+[    0.512523 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMC_EN[0x0A16][bit1=enable]=0xc502, VMC_VOL[0x0A48][bit1=3.3V]=0x9d3
+[    0.512523 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1923> PID<swapper/0><0x1>
+[    0.512551 / 01-01 00:00:00.510]  (3)[1:swapper/0]msdc1 ->  VMCH_EN[0x0A14][bit1=enable]=0x8102, VMCH_VOL[0x0A48][bit9=3.0V]=0x9d3
+[    0.512551 / 01-01 00:00:00.510]  <- msdc_sd_power() : L<1926> PID<swapper/0><0x1>
+[    0.541629 / 01-01 00:00:00.540] msdc1 -> !!! Set<300KHz> Source<200000KHz> -> sclk<299KHz> state<0> mode<0> div<167> hs400_src<0>[    0.556497 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<8><0x1aa> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.557005 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<5><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.557505 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<5><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.558007 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<5><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.558507 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<5><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.559019 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<55><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.559519 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<55><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.560021 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<55><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.560522 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2][MSDC] msdc0 -> XXX CMD<55><0x0> Error<-110> Resp<0x0> <- msdc_dump_trans_error() : L<8073> PID<kworker/u8:2><0x57>
+[    0.560535 / 01-01 00:00:00.550]  (2)[87:kworker/u8:2]sd card rocr <0x0>
+
+[    0.561445 / 01-01 00:00:00.560]  (1)[1:swapper/0][msdc_drv_probe]: msdc1, msdcpll en[0xF000C250][bit0 should be 0x1]=0x111, msdcpll on[0xF000C25C][bit0~1 should be 0x1]=0x80000001, mux[0xF0000070][bit23, 16~19 for msdc0, bit31, 24~26 for msdc1]=0x2060200
+[    0.563374 / 01-01 00:00:00.560]  (1)[1:swapper/0]rt9536 rt9536: platform data not exist. use default.
+[    0.563762 / 01-01 00:00:00.560]  (1)[1:swapper/0][mt-i2c]ERROR,1579: I2C get def_speed failed
+[    0.601598 / 01-01 00:00:00.600]  (2)[87:kworker/u8:2][msdc_select_clksrc]: msdc0 change clk_src from 200000KHz to 2:400000KHz
+[    0.601672 / 01-01 00:00:00.600] msdc0 -> !!! Set<300KHz> Source<400000KHz> -> sclk<200000KHz> state<3> mode<3> div<0> hs400_src<1>[msdc_set_mclk] hz = 200000000
+[    0.601733 / 01-01 00:00:00.600] msdc0 -> !!! Set<200000KHz> Source<400000KHz> -> sclk<200000KHz> state<3> mode<3> div<0> hs400_src<1>
+[    0.601913 / 01-01 00:00:00.600] -(2)[87:kworker/u8:2]msdc1 -> Card insert<0> Block bad card<0> <- msdc_ops_get_cd() : L<9143> PID<kworker/u8:2><0x57>
+[    0.602303 / 01-01 00:00:00.600]  (2)[87:kworker/u8:2]msdc1 ->  VMC_EN[0x0A16][bit1=disable]=0x500, VMC_VOL[0x0A48][bit1=3.3V]=0x9d3
+[    0.602303 / 01-01 00:00:00.600]  <- msdc_sd_power() : L<1923> PID<kworker/u8:2><0x57>
+[    0.602395 / 01-01 00:00:00.600]  (2)[87:kworker/u8:2]msdc1 ->  VMCH_EN[0x0A14][bit1=disable]=0x100, VMCH_VOL[0x0A48][bit9=3.0V]=0x9d3
+[    0.602395 / 01-01 00:00:00.600]  <- msdc_sd_power() : L<1926> PID<kworker/u8:2><0x57>
+[    0.612425 / 01-01 00:00:00.610] msdc1 -> set mclk to 0
+[    0.701061 / 01-01 00:00:00.690]  (0)[1:swapper/0][mt-i2c]ERROR,1579: I2C get def_speed failed
+[    0.701225 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][F][COMMON] touch_probe()
+[    0.701245 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][F][PLATFORM] TouchInitializePlatform()
+[    0.701278 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][COMMON] STATE = BOOT
+[    0.701295 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] ======== Model Configuration ( Begin ) ========
+[    0.701308 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] button_support=0
+[    0.701322 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] number_of_button=0
+[    0.701336 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] button_name[0]=0
+[    0.701350 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] button_name[1]=0
+[    0.701364 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] button_name[2]=0
+[    0.701378 / 01-01 00:00:00.690]  (0)[1:swapper/0][TOUCH][L][MODEL] button_name[3]=0
+[    0.701411 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_x=720
+[    0.701425 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_y=1280
+[    0.701439 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_pressure=255
+[    0.701453 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_width=15
+[    0.701467 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_orientation=1
+[    0.701481 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] max_id=10
+[    0.701495 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] protocol_type=MT_PROTOCOL_B
+[    0.701509 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][MODEL] ======== Model Configuration ( End ) ========
+[    0.701523 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][F][COMMON] register_input_dev()
+[    0.701689 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][F][COMMON] sysfs_register()
+[    0.701807 / 01-01 00:00:00.700]  (0)[1:swapper/0][TOUCH][L][PLATFORM] Reset Pin was set to LOW
+[    0.721404 / 01-01 00:00:00.720]  (1)[1:swapper/0][TOUCH][L][PLATFORM] Reset Pin was set to HIGH
+[    0.881404 / 01-01 00:00:00.880]  (2)[1:swapper/0][TOUCH][L][S3320] Device was reset
+[    0.881416 / 01-01 00:00:00.880]  (2)[1:swapper/0][TOUCH][F][S3320] S3320_Initialize()
+[    0.881428 / 01-01 00:00:00.880]  (2)[1:swapper/0][TOUCH][F][S3320] read_page_description_table()
+[    0.885590 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][D][S3320] common[0P:0x01] finger[0P:0x12] lpwg[4P:0x51] sensor[3P:0x55]analog[1P:0x54] flash[0P:0x34]
+[    0.886240 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][F][S3320] S3320_ReadIcFirmwareInfo()
+[    0.886470 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Maker=4, Key=0, Supplier=0
+[    0.886483 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Panel=1, Size =5.0 [Inch]
+[    0.886495 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Version=11 ( Official Release )
+[    0.886506 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][F][S3320] S3320_GetBinFirmwareInfo()
+[    0.886518 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Firmware filename = synaptics/c90/PLG465-V1.11-PR1815155-DS5.2.12.0.13-4005018B.img
+[    0.886532 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Maker=4, Key=0, Supplier=0
+[    0.886544 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Panel=1, Size =5.0 [Inch]
+[    0.886555 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][S3320] Version=11 ( Official Release )
+[    0.886566 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][F][PLATFORM] TouchRegisterIrq()
+[    0.886590 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][PLATFORM] Interrupt Disabled
+[    0.886601 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][COMMON] STATE = NORMAL
+[    0.886934 / 01-01 00:00:00.880]  (1)[1:swapper/0][TOUCH][L][PLATFORM] Interrupt Enabled
+[    0.887148 / 01-01 00:00:00.880]  (1)[1:swapper/0][mt-i2c]ERROR,626: id=0,addr: 75, transfer error
+[    0.887160 / 01-01 00:00:00.880]  (1)[1:swapper/0][mt-i2c]ERROR,632: I2C_ACKERR
+[    0.887462 / 01-01 00:00:00.880]  (1)[1:swapper/0][mt-i2c]ERROR,1579: I2C get def_speed failed
+[    0.890902 / 01-01 00:00:00.880]  (1)[1:swapper/0][Gsensor] bma255_i2c_probe
+[    0.890914 / 01-01 00:00:00.880]  (1)[1:swapper/0][Gsensor] bma255_init_client
+[    0.891883 / 01-01 00:00:00.890] [Gsensor] BMA255_CheckDeviceID 250 pass!
+ BMA255_CheckDeviceID ok 
+[    0.892215 / 01-01 00:00:00.890]  (1)[1:swapper/0][Gsensor] Set BWrate: 0x0c
+[    0.892553 / 01-01 00:00:00.890]  (1)[1:swapper/0][Gsensor] Set DataFormat: 0x05
+[    0.893205 / 01-01 00:00:00.890]  (1)[1:swapper/0][Gsensor] BMA255 interrupt was disabled
+[    0.893226 / 01-01 00:00:00.890]  (1)[1:swapper/0][Gsensor] BMA255_SetPowerMode
+[    0.893553 / 01-01 00:00:00.890]  (1)[1:swapper/0][Gsensor] set power mode ok: 0x80
+[    0.923673 / 01-01 00:00:00.920]  (1)[1:swapper/0][Gsensor] bma255_i2c_probe: OK
+[    0.936973 / 01-01 00:00:00.930]  (1)[1:swapper/0][mt-i2c]ERROR,1579: I2C get def_speed failed
+[    0.937419 / 01-01 00:00:00.930]  (1)[1:swapper/0]i2c i2c-3: Failed to register i2c client kd_camera_hw_bus2 at 0x7f (-16)
+[    0.937434 / 01-01 00:00:00.930]  (1)[1:swapper/0]i2c i2c-3: Can't create device at 0x7f
+[    0.937957 / 01-01 00:00:00.930]  (1)[1:swapper/0]i2c_common device init
+[    0.938175 / 01-01 00:00:00.930]  (1)[1:swapper/0]i2c_common device probe
+[    0.953661 / 01-01 00:00:00.950]  (1)[1:swapper/0][swtp] swtp_sysfs_init.
+[    0.953688 / 01-01 00:00:00.950]  (1)[1:swapper/0]swtp_mod_init.
+[    0.955817 / 01-01 00:00:00.950]  (0)[1:swapper/0][swtp_tr] running swtp thread
+[    0.955945 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]mtk_btif_probe:DO BTIF PROBE
+[    0.956125 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]hal_btif_info_get:_btif_tx_fifo_init succeed
+[    0.956228 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]_btif_set_default_setting:get btif irq(144),register base(0xe225c000)
+[    0.956242 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]_btif_set_default_setting:get interrupt flag(0x8)
+[    0.956255 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]_btif_set_default_setting:get register phy base(0x1100c000)
+[    0.956356 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get tx_dma irq(142),register base(0xe225e700)
+[    0.956370 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get interrupt flag(0x8)
+[    0.956384 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get register phy base dma_dir(1)(0x11000700)
+[    0.956404 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]_btif_vfifo_init:alloc vFIFO for BTIF succeed in arch32,vir addr:0xe0832000, phy addr:0x5f98a000
+[    0.956479 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get rx_dma irq(143),register base(0xe2272780)
+[    0.956493 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get interrupt flag(0x8)
+[    0.956506 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF-DMA[I]hal_dma_set_default_setting:get register phy base dma_dir(0)(0x11000780)
+[    0.956523 / 01-01 00:00:00.950]  (0)[1:swapper/0]MTK-BTIF[I]_btif_vfifo_init:alloc vFIFO for BTIF succeed in arch32,vir addr:0xe0834000, phy addr:0x5f98c000
+[    0.956620 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]_btif_rx_btm_init:set RT to btif_rxd workqueue succeed
+[    0.956637 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]_btif_rx_btm_init:rx_spin_lock init succeed
+[    0.956650 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]_btif_tx_ctx_init:nothing is done when btif tx in user's thread
+[    0.956662 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]_btif_tx_ctx_init:succeed
+[    0.956676 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]btif_chrdev_init:devuce number allocation succeed
+[    0.956690 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]btif_chrdev_init:add btif dev to kernel succeed
+[    0.956714 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]btif_chrdev_init:create class for btif succeed
+[    0.956767 / 01-01 00:00:00.950]  (3)[1:swapper/0]MTK-BTIF[I]btif_chrdev_init:create device for btif succeed
+[    0.956992 / 01-01 00:00:00.950]  (3)[1:swapper/0][PRE_SELFD] pre_selfd driver registration done
+[    0.982892 / 01-01 00:00:00.980]  (1)[1:swapper/0]mt-soc-codec mt-soc-codec: ASoC: no source widget found for SPEAKER PGA
+[    0.982909 / 01-01 00:00:00.980]  (1)[1:swapper/0]mt-soc-codec mt-soc-codec: ASoC: Failed to add route SPEAKER PGA -> Voice Mux -> VOICE_Mux_E
+[    0.983177 / 01-01 00:00:00.980]  (1)[1:swapper/0]mt-soc-codec mt-soc-codec: ASoC: no source widget found for SPEAKER PGA
+[    0.983188 / 01-01 00:00:00.980]  (1)[1:swapper/0]mt-soc-codec mt-soc-codec: ASoC: Failed to add route SPEAKER PGA -> Voice Mux -> VOICE_Mux_E
+[    0.986578 / 01-01 00:00:00.980]  (1)[1:swapper/0]ALSA control.c:357 control 2:0:0:cmb stub Audio Control:0 is already present
+[    0.986594 / 01-01 00:00:00.980]  (1)[1:swapper/0]mt-soc-fm-i2s-pcm mt-soc-fm-i2s-pcm: ASoC: Failed to add cmb stub Audio Control: -16
+[    1.006872 / 01-01 00:00:01.000]  (0)[1:swapper/0][LMK]total_low_ratio[2] - totalram_pages[236097] - totalhigh_pages[111040]
+[    1.008207 / 01-01 00:00:01.000]  (2)[1:swapper/0][ccci1/err/mcd]modem OF node NULL
+[    1.008299 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 96 to cpu 0
+[    1.008311 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01010100
+[    1.008322 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 96 to cpu 0
+[    1.008334 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01010101
+[    1.008367 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 97 to cpu 0
+[    1.008378 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01010001
+[    1.008390 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 97 to cpu 1
+[    1.008401 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01010201
+[    1.008430 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 98 to cpu 0
+[    1.008442 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01000201
+[    1.008453 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 98 to cpu 2
+[    1.008464 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x01040201
+[    1.008493 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 99 to cpu 0
+[    1.008504 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x00040201
+[    1.008516 / 01-01 00:00:01.000]  (2)[1:swapper/0]set irq 99 to cpu 3
+[    1.008527 / 01-01 00:00:01.000]  (2)[1:swapper/0]reg 0xf0221860 = 0x08040201
+[    1.045740 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[0]=0x3
+[    1.045749 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[1]=0x45
+[    1.045758 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[2]=0x14ad4ed7
+[    1.045766 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[3]=0x880072
+[    1.045775 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[4]=0x13ba3026
+[    1.045783 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[5]=0xd564
+[    1.045792 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[6]=0x0
+[    1.045800 / 01-01 00:00:01.040]  (2)[1:swapper/0]val[7]=0x8e
+[    1.045808 / 01-01 00:00:01.040]  (2)[1:swapper/0]p->PTPINITEN=0x1
+[    1.045816 / 01-01 00:00:01.040]  (2)[1:swapper/0]p->PTPMONEN=0x1
+[    1.064624 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init_det(), det->VBOOT = 51
+[    1.064648 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init_det(), det->VBOOT = 48
+[    1.064673 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init_det(), det->VBOOT = 48
+[    1.068308 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init01(),get_volt(PTP_DET_MCUSYS), vboot = 51
+[    1.068346 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init01(),get_volt(PTP_DET_GPUSYS), vboot = 48
+[    1.068385 / 01-01 00:00:01.060]  (3)[1:swapper/0][PTP] 1@ptp_init01(),get_volt(PTP_DET_SOC), vboot = 48
+[    1.068958 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] @ handle_init02_isr(PTP_DET_MCUSYS)
+[    1.068990 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] init02 ptp_read(PTP_VOP30) = 0x2D333A3D
+[    1.069007 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] init02 ptp_read(PTP_VOP74) = 0x10101521
+[    1.069219 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] base_ops_mon_mode det->MTS = 504, det->BTS = 1756
+[    1.070152 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] @ handle_init02_isr(PTP_DET_SOC)
+[    1.070183 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] init02 ptp_read(PTP_VOP30) = 0x30303036
+[    1.070201 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] init02 ptp_read(PTP_VOP74) = 0x30303030
+[    1.070409 / 01-01 00:00:01.060] -(0)[0:swapper/0][PTP] base_ops_mon_mode det->MTS = 504, det->BTS = 1756
+[    1.085571 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] @ handle_mon_mode_isr(PTP_DET_MCUSYS)
+[    1.085605 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] mon ptp_read(PTP_VOP30) = 0x282F363A
+[    1.085622 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] mon ptp_read(PTP_VOP74) = 0x1010101C
+[    1.085855 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] @ handle_mon_mode_isr(PTP_DET_SOC)
+[    1.085886 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] mon ptp_read(PTP_VOP30) = 0x30303030
+[    1.085899 / 01-01 00:00:01.080] -(0)[0:swapper/0][PTP] mon ptp_read(PTP_VOP74) = 0x30303030
+[    1.124990 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_ffs, f->name = ffs
+[    1.125036 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init ffs success!!
+[    1.125049 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_adb, f->name = adb
+[    1.125107 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init adb success!!
+[    1.125119 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_acm, f->name = acm
+[    1.125257 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init acm success!!
+[    1.125273 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_laf, f->name = laf
+[    1.125323 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init laf success!!
+[    1.125335 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_mtp, f->name = mtp
+[    1.125458 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init mtp success!!
+[    1.125470 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_ptp, f->name = ptp
+[    1.125498 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init ptp success!!
+[    1.125509 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_ecm, f->name = ecm
+[    1.125537 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init ecm success!!
+[    1.125550 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_eem, f->name = eem
+[    1.125577 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init eem success!!
+[    1.125590 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_gser, f->name = gser
+[    1.125717 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init gser success!!
+[    1.125730 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_rndis, f->name = rndis
+[    1.125761 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init rndis success!!
+[    1.125780 / 01-01 00:00:01.120]  (3)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_mass_storage, f->name = mass_storage
+[    1.125943 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init mass_storage success!!
+[    1.125958 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_charge_only, f->name = charge_only
+[    1.125990 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init charge_only success!!
+[    1.126001 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_accessory, f->name = accessory
+[    1.126054 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init accessory success!!
+[    1.126066 / 01-01 00:00:01.120]  (2)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_cdrom_storage, f->name = cdrom_storage
+[    1.126230 / 01-01 00:00:01.120]  (1)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init cdrom_storage success!!
+[    1.126245 / 01-01 00:00:01.120]  (1)[1:swapper/0][XLOG_INFO][USB]android_init_functions: f->dev_name = f_audio_source, f->name = audio_source
+[    1.126275 / 01-01 00:00:01.120]  (1)[1:swapper/0][XLOG_INFO][USB]android_init_functions: init audio_source success!!
+[    1.127348 / 09-28 07:36:22.500]  (0)[1:swapper/0]BOOTPROF:      1127.343999:Kernel_init_done
+[    1.613410 / 09-28 07:36:22.980]  (1)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-1), temp=30, volt=4044, BTM=0, charger=1
+[    1.787573 / 09-28 07:36:23.150]  (0)[1:init]init: USB-SET: persist.sys.usb.config(adb)
+[    1.992411 / 09-28 07:36:23.360]  (1)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-0), temp=30, volt=4078, BTM=0, charger=1
+[    2.001093 / 09-28 07:36:23.360]  (0)[1:init]init: /dev/hw_random not found
+[    2.002459 / 09-28 07:36:23.370]  (0)[1:init]init: [get_was_hidden_reset] set ro.lge.hiddenreset 0 --->
+[    2.002548 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable in 
+[    2.002566 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002583 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 7, LK, 6100000, 10, 80000
+[    2.002600 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002616 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002633 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 8, BOOTIMG, 7200000, c0010, 1000000
+[    2.002649 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002665 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002682 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 10, RECOVERY, 8200000, 1100010, 1000000
+[    2.002698 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002714 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002731 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 11, LAF, 6200000, 2140010, 1000000
+[    2.002747 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002763 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002780 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 12, FACTORY, 17c80000, 3180010, 1b80000
+[    2.002797 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002813 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002829 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 13, LOGO, 9880000, 4d40010, 800000
+[    2.002846 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002862 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002879 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 16, __NODL_LGFOTA, db80000, 5580010, a00000
+[    2.002895 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002912 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002929 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 17, UBOOTBAK, 6180000, 5fc0010, 80000
+[    2.002945 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002961 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.002978 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _SetUAPartitionTable : 18, LO_BAK_GO, a080000, 6080010, 800000
+[    2.002994 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : --------------------------------------------------------
+[    2.003010 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : _Initialize : 5580010, 55e0010
+[    2.003030 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : IStorageFlash_Open in 
+[    2.003084 / 09-28 07:36:23.370]  (0)[1:init][FOTA] : IStoragePart_GetPhysicalAddress : uiLogical - 05580010
+[    2.003875 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : IStorageFlash_ReadData64 : Address - db80000, uiRet - 200
+[    2.003895 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : enUpdateState                : 0x0f07a105
+[    2.003912 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.enState             : 0x0f07a205
+[    2.003927 / 09-28 07:36:23.370]  (2)[1:init][FO2:kthreadd] fork [kgOffset[0]     : 0x000dfc58
+[    2.003952 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[0]       : 0x00000000
+[    2.003967 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[1]     : 0x000dfc58
+[    2.003983 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[1]       : 0x00000000
+[    2.003998 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[2]     : 0x000dfc58
+[    2.004014 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[2]       : 0x00000000
+[    2.004029 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[3]     : 0x000dfc58
+[    2.004044 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[3]       : 0x00000000
+[    2.004059 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[4]     : 0x000dfc58
+[    2.004075 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[4]       : 0x00000000
+[    2.004090 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[5]     : 0x000dfc58
+[    2.004105 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[5]       : 0x00000000
+[    2.004120 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[6]     : 0x000dfc58
+[    2.004135 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[6]       : 0x00000000
+[    2.004151 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[7]     : 0x000dfc58
+[    2.004166 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[7]       : 0x0000013c
+[    2.004181 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[8]     : 0x000dfd94
+[    2.004196 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[8]       : 0x0005ea17
+[    2.004212 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[9]     : 0x0013e7ab
+[    2.004227 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[9]       : 0x00019151
+[    2.004243 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[10]     : 0x001578fc
+[    2.004258 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[10]       : 0x000603f9
+[    2.004274 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[11]     : 0x001b7cf5
+[    2.004289 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[11]       : 0x00062604
+[    2.004305 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[12]     : 0x0021a2f9
+[    2.004320 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[12]       : 0x0005f08b
+[    2.004336 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[13]     : 0x00279384
+[    2.004351 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[13]       : 0x0000014c
+[    2.004367 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[14]     : 0x002794d0
+[    2.004382 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[14]       : 0x00000000
+[    2.004398 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgOffset[15]     : 0x002794d0
+[    2.004413 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiPkgSize[15]       : 0x00000000
+[    2.004428 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiCurrSection       : 0x00000020
+[    2.004443 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFWInfo.uiResult            : 0x00000000
+[    2.004458 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFSInfo.enState             : 0x0f07a302
+[    2.004473 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFSInfo.uiFilePackageOffset : 0x0004ffac
+[    2.004488 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFSInfo.uiFilePackageSize   : 0x0004ffcc
+[    2.004503 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stFSInfo.uiResult            : 0x00000000
+[    2.004519 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stPkgInfo.enPackageType      : 0x3f800300
+[    2.004534 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stPkgInfo.uiSize             : 0x017f137c
+[    2.004549 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stPkgInfo.uiWrittenAddr      : 0x00000000
+[    2.004564 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stPkgInfo.uiWrittenSize      : 0x00000000
+[    2.004579 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stPkgInfo.szPackagePath      : /cache/fota/dlpkgfile
+[    2.004594 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stCommand.enCommand          : 0x00000000
+[    2.004609 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : uiBackupBufferAddr           : 0x00000000
+[    2.004624 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : uiLanguage                   : 0x00000021
+[    2.004639 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stDebug.uiResetCount         : 0x00000064
+[    2.004654 / 09-28 07:36:23.370]  (2)[1:init][FOTA] : stDebug.uiRetryCount         : 0x00000010
+[    2.060401 / 09-28 07:36:23.420]  (2)[1:init]init: /dev/hw_random not found
+[    2.062252 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable_store: device_attr->attr.name: enable
+[    2.062263 / 09-28 07:36:23.430]  (2)[1:init]android_usb: already disabled
+[    2.062309 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.062321 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: did not send uevent (0 0   (null))
+[    2.062581 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]request function list: mtp,adb
+[    2.062592 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]functions_store: 
+[    2.062602 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]functions_store: name = mtp,adb 
+[    2.062623 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = mtp, f->name=ffs 
+[    2.062634 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = mtp, f->name=adb 
+[    2.062644 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = mtp, f->name=acm 
+[    2.062654 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = mtp, f->name=laf 
+[    2.062664 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = mtp, f->name=mtp 
+[    2.062674 / 09-28 07:36:23.430]  (2)[1:init]func:mtp is enabled.
+[    2.062693 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]android_enable_function: name = ffs, f->name=ffs 
+[    2.062702 / 09-28 07:36:23.430]  (2)[1:init]func:ffs is enabled.
+[    2.063009 / 09-28 07:36:23.430]  (2)[1:init]init: [LGE][SBP] lge_read_property_persist_cache pull, strKey : persist.sys.cupss.default, strValue :  
+[    2.063042 / 09-28 07:36:23.430]  (2)[1:init]init: [LGE][SBP] lge_read_property_persist_cache pull, strKey : persist.sys.cupss.integration, strValue :  
+[    2.063103 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /persist-lg/lg_persist_property errno: 2
+[    2.063126 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /data/property errno: 2
+[    2.063148 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /persist-lg/property errno: 2
+[    2.063271 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /persist-lg/lg_persist_property errno: 2
+[    2.063294 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /data/property errno: 2
+[    2.063316 / 09-28 07:36:23.430]  (2)[1:init]init: Unable to open persistent property directory /persist-lg/property errno: 2
+[    2.065175 / 09-28 07:36:23.430]  (2)[1:init]init: Warning!  Service recovery needs a SELinux domain defined; it can cause CTS FAIL!! please fix!!!
+[    2.065618 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable_store: device_attr->attr.name: enable
+[    2.065628 / 09-28 07:36:23.430]  (2)[1:init]android_usb: already disabled
+[    2.065671 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.065687 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: did not send uevent (0 0   (null))
+[    2.066064 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable_store: device_attr->attr.name: enable
+[    2.066076 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable function 'mtp'/c0c7bd1c
+[    2.066086 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable function 'ffs'/c0c7b560
+[    2.066099 / 09-28 07:36:23.430]  (2)[1:init][XLOG_INFO][USB]enable_store: enable 0->1 case, device_desc.idVendor = 0x18d1, device_desc.idProduct = 0x4ee2
+[    2.066139 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.066152 / 09-28 07:36:23.430]  (2)[124:kworker/2:1][XLOG_INFO][USB]android_work: did not send uevent (0 0   (null))
+[    2.068117 / 09-28 07:36:23.430] [XLOG_INFO][USB]android_bind_enabled_functions: 
+[    2.068131 / 09-28 07:36:23.430]  (3)[151:adbd][XLOG_INFO][USB]bind_config function 'mtp'/c0c7bd1c
+[    2.068191 / 09-28 07:36:23.430]  (3)[151:adbd][XLOG_INFO][USB]bind_config function 'ffs'/c0c7b560
+[    2.081925 / 09-28 07:36:23.450]  (1)[149:recovery][LED]Set Backlight directly 255 at time 4294937504
+[    2.081942 / 09-28 07:36:23.450]  (1)[149:recovery]brightness_set_cust:backlight control by LCM
+[    2.081964 / 09-28 07:36:23.450] [LM3639] level = 255[lm3639]-OVP[0x73]
+[    2.262075 / 09-28 07:36:23.630]  (1)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-0), temp=30, volt=4112, BTM=0, charger=1
+[    2.345158 / 09-28 07:36:23.710] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.345206 / 09-28 07:36:23.710]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.345258 / 09-28 07:36:23.710]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: sent uevent USB_STATE=CONNECTED
+[    2.349835 / 09-28 07:36:23.710] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_disconnect: 
+[    2.349850 / 09-28 07:36:23.710] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_disconnect: dev->connected = 0 
+[    2.349877 / 09-28 07:36:23.710]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.349913 / 09-28 07:36:23.710]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: sent uevent USB_STATE=DISCONNECTED
+[    2.378080 / 09-28 07:36:23.740]  (1)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-0), temp=30, volt=4148, BTM=0, charger=1
+[    2.477141 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477189 / 09-28 07:36:23.840]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.477240 / 09-28 07:36:23.840]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: sent uevent USB_STATE=CONNECTED
+[    2.477329 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477447 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477571 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477698 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477821 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.477946 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.478225 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.478533 / 09-28 07:36:23.840]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: is_hwconnected=1 
+[    2.478568 / 09-28 07:36:23.840]  (0)[144:kworker/0:1][XLOG_INFO][USB]android_work: sent uevent USB_STATE=CONFIGURED
+[    2.478594 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.478806 / 09-28 07:36:23.840] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    2.505733 / 09-28 07:36:23.870]  (1)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-0), temp=30, volt=4150, BTM=0, charger=1
+[    3.020415 / 09-28 07:36:24.380] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    3.020646 / 09-28 07:36:24.380] -(0)[0:swapper/0][XLOG_VERBOSE][USB]android_setup
+[    3.091411 / 09-28 07:36:24.460]  (1)[136:read_poweroff_l]emmc expd not ready!
+[    3.113575 / 09-28 07:36:24.480]  (1)[136:read_poweroff_l]ram_console: create last_kmsg2 ok.
+[   12.510220 / 09-28 07:36:33.870]  (2)[118:bat_thread_kthr]LGE charging scenario : Change state 0 -> 0(0-0), temp=30, volt=4162, BTM=0, charger=1
+[   13.662301 / 09-28 07:36:35.030]  (1)[126:kworker/u8:4][TOUCH][L][COMMON] [FINGER] PRESS<0> x = 569, y = 1044, z= 40
+[   13.782275 / 09-28 07:36:35.150]  (1)[126:kworker/u8:4][TOUCH][L][COMMON] [FINGER] RELEASE<0>
+[   16.731368 / 09-28 07:36:38.090]  (1)[126:kworker/u8:4][TOUCH][L][COMMON] [FINGER] PRESS<0> x = 230, y = 345, z= 43
+[   16.790760 / 09-28 07:36:38.150]  (2)[126:kworker/u8:4][TOUCH][L][COMMON] [FINGER] RELEASE<0>
+[   16.924434 / 09-28 07:36:38.290]  (2)[149:recovery][LED]PMIC#1:0
+[   17.162886 / 09-28 07:36:38.530]  (3)[149:recovery][M4U] m4u_larb0_disable, refcnt: 1, DDP
+[   17.162953 / 09-28 07:36:38.530] powerkey_kick:mtkfb_early_suspend:2,2
+[DISPCHECK]primary_display_suspend end
+[   17.163054 / 09-28 07:36:38.530]  (3)[149:recovery][gps]null pointer!!
+[   17.163182 / 09-28 07:36:38.530]  (0)[149:recovery]Restarting system.
+
+
