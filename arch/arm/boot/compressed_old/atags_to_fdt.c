@@ -71,17 +71,17 @@ static void merge_fdt_bootargs(void *fdt, const char *fdt_cmdline)
 	char *ptr = cmdline;
 	int len = 0;
 
-	/* copy the fdt command line into the buffer */
+	/*                                           */
 	fdt_bootargs = getprop(fdt, "/chosen", "bootargs", &len);
 	if (fdt_bootargs)
 		if (len < COMMAND_LINE_SIZE) {
 			memcpy(ptr, fdt_bootargs, len);
-			/* len is the length of the string
-			 * including the NULL terminator */
+			/*                                
+                                    */
 			ptr += len - 1;
 		}
 
-	/* and append the ATAG_CMDLINE */
+	/*                             */
 	if (fdt_cmdline) {
 		len = strlen(fdt_cmdline);
 		if (ptr - cmdline + len + 2 < COMMAND_LINE_SIZE) {
@@ -96,49 +96,49 @@ static void merge_fdt_bootargs(void *fdt, const char *fdt_cmdline)
 }
 
 /*
- * Convert and fold provided ATAGs into the provided FDT.
- *
- * REturn values:
- *    = 0 -> pretend success
- *    = 1 -> bad ATAG (may retry with another possible ATAG pointer)
- *    < 0 -> error from libfdt
+                                                         
+  
+                 
+                            
+                                                                    
+                              
  */
 int atags_to_fdt(void *atag_list, void *fdt, int total_space)
 {
 	struct tag *atag = atag_list;
-	/* In the case of 64 bits memory size, need to reserve 2 cells for
-	 * address and size for each bank */
+	/*                                                                
+                                   */
 	uint32_t mem_reg_property[2 * 2 * NR_BANKS];
 	int memcount = 0;
 	int ret, memsize;
 
-	/* make sure we've got an aligned pointer */
+	/*                                        */
 	if ((u32)atag_list & 0x3)
 		return 1;
 
-	/* if we get a DTB here we're done already */
+	/*                                         */
 	if (*(u32 *)atag_list == fdt32_to_cpu(FDT_MAGIC))
 	       return 0;
 
-	/* validate the ATAG */
+	/*                   */
 	if (atag->hdr.tag != ATAG_CORE ||
 	    (atag->hdr.size != tag_size(tag_core) &&
 	     atag->hdr.size != 2))
 		return 1;
 
-	/* let's give it all the room it could need */
+	/*                                          */
 	ret = fdt_open_into(fdt, fdt, total_space);
 	if (ret < 0)
 		return ret;
 
 	for_each_tag(atag, atag_list) {
 		if (atag->hdr.tag == ATAG_CMDLINE) {
-			/* Append the ATAGS command line to the device tree
-			 * command line.
-			 * NB: This means that if the same parameter is set in
-			 * the device tree and in the tags, the one from the
-			 * tags will be chosen.
-			 */
+			/*                                                 
+                   
+                                                         
+                                                       
+                          
+    */
 			if (do_extend_cmdline)
 				merge_fdt_bootargs(fdt,
 						   atag->u.cmdline.cmdline);
@@ -153,9 +153,9 @@ int atags_to_fdt(void *atag_list, void *fdt, int total_space)
 			memsize = get_cell_size(fdt);
 
 			if (memsize == 2) {
-				/* if memsize is 2, that means that
-				 * each data needs 2 cells of 32 bits,
-				 * so the data are 64 bits */
+				/*                                 
+                                          
+                               */
 				uint64_t *mem_reg_prop64 =
 					(uint64_t *)mem_reg_property;
 				mem_reg_prop64[memcount++] =
