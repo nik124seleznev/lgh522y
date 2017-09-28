@@ -25,7 +25,6 @@ ifneq ($(CONFIG_MTK_GIC),y)
 obj-y   += irq/
 endif
 
-obj-$(CONFIG_MTK_CPU_STRESS)	+= cpu_stress/
 obj-$(CONFIG_MTK_LASTPC)	    += lastpc/
 obj-$(CONFIG_MTK_DBG_DUMP) += dbg_dump/
 
@@ -126,15 +125,6 @@ obj-$(CONFIG_MTK_EEMCS_DRIVER) +=  eemcs/
 obj-$(CONFIG_NFC_BCM2079X_MT6732)	+= nfc/
 obj-$(CONFIG_ZRAM)	+= mlog/
 
-# [LGE_UPDATE_S][yonghwan.lym@lge.com][2015-01-02] Multiple EEPROM Suport
-#obj-y	+= cam_cal/src/$(MTK_PLATFORM)/dummy_eeprom/
-
-obj-$(CONFIG_MTK_CAM_CAL_DW9716_EEPROM_SUPPORT)	+= cam_cal/src/$(MTK_PLATFORM)/DW9716_eeprom/
-obj-$(CONFIG_MTK_CAM_CAL_GT24C32A_SUPPORT)	+= cam_cal/src/$(MTK_PLATFORM)/GT24c32a_eeprom/
-obj-$(CONFIG_MTK_CAM_CAL_BRCC064GWZ_3_SUPPORT) += cam_cal/src/$(MTK_PLATFORM)/BRCC064GWZ_3_eeprom/
-obj-$(CONFIG_MTK_CAM_CAL_BRCB032GWZ_3_SUPPORT) += cam_cal/src/$(MTK_PLATFORM)/BRCB032GWZ_3_eeprom/
-obj-$(CONFIG_MTK_CAM_CAL_COMMON_SUPPORT) += cam_cal/src/$(MTK_PLATFORM)/Common_eeprom/
-# [LGE_UPDATE_E][yonghwan.lym@lge.com][2015-01-02] Multiple EEPROM Suport
 obj-y	+= lens/
 obj-y	+= imgsensor/src/
 
