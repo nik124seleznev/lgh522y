@@ -9,7 +9,7 @@ export CROSS_COMPILE=/home/nik-kst/Android/utility/arm-eabi-4.8/bin/arm-eabi-
 make clean
 make mrproper
 make O=out TARGET_ARCH=arm muse6732_c90_l_defconfig
-make -j4 O=out TARGET_ARCH=arm | tee build.log
+make -j5 O=out TARGET_ARCH=arm | tee build.log
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,9 +23,13 @@ export CROSS_COMPILE=/home/nik-kst/Android/utility/aarch64-linux-android-4.9/bin
 make clean
 make mrproper
 make O=out TARGET_ARCH=arm64 muse6732_c90_l_defconfig
-make -j4 O=out TARGET_ARCH=arm64 | tee build.log
+make -j5 O=out TARGET_ARCH=arm64 | tee build.log
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+make -j1 O=out TARGET_ARCH=arm64 CONFIG_NO_ERROR_ON_MISMATCH=y | tee build.log
+
+make -j1 O=out TARGET_ARCH=arm64 CONFIG_DEBUG_SECTION_MISMATCH=y | tee build.log
 
 make -j1 O=out TARGET_ARCH=arm64 | tee build.log
 

@@ -64,7 +64,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x000>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -73,7 +73,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x001>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -82,7 +82,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x002>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -91,7 +91,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x003>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -100,7 +100,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x100>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -109,7 +109,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x101>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -118,7 +118,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x102>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 		};
@@ -127,7 +127,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53";
 			reg = <0x103>;
-			enable-method = "spin-table";
+			enable-method = "mt-boot";
 			cpu-release-addr = <0x0 0x40000200>;
 			clock-frequency = <2000000000>;
 
@@ -139,6 +139,32 @@
 	memory@00000000 {
 		device_type = "memory";
 		reg = <0 0x40000000 0 0x40000000>;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		
+		consys-reserve-memory {
+			compatible = "consys-reserve-memory";
+			no-map;
+			size = <0 0x200000>;
+			alignment = <0 0x200000>;
+		};
+/*
+		reserve-memory-test {
+			compatible = "reserve-memory-test";
+			no-map;
+			size = <0 0x4000000>;
+			alignment = <0 0x2000000>;
+		};
+
+		mrdump-reserved-memory {
+			compatible = "mrdump";
+			reg = <0 0x80000000 0 0x4000000>;
+		};
+*/
 	};
 
 	gic: interrupt-controller@0x10220000 {
@@ -156,7 +182,7 @@
 			cpuif-id = <0>;
 			cpu = <&cpu0>;
 		};
-/*
+
 		gic-cpuif@1 {
 			compatible = "arm,gic-cpuif";
 			cpuif-id = <1>;
@@ -174,7 +200,7 @@
 			cpuif-id = <3>;
 			cpu = <&cpu3>;
 		};
-*/
+
 	};
 
 		CPUXGPT@0x10002000 {
@@ -500,6 +526,7 @@
                    0x10f10000 0x1000>;
         };
 
+
         DBG_ETM {
             compatible = "mediatek,DBG_ETM";
             num = <8>;
@@ -667,7 +694,7 @@
 
 		CCI400@0x10390000 {
 			compatible = "mediatek,CCI400";
-			reg = <0x10390000 0x8000>;
+			reg = <0x10390000 0x10000>;
 		};
 
 		DBGAPB@0x10400000 {
@@ -918,7 +945,7 @@
 			audmiso-gpio = <25 0>;
 			audmosi-gpio = <26 0>;
 			vowclk-gpio = <148 0>;
-            extspkamp-gpio = <117 0>;
+			extspkamp-gpio = <117 0>;
 			i2s1clk-gpio = <135 0>;
 			i2s1dat-gpio = <137 0>;
 			i2s1mclk-gpio = <134 0>;
@@ -1050,7 +1077,7 @@
 			reg = <0x13040000 0x4000>;
 			interrupts = <0 227 0x8>, <0 226 0x8>, <0 225 0x8>;
 			interrupt-names = "JOB", "MMU", "GPU";
-			clock-frequency = <700000000>;
+			clock-frequency = <700000000>;			
 		};
 
 		MMSYS_CONFIG@0x14000000 {
@@ -1288,7 +1315,7 @@
 				<0 222 0x8>, /* CAMSV0 */
 				<0 223 0x8>; /* CAMSV1 */
 		};
-	  KD_CAMERA_HW1@0x15008000 {
+	  	KD_CAMERA_HW1@0x15008000 {
 			compatible = "mediatek,CAMERA_HW";
 			reg = <0x15008000 0x1000>;  /* SENINF_ADDR */
 		};
@@ -1575,7 +1602,7 @@
                         interrupts = <0 143 0x8>;
                         nr_channel = <1>;
                 };
-		l2c_share@0x10200000 {
+                l2c_share@0x10200000 {
                        compatible = "mediatek,l2c_share";
                        reg = <0x10200000 0x4>,
                              <0x10200200 0x4>;
@@ -1586,7 +1613,7 @@
 	};
 
 	psci {
-		compatible  = "arm,psci-0.2";
+		compatible  = "arm,psci";
 		method      = "smc";
 		cpu_suspend = <0x84000001>;
 		cpu_off     = <0x84000002>;
@@ -1602,3 +1629,4 @@
 };
 
 /include/ "cust_eint.dtsi"
+
