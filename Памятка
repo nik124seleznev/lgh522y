@@ -8,6 +8,7 @@ export SUBARCH=arm
 export CROSS_COMPILE=/home/nik-kst/Android/utility/arm-eabi-4.8/bin/arm-eabi-
 make clean
 make mrproper
+make O=out TARGET_ARCH=arm muse6732_c90_l_STOCK_defconfig
 make O=out TARGET_ARCH=arm muse6732_c90_l_defconfig
 make -j5 O=out TARGET_ARCH=arm | tee build.log
 
