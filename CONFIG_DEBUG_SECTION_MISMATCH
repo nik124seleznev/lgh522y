@@ -1,65 +1,66 @@
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x4fd54): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
+  LD      drivers/misc/mediatek/built-in.o
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x50ea8): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
 The function get_max_DRAM_size() references
 the variable __init $x.
 This is often because get_max_DRAM_size lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1cd1c0): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x1dfb68): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1cd1c4): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x1dfb70): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1f216c): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x206d40): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1f2174): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x206d48): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1f2454): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x206ff8): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x1f2458): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x207000): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x2c4014): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x2e0b18): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.text+0x2c4018): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/misc/mediatek/built-in.o(.text+0x2e0b20): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/misc/mediatek/built-in.o(.data+0x1c810): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
+WARNING: drivers/misc/mediatek/built-in.o(.data+0x1c768): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
 The variable mt6xxx_cradle_driver references
 the variable __init $x
 If the reference is valid then annotate the
 variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-WARNING: drivers/misc/mediatek/built-in.o(.data+0x2d8d8): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
+WARNING: drivers/misc/mediatek/built-in.o(.data+0x2d838): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
 The variable mt65xx_leds_driver references
 the variable __init $x
 If the reference is valid then annotate the
@@ -67,68 +68,68 @@ variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
   LD      drivers/misc/built-in.o
-WARNING: drivers/misc/built-in.o(.text+0x4ffb4): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
+WARNING: drivers/misc/built-in.o(.text+0x51118): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
 The function get_max_DRAM_size() references
 the variable __init $x.
 This is often because get_max_DRAM_size lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1cd420): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/misc/built-in.o(.text+0x1dfdd8): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1cd424): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/misc/built-in.o(.text+0x1dfde0): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1f23cc): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/misc/built-in.o(.text+0x206fb0): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1f23d4): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/misc/built-in.o(.text+0x206fb8): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1f26b4): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/misc/built-in.o(.text+0x207268): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x1f26b8): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/misc/built-in.o(.text+0x207270): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x2c4274): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/misc/built-in.o(.text+0x2e0d88): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/misc/built-in.o(.text+0x2c4278): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/misc/built-in.o(.text+0x2e0d90): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/misc/built-in.o(.data+0x1c850): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
+WARNING: drivers/misc/built-in.o(.data+0x1c7a8): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
 The variable mt6xxx_cradle_driver references
 the variable __init $x
 If the reference is valid then annotate the
 variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-WARNING: drivers/misc/built-in.o(.data+0x2d918): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
+WARNING: drivers/misc/built-in.o(.data+0x2d878): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
 The variable mt65xx_leds_driver references
 the variable __init $x
 If the reference is valid then annotate the
@@ -136,278 +137,278 @@ variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
   LD      drivers/built-in.o
-WARNING: drivers/built-in.o(.text+0xc1194): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0xc9ea8): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc11c4): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0xc9ed4): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc11d8): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
+WARNING: drivers/built-in.o(.text+0xc9ee4): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
 The function $x() references
 the variable __initdata dt_root_addr_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc11e0): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
+WARNING: drivers/built-in.o(.text+0xc9ee8): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
 The function $x() references
 the variable __initdata dt_root_size_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc11f0): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
+WARNING: drivers/built-in.o(.text+0xc9ef4): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
 The function $x() references
 the variable __initdata dt_root_addr_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc11f4): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
+WARNING: drivers/built-in.o(.text+0xc9efc): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
 The function $x() references
 the variable __initdata dt_root_size_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc1220): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
+WARNING: drivers/built-in.o(.text+0xc9f28): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
 The function $x() references
 the function __init dt_mem_next_cell().
 This is often because $x lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc122c): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
+WARNING: drivers/built-in.o(.text+0xc9f34): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
 The function $x() references
 the function __init dt_mem_next_cell().
 This is often because $x lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc127c): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0xc9f80): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0xc1354): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
+WARNING: drivers/built-in.o(.text+0xca038): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
 The function get_max_DRAM_size() references
 the variable __init $x.
 This is often because get_max_DRAM_size lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/built-in.o(.text+0x1451ec): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x152a88): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_scan_flat_dt()
 The function _parse_tag_videolfb() references
 the function __init of_scan_flat_dt().
 This is often because _parse_tag_videolfb lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x145208): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x152aa4): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_get_flat_dt_prop()
 The function _parse_tag_videolfb() references
 the function __init of_get_flat_dt_prop().
 This is often because _parse_tag_videolfb lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x182fd0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x195ae0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183000): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x195b0c): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183010): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: drivers/built-in.o(.text+0x195b1c): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183014): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+WARNING: drivers/built-in.o(.text+0x195b20): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_size_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183018): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: drivers/built-in.o(.text+0x195b24): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+The function dt_scan_memory() references
+the variable __initdata dt_root_size_cells.
+This is often because dt_scan_memory lacks a __initdata 
+annotation or the annotation of dt_root_size_cells is wrong.
+
+WARNING: drivers/built-in.o(.text+0x195b28): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0x18301c): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
-The function dt_scan_memory() references
-the variable __initdata dt_root_size_cells.
-This is often because dt_scan_memory lacks a __initdata 
-annotation or the annotation of dt_root_size_cells is wrong.
-
-WARNING: drivers/built-in.o(.text+0x18303c): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
-The function dt_scan_memory() references
-the variable __initdata dt_root_size_cells.
-This is often because dt_scan_memory lacks a __initdata 
-annotation or the annotation of dt_root_size_cells is wrong.
-
-WARNING: drivers/built-in.o(.text+0x183040): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: drivers/built-in.o(.text+0x195b30): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: drivers/built-in.o(.text+0x18304c): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
+WARNING: drivers/built-in.o(.text+0x195b34): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+The function dt_scan_memory() references
+the variable __initdata dt_root_size_cells.
+This is often because dt_scan_memory lacks a __initdata 
+annotation or the annotation of dt_root_size_cells is wrong.
+
+WARNING: drivers/built-in.o(.text+0x195b54): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
 The function dt_scan_memory() references
 the function __init dt_mem_next_cell().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183058): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
+WARNING: drivers/built-in.o(.text+0x195b60): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
 The function dt_scan_memory() references
 the function __init dt_mem_next_cell().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: drivers/built-in.o(.text+0x1832dc): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x195df8): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_scan_flat_dt()
 The function atf_get_from_dt() references
 the function __init of_scan_flat_dt().
 This is often because atf_get_from_dt lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x183318): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x195e34): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_get_flat_dt_prop()
 The function atf_get_from_dt() references
 the function __init of_get_flat_dt_prop().
 This is often because atf_get_from_dt lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x23e7c0): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/built-in.o(.text+0x258cf8): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/built-in.o(.text+0x23e7c4): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: drivers/built-in.o(.text+0x258d00): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: drivers/built-in.o(.text+0x23e7cc): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x258d08): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_scan_flat_dt()
 The function ccci_md_mem_reserve() references
 the function __init of_scan_flat_dt().
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x23e7ec): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x258d24): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_get_flat_dt_prop()
 The function ccci_md_mem_reserve() references
 the function __init of_get_flat_dt_prop().
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x26376c): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/built-in.o(.text+0x27fed0): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/built-in.o(.text+0x263774): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: drivers/built-in.o(.text+0x27fed8): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: drivers/built-in.o(.text+0x263778): Section mismatch in reference from the function init_boot_common() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x27fedc): Section mismatch in reference from the function init_boot_common() to the function .init.text:of_scan_flat_dt()
 The function init_boot_common() references
 the function __init of_scan_flat_dt().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x263a54): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/built-in.o(.text+0x280188): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/built-in.o(.text+0x263a58): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: drivers/built-in.o(.text+0x280190): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: drivers/built-in.o(.text+0x263a60): Section mismatch in reference from the function init_boot_reason() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x280194): Section mismatch in reference from the function init_boot_reason() to the function .init.text:of_scan_flat_dt()
 The function init_boot_reason() references
 the function __init of_scan_flat_dt().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x3310c4): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x355968): Section mismatch in reference from the function dt_scan_memory.part.3() to the function .init.text:of_get_flat_dt_prop()
+The function dt_scan_memory.part.3() references
+the function __init of_get_flat_dt_prop().
+This is often because dt_scan_memory.part.3 lacks a __init 
+annotation or the annotation of of_get_flat_dt_prop is wrong.
+
+WARNING: drivers/built-in.o(.text+0x355a38): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x3310ec): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x355a60): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x3311a0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
-The function dt_scan_memory() references
-the function __init of_get_flat_dt_prop().
-This is often because dt_scan_memory lacks a __init 
-annotation or the annotation of of_get_flat_dt_prop is wrong.
-
-WARNING: drivers/built-in.o(.text+0x331d68): Section mismatch in reference from the function spm_set_suspned_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x3565d8): Section mismatch in reference from the function spm_set_suspned_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
 The function spm_set_suspned_pcm_init_flag() references
 the function __init of_scan_flat_dt().
 This is often because spm_set_suspned_pcm_init_flag lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x331eb0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x356718): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x331ee0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x356744): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x332050): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
+WARNING: drivers/built-in.o(.text+0x3568ac): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
 The function spm_set_dpidle_pcm_init_flag() references
 the function __init of_scan_flat_dt().
 This is often because spm_set_dpidle_pcm_init_flag lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: drivers/built-in.o(.text+0x3320e8): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_get_flat_dt_prop()
+WARNING: drivers/built-in.o(.text+0x356948): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_get_flat_dt_prop()
 The function spm_set_dpidle_pcm_init_flag() references
 the function __init of_get_flat_dt_prop().
 This is often because spm_set_dpidle_pcm_init_flag lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: drivers/built-in.o(.text+0x335614): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/built-in.o(.text+0x359ca8): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/built-in.o(.text+0x335618): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: drivers/built-in.o(.text+0x359cb0): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: drivers/built-in.o(.data+0x28e50): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
+WARNING: drivers/built-in.o(.data+0x28da8): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
 The variable mt6xxx_cradle_driver references
 the variable __init $x
 If the reference is valid then annotate the
 variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-WARNING: drivers/built-in.o(.data+0x39f18): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
+WARNING: drivers/built-in.o(.data+0x39e78): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
 The variable mt65xx_leds_driver references
 the variable __init $x
 If the reference is valid then annotate the
@@ -417,353 +418,383 @@ variable with __init* or __refdata (see linux/init.h) or name the variable:
   LINK    vmlinux
   LD      vmlinux.o
   MODPOST vmlinux.o
-WARNING: vmlinux.o(.text+0x2e3f64): Section mismatch in reference from the variable $x to the function .init.text:hook_fault_code()
+WARNING: vmlinux.o(.text+0x31402c): Section mismatch in reference from the variable $x to the function .init.text:hook_fault_code()
 The function $x() references
 the function __init hook_fault_code().
 This is often because $x lacks a __init 
 annotation or the annotation of hook_fault_code is wrong.
 
-WARNING: vmlinux.o(.text+0x327b24): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x358790): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x327dec): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x358c40): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x327eac): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x358e08): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x327ee0): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x358e50): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x328464): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x35924c): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x328498): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x3592c4): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x3284b4): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x359310): Section mismatch in reference from the function hps_algo_hmp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_hmp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_hmp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x328968): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x359698): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_smp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_smp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x328c24): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x35985c): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_smp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_smp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x328eec): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
+WARNING: vmlinux.o(.text+0x359cfc): Section mismatch in reference from the function hps_algo_smp() to the function .cpuinit.text:cpu_up()
 The function hps_algo_smp() references
 the function __cpuinit cpu_up().
 This is often because hps_algo_smp lacks a __cpuinit 
 annotation or the annotation of cpu_up is wrong.
 
-WARNING: vmlinux.o(.text+0x331b64): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x362d58): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x331b94): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x362d84): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x331ba8): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
+WARNING: vmlinux.o(.text+0x362d94): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
 The function $x() references
 the variable __initdata dt_root_addr_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x331bb0): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
+WARNING: vmlinux.o(.text+0x362d98): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
 The function $x() references
 the variable __initdata dt_root_size_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x331bc0): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
+WARNING: vmlinux.o(.text+0x362da4): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_addr_cells
 The function $x() references
 the variable __initdata dt_root_addr_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x331bc4): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
+WARNING: vmlinux.o(.text+0x362dac): Section mismatch in reference from the variable $x to the variable .init.data:dt_root_size_cells
 The function $x() references
 the variable __initdata dt_root_size_cells.
 This is often because $x lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x331bf0): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
+WARNING: vmlinux.o(.text+0x362dd8): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
 The function $x() references
 the function __init dt_mem_next_cell().
 This is often because $x lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: vmlinux.o(.text+0x331bfc): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
+WARNING: vmlinux.o(.text+0x362de4): Section mismatch in reference from the variable $x to the function .init.text:dt_mem_next_cell()
 The function $x() references
 the function __init dt_mem_next_cell().
 This is often because $x lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: vmlinux.o(.text+0x331c4c): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x362e30): Section mismatch in reference from the variable $x to the function .init.text:of_get_flat_dt_prop()
 The function $x() references
 the function __init of_get_flat_dt_prop().
 This is often because $x lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x331d24): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
+WARNING: vmlinux.o(.text+0x362ee8): Section mismatch in reference from the function get_max_DRAM_size() to the variable .init.text:$x
 The function get_max_DRAM_size() references
 the variable __init $x.
 This is often because get_max_DRAM_size lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: vmlinux.o(.text+0x3b5bbc): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x3eb938): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_scan_flat_dt()
 The function _parse_tag_videolfb() references
 the function __init of_scan_flat_dt().
 This is often because _parse_tag_videolfb lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x3b5bd8): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x3eb954): Section mismatch in reference from the function _parse_tag_videolfb() to the function .init.text:of_get_flat_dt_prop()
 The function _parse_tag_videolfb() references
 the function __init of_get_flat_dt_prop().
 This is often because _parse_tag_videolfb lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39a0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x42e990): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39d0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x42e9bc): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39e0): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: vmlinux.o(.text+0x42e9cc): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39e4): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+WARNING: vmlinux.o(.text+0x42e9d0): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_size_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_size_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39e8): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: vmlinux.o(.text+0x42e9d4): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+The function dt_scan_memory() references
+the variable __initdata dt_root_size_cells.
+This is often because dt_scan_memory lacks a __initdata 
+annotation or the annotation of dt_root_size_cells is wrong.
+
+WARNING: vmlinux.o(.text+0x42e9d8): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x3f39ec): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
-The function dt_scan_memory() references
-the variable __initdata dt_root_size_cells.
-This is often because dt_scan_memory lacks a __initdata 
-annotation or the annotation of dt_root_size_cells is wrong.
-
-WARNING: vmlinux.o(.text+0x3f3a0c): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
-The function dt_scan_memory() references
-the variable __initdata dt_root_size_cells.
-This is often because dt_scan_memory lacks a __initdata 
-annotation or the annotation of dt_root_size_cells is wrong.
-
-WARNING: vmlinux.o(.text+0x3f3a10): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
+WARNING: vmlinux.o(.text+0x42e9e0): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_addr_cells
 The function dt_scan_memory() references
 the variable __initdata dt_root_addr_cells.
 This is often because dt_scan_memory lacks a __initdata 
 annotation or the annotation of dt_root_addr_cells is wrong.
 
-WARNING: vmlinux.o(.text+0x3f3a1c): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
+WARNING: vmlinux.o(.text+0x42e9e4): Section mismatch in reference from the function dt_scan_memory() to the variable .init.data:dt_root_size_cells
+The function dt_scan_memory() references
+the variable __initdata dt_root_size_cells.
+This is often because dt_scan_memory lacks a __initdata 
+annotation or the annotation of dt_root_size_cells is wrong.
+
+WARNING: vmlinux.o(.text+0x42ea04): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
 The function dt_scan_memory() references
 the function __init dt_mem_next_cell().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: vmlinux.o(.text+0x3f3a28): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
+WARNING: vmlinux.o(.text+0x42ea10): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:dt_mem_next_cell()
 The function dt_scan_memory() references
 the function __init dt_mem_next_cell().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of dt_mem_next_cell is wrong.
 
-WARNING: vmlinux.o(.text+0x3f3cac): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x42eca8): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_scan_flat_dt()
 The function atf_get_from_dt() references
 the function __init of_scan_flat_dt().
 This is often because atf_get_from_dt lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x3f3ce8): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x42ece4): Section mismatch in reference from the function atf_get_from_dt() to the function .init.text:of_get_flat_dt_prop()
 The function atf_get_from_dt() references
 the function __init of_get_flat_dt_prop().
 This is often because atf_get_from_dt lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x4af190): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: vmlinux.o(.text+0x4f1ba8): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: vmlinux.o(.text+0x4af194): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
+WARNING: vmlinux.o(.text+0x4f1bb0): Section mismatch in reference from the function ccci_md_mem_reserve() to the variable .init.text:$x
 The function ccci_md_mem_reserve() references
 the variable __init $x.
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of $x is wrong.
 
-WARNING: vmlinux.o(.text+0x4af19c): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x4f1bb8): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_scan_flat_dt()
 The function ccci_md_mem_reserve() references
 the function __init of_scan_flat_dt().
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x4af1bc): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x4f1bd4): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:of_get_flat_dt_prop()
 The function ccci_md_mem_reserve() references
 the function __init of_get_flat_dt_prop().
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x4af550): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:arm64_memblock_steal()
+WARNING: vmlinux.o(.text+0x4f20a0): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:arm64_memblock_steal()
 The function ccci_md_mem_reserve() references
 the function __init arm64_memblock_steal().
 This is often because ccci_md_mem_reserve lacks a __init 
 annotation or the annotation of arm64_memblock_steal is wrong.
 
-WARNING: vmlinux.o(.text+0x4d413c): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: vmlinux.o(.text+0x4f20f4): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:arm64_memblock_steal()
+The function ccci_md_mem_reserve() references
+the function __init arm64_memblock_steal().
+This is often because ccci_md_mem_reserve lacks a __init 
+annotation or the annotation of arm64_memblock_steal is wrong.
+
+WARNING: vmlinux.o(.text+0x4f2148): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:arm64_memblock_steal()
+The function ccci_md_mem_reserve() references
+the function __init arm64_memblock_steal().
+This is often because ccci_md_mem_reserve lacks a __init 
+annotation or the annotation of arm64_memblock_steal is wrong.
+
+WARNING: vmlinux.o(.text+0x4f219c): Section mismatch in reference from the function ccci_md_mem_reserve() to the function .init.text:arm64_memblock_steal()
+The function ccci_md_mem_reserve() references
+the function __init arm64_memblock_steal().
+This is often because ccci_md_mem_reserve lacks a __init 
+annotation or the annotation of arm64_memblock_steal is wrong.
+
+WARNING: vmlinux.o(.text+0x518d80): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: vmlinux.o(.text+0x4d4144): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
+WARNING: vmlinux.o(.text+0x518d88): Section mismatch in reference from the function init_boot_common() to the function .init.text:dt_get_boot_common()
 The function init_boot_common() references
 the function __init dt_get_boot_common().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of dt_get_boot_common is wrong.
 
-WARNING: vmlinux.o(.text+0x4d4148): Section mismatch in reference from the function init_boot_common() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x518d8c): Section mismatch in reference from the function init_boot_common() to the function .init.text:of_scan_flat_dt()
 The function init_boot_common() references
 the function __init of_scan_flat_dt().
 This is often because init_boot_common lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x4d4424): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: vmlinux.o(.text+0x519038): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: vmlinux.o(.text+0x4d4428): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
+WARNING: vmlinux.o(.text+0x519040): Section mismatch in reference from the function init_boot_reason() to the function .init.text:dt_get_boot_reason()
 The function init_boot_reason() references
 the function __init dt_get_boot_reason().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of dt_get_boot_reason is wrong.
 
-WARNING: vmlinux.o(.text+0x4d4430): Section mismatch in reference from the function init_boot_reason() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x519044): Section mismatch in reference from the function init_boot_reason() to the function .init.text:of_scan_flat_dt()
 The function init_boot_reason() references
 the function __init of_scan_flat_dt().
 This is often because init_boot_reason lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x5a1a94): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x5ee818): Section mismatch in reference from the function dt_scan_memory.part.3() to the function .init.text:of_get_flat_dt_prop()
+The function dt_scan_memory.part.3() references
+the function __init of_get_flat_dt_prop().
+This is often because dt_scan_memory.part.3 lacks a __init 
+annotation or the annotation of of_get_flat_dt_prop is wrong.
+
+WARNING: vmlinux.o(.text+0x5ee8e8): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x5a1abc): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x5ee910): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x5a1b70): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
-The function dt_scan_memory() references
-the function __init of_get_flat_dt_prop().
-This is often because dt_scan_memory lacks a __init 
-annotation or the annotation of of_get_flat_dt_prop is wrong.
-
-WARNING: vmlinux.o(.text+0x5a2738): Section mismatch in reference from the function spm_set_suspned_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x5ef488): Section mismatch in reference from the function spm_set_suspned_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
 The function spm_set_suspned_pcm_init_flag() references
 the function __init of_scan_flat_dt().
 This is often because spm_set_suspned_pcm_init_flag lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x5a2880): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x5ef5c8): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x5a28b0): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x5ef5f4): Section mismatch in reference from the function dt_scan_memory() to the function .init.text:of_get_flat_dt_prop()
 The function dt_scan_memory() references
 the function __init of_get_flat_dt_prop().
 This is often because dt_scan_memory lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x5a2a20): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
+WARNING: vmlinux.o(.text+0x5ef75c): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_scan_flat_dt()
 The function spm_set_dpidle_pcm_init_flag() references
 the function __init of_scan_flat_dt().
 This is often because spm_set_dpidle_pcm_init_flag lacks a __init 
 annotation or the annotation of of_scan_flat_dt is wrong.
 
-WARNING: vmlinux.o(.text+0x5a2ab8): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_get_flat_dt_prop()
+WARNING: vmlinux.o(.text+0x5ef7f8): Section mismatch in reference from the function spm_set_dpidle_pcm_init_flag() to the function .init.text:of_get_flat_dt_prop()
 The function spm_set_dpidle_pcm_init_flag() references
 the function __init of_get_flat_dt_prop().
 This is often because spm_set_dpidle_pcm_init_flag lacks a __init 
 annotation or the annotation of of_get_flat_dt_prop is wrong.
 
-WARNING: vmlinux.o(.text+0x5a5fe4): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: vmlinux.o(.text+0x5f2b58): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: vmlinux.o(.text+0x5a5fe8): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
+WARNING: vmlinux.o(.text+0x5f2b60): Section mismatch in reference from the function mt_usb_init() to the variable .init.data:$d
 The function mt_usb_init() references
 the variable __initdata $d.
 This is often because mt_usb_init lacks a __initdata 
 annotation or the annotation of $d is wrong.
 
-WARNING: vmlinux.o(.data+0x50c10): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
+WARNING: vmlinux.o(.data+0x4f1a8): Section mismatch in reference from the variable mt6xxx_cradle_driver to the variable .init.text:$x
 The variable mt6xxx_cradle_driver references
 the variable __init $x
 If the reference is valid then annotate the
 variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
 
-WARNING: vmlinux.o(.data+0x61cd8): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
+WARNING: vmlinux.o(.data+0x60278): Section mismatch in reference from the variable mt65xx_leds_driver to the variable .init.text:$x
 The variable mt65xx_leds_driver references
 the variable __init $x
 If the reference is valid then annotate the
 variable with __init* or __refdata (see linux/init.h) or name the variable:
 *_template, *_timer, *_sht, *_ops, *_probe, *_probe_one, *_console
+
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  LD      init/built-in.o
+`.exit.text' referenced in section `.data' of drivers/built-in.o: defined in discarded section `.exit.text' of drivers/built-in.o
+/home/nik-kst/Android/lge/lgh522y/Makefile:839: ошибка выполнения рецепта для цели «vmlinux»
+make[1]: *** [vmlinux] Ошибка 1
+make: *** [sub-make] Ошибка 2
+Makefile:130: ошибка выполнения рецепта для цели «sub-make»
+nik-kst@ubuntu:~/Android/lge/lgh522y$ 
 
