@@ -182,7 +182,6 @@ typedef enum {
 	DEVICE_FACTORY_DOWNLOAD_CABLE,  //     
 	DEVIDE_MAX
 } USB_ID_TYPE;
-
 extern USB_ID_TYPE readUSB_ID_Value();
 #endif
 
