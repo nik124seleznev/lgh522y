@@ -1,18 +1,36 @@
-  Using /home/nik-kst/Android/lge/lgh522y as source for kernel
-  GEN     /home/nik-kst/Android/lge/lgh522y/out/Makefile
+  GEN     /home/nik-kst/Android/kernel/lgh522y/out/Makefile
+scripts/kconfig/conf --silentoldconfig Kconfig
+  GEN     /home/nik-kst/Android/kernel/lgh522y/out/Makefile
   CHK     include/generated/uapi/linux/version.h
+  Using /home/nik-kst/Android/kernel/lgh522y as source for kernel
   CHK     include/generated/utsrelease.h
-  CALL    /home/nik-kst/Android/lge/lgh522y/scripts/checksyscalls.sh
   CC      scripts/mod/devicetable-offsets.s
+  CALL    /home/nik-kst/Android/kernel/lgh522y/scripts/checksyscalls.sh
   GEN     scripts/mod/devicetable-offsets.h
   HOSTCC  scripts/mod/file2alias.o
   HOSTLD  scripts/mod/modpost
   CHK     include/generated/compile.h
-  CC      drivers/misc/mediatek/dispsys/mt6752/ddp_dsi.o
-/home/nik-kst/Android/lge/lgh522y/scripts/Makefile.build:308: ошибка выполнения рецепта для цели «drivers/misc/mediatek/dispsys/mt6752/ddp_dsi.o»
-/home/nik-kst/Android/lge/lgh522y/scripts/Makefile.build:455: ошибка выполнения рецепта для цели «drivers/misc/mediatek/dispsys/mt6752»
-/home/nik-kst/Android/lge/lgh522y/scripts/Makefile.build:455: ошибка выполнения рецепта для цели «drivers/misc/mediatek/dispsys»
-/home/nik-kst/Android/lge/lgh522y/scripts/Makefile.build:455: ошибка выполнения рецепта для цели «drivers/misc/mediatek»
-/home/nik-kst/Android/lge/lgh522y/scripts/Makefile.build:455: ошибка выполнения рецепта для цели «drivers/misc»
-/home/nik-kst/Android/lge/lgh522y/Makefile:853: ошибка выполнения рецепта для цели «drivers»
-Makefile:130: ошибка выполнения рецепта для цели «sub-make»
+  COPY    firmware/synaptics/c90/PLG465-V1.11-PR1815155-DS5.2.12.0.13-4005018B.img
+  AS      firmware/synaptics/c90/PLG465-V1.11-PR1815155-DS5.2.12.0.13-4005018B.img.gen.o
+  LD      firmware/built-in.o
+make[2]: Цель `dtbs' не требует выполнения команд.
+  CC      drivers/staging/android/lowmemorykiller.o
+  LD      drivers/misc/mediatek/etm/built-in.o
+  LD      drivers/staging/android/built-in.o
+  LD      drivers/staging/built-in.o
+mali MTK evironment
+  CC      drivers/misc/mediatek/mlog/mlog_logger.o
+  LD      drivers/misc/mediatek/watchpoint/built-in.o
+  LD      drivers/misc/mediatek/mlog/mlog.o
+  LD      drivers/misc/mediatek/mlog/built-in.o
+  LD      drivers/misc/mediatek/built-in.o
+  LD      drivers/misc/built-in.o
+  LD      drivers/built-in.o
+  LINK    vmlinux
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  LD      init/built-in.o
