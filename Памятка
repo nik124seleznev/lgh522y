@@ -12,8 +12,6 @@ make mrproper
 make O=out TARGET_ARCH=arm muse6732_c90_l_defconfig
 make -j5 O=out TARGET_ARCH=arm | tee build.log
 
-
-make O=out TARGET_ARCH=arm muse6732_c90_l_STOCK_defconfig
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 make -j1 O=out TARGET_ARCH=arm | tee build.log
@@ -23,10 +21,10 @@ make -j1 O=out TARGET_ARCH=arm | tee build.log
 cd ~/Android/kernel/lgh522y
 export ARCH=arm64
 export SUBARCH=arm64
-export CROSS_COMPILE=/home/nik-kst/Android/utility/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+export CROSS_COMPILE=/home/nik-kst/Android/utility/aarch64-linux-android-4.8/bin/aarch64-linux-android-
 make clean
 make mrproper
-make O=out TARGET_ARCH=arm64 muse6732_c90_l_defconfig
+make O=out TARGET_ARCH=arm64 muse6732_c90_l_stock_defconfig
 make -j5 O=out TARGET_ARCH=arm64 | tee build.log
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,31 +35,19 @@ export SUBARCH=arm64
 export CROSS_COMPILE=/home/nik-kst/Android/utility/aarch64-linux-android-4.8/bin/aarch64-linux-android-
 make clean
 make mrproper
-make O=out TARGET_ARCH=arm64 muse6732_c90_l_defconfig
+make O=out TARGET_ARCH=arm64 muse6732_c90_l_new_defconfig
 make -j5 O=out TARGET_ARCH=arm64 | tee build.log
-
-///////////////////////////////////////gcc-linaro///////////////////////////////////////////////////////
-
-cd ~/Android/kernel/lgh522y
-export ARCH=arm
-export SUBARCH=arm
-export CROSS_COMPILE=/home/nik-kst/Android/utility/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
-make clean
-make mrproper
-make O=out TARGET_ARCH=arm muse6732_c90_l_defconfig
-make -j5 O=out TARGET_ARCH=arm | tee build.log
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 cd ~/Android/kernel/lgh522y
 export ARCH=arm64
 export SUBARCH=arm64
-export CROSS_COMPILE=/home/nik-kst/Android/utility/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export CROSS_COMPILE=/home/nik-kst/Android/utility/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 make clean
 make mrproper
-make O=out TARGET_ARCH=arm64 muse6732_c90_l_defconfig
+make O=out TARGET_ARCH=arm64 muse6732_c90_l_stock_defconfig
 make -j5 O=out TARGET_ARCH=arm64 | tee build.log
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
